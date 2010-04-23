@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ ******************************************************************************
+ * Copyright (c) 2008, 2010 VMware Inc.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   VMware Inc. - initial contribution
+ ******************************************************************************
+-->
+<project name="artifact-par" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<import file="common.xml"/>
+	<import file="../multi-bundle/artifact.xml"/>
+
+<!-- Main targets -->
+	<target name="jar" depends="ivy.init"
+			description="Creates a PAR file containing the output of the list of bundles.">
+		<delete dir="${par.staging.dir}" quiet="true"/>
+		<mkdir dir="${par.staging.dir}"/>
+		<delete dir="${par.output.file}" quiet="true"/>
+		<mkdir dir="${jar.output.dir}"/>
+
+		<all-bundles target="jar"/>
+		<all-bundles target="copy-dist-jar">
+			<property name="copy.to.dir" value="${par.staging.dir}"/>
+		</all-bundles>
+		<all-bundles target="copy-ext-jars">
+			<property name="copy.to.dir" value="${par.staging.dir}"/>
+		</all-bundles>
+		<antcall target="collect-additional"/>
+		<jar destfile="${par.output.file}" basedir="${par.staging.dir}" index="true" filesetmanifest="merge">
+			<manifest>
+				<attribute name="Application-SymbolicName" value="${ant.project.name}"/>
+				<attribute name="Application-Version" value="${bundle.version}"/>
+				<attribute name="Application-Name" value="${application.name}"/>
+				<attribute name="Application-Description" value="${application.description}"/>
+				<attribute name="Application-Creator" value="${user.name}"/>
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="collect-additional" depends="ivy.file.exists" if="ivy.file.exists">
+		<add-jars output.dir="${par.staging.dir}"/>
+	</target>
+
+	<target name="collect-provided"
+			description="Collects all the JARs expected to be provided for a PAR file.">
+		<delete dir="${par.provided.dir}" quiet="true"/>
+		<mkdir dir="${par.provided.dir}"/>
+
+		<all-bundles target="copy-provided-jars">
+			<property name="copy.to.dir" value="${par.provided.bundles.dir}"/>
+		</all-bundles>
+		<all-bundles target="copy-provided-libs">
+			<property name="copy.to.dir" value="${par.provided.libraries.dir}"/>
+		</all-bundles>
+	</target>
+
+</project>

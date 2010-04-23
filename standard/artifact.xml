@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ ******************************************************************************
+ * Copyright (c) 2008, 2010 VMware Inc.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   VMware Inc. - initial contribution
+ ******************************************************************************
+-->
+<project name="artifact-standard" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<import file="common.xml"/>
+	<import file="../common/artifact.xml"/>
+
+
+<!-- Other targets -->
+	<target name="compile.init" depends="ivy.init">
+		<ivy:cachepath resolveId="spring.ant.classpath" pathid="spring.ant.classpath"
+				organisation="org.springframework.build" module="org.springframework.build.ant"
+				revision="${org.springframework.build.ant.version}" conf="runtime" type="jar" inline="true"
+				log="download-only"/>
+		<ivy:cachepath resolveId="ecj.classpath" pathid="ecj.classpath" organisation="org.eclipse.jdt"
+				module="com.springsource.org.eclipse.jdt.core.compiler.batch" revision="${org.eclipse.jdt.core.compiler.batch.version}"
+				conf="runtime" type="jar" inline="true" log="download-only"/>
+		<taskdef resource="org/springframework/build/ant/antlib.xml" uri="antlib:org.springframework.build">
+			<classpath>
+				<path refid="spring.ant.classpath"/>
+				<path refid="ecj.classpath"/>
+			</classpath>
+		</taskdef>
+	</target>
+
+</project>

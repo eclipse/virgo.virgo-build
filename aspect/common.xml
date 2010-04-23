@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ ******************************************************************************
+ * Copyright (c) 2008, 2010 VMware Inc.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   VMware Inc. - initial contribution
+ ******************************************************************************
+-->
+<project name="common-aspect">
+
+	<import file="../common/common.xml"/>
+
+<!-- Macros -->
+	<macrodef name="do-compile">
+		<attribute name="classpath.id"/>
+		<attribute name="input.dir"/>
+		<attribute name="output.dir"/>
+		<attribute name="resources.dir"/>
+		<sequential>
+			<iajc sourceroots="@{input.dir}" destDir="@{output.dir}" classpathRef="@{classpath.id}" source="${source.version}"
+					debug="${compile.debug}" debugLevel="${compile.debug.level}" checkRuntimeVersion="false"
+					aspectPathRef="aspects.classpath" X="${aspectj.x}"/>
+			<copy todir="@{output.dir}">
+				<fileset dir="@{input.dir}" erroronmissingdir="false">
+					<exclude name="**/*.aj"/>
+					<exclude name="**/*.java"/>
+					<exclude name="*.aj"/>
+					<exclude name="*.java"/>
+				</fileset>
+			</copy>
+			<copy todir="@{output.dir}">
+				<fileset dir="@{resources.dir}" erroronmissingdir="false"/>
+			</copy>
+		</sequential>
+	</macrodef>
+
+</project>
