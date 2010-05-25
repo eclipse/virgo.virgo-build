@@ -13,6 +13,9 @@
 -->
 <project name="quality-resource">
 
+	<import file="common.xml"/>
+	<import file="../common/quality.xml"/>
+
 <!-- Main targets -->
 	<target name="test" description="Does nothing."/>
 
@@ -21,7 +24,7 @@
 	<target name="findbugs" description="Does nothing."/>
 
 	<target name="osgi-validate" description="Does nothing."/>
-
+	
 <!-- Other targets -->
 	<target name="test.do" description="Does nothing."/>
 
