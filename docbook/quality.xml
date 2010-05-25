@@ -24,6 +24,8 @@
 	<target name="findbugs" description="Does nothing."/>
 
 	<target name="osgi-validate" description="Does nothing."/>
+
+	<target name="report" description="Does nothing."/>
 	
 <!-- Other targets -->
 	<target name="test.do" description="Does nothing."/>
