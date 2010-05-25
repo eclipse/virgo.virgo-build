@@ -31,7 +31,5 @@
 	<target name="clover.do" description="Does nothing."/>
 
 	<target name="findbugs.do" description="Does nothing."/>
-
-	<target name="clover.instrument" description="Does nothing."/>
 	
 </project>

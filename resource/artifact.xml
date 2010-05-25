@@ -38,4 +38,6 @@
 <!-- Other targets -->
 	<target name="javadoc.prep"/>
 
+	<target name="compile.init" description="Does nothing."/>
+	
 </project>
