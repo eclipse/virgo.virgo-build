@@ -11,12 +11,25 @@
  *   VMware Inc. - initial contribution
  ******************************************************************************
 -->
-<project name="default-docbook">
+<project name="quality-docbook">
 
 	<import file="common.xml"/>
-	<import file="documentation.xml"/>
-	<import file="quality.xml"/>
-	<import file="package.xml"/>
-	<import file="publish.xml"/>
+	<import file="../common/quality.xml"/>
 
+<!-- Main targets -->
+	<target name="test" description="Does nothing."/>
+
+	<target name="clover" description="Does nothing."/>
+
+	<target name="findbugs" description="Does nothing."/>
+
+	<target name="osgi-validate" description="Does nothing."/>
+	
+<!-- Other targets -->
+	<target name="test.do" description="Does nothing."/>
+
+	<target name="clover.do" description="Does nothing."/>
+
+	<target name="findbugs.do" description="Does nothing."/>
+	
 </project>
