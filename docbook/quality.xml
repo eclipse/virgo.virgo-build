@@ -13,9 +13,6 @@
 -->
 <project name="quality-docbook">
 
-	<import file="common.xml"/>
-	<import file="../common/quality.xml"/>
-
 <!-- Main targets -->
 	<target name="test" description="Does nothing."/>
 
