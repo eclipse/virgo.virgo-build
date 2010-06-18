@@ -78,7 +78,7 @@
 		<checksum file="${package.output.file}" algorithm="sha1"/>
 		<echo message="${committerId}" />
 		<scp file="${package.output.file}"
-			todir="${committerId}@download1.eclipse.org:/home/data/httpd/download.eclipse.org/virgo/${adjusted.release.type}/${project.key}/${bundle.version}/${package.file.name}" 
+			todir="${committerId}@download1.eclipse.org:/home/data/httpd/download.eclipse.org/virgo/${adjusted.release.type}/${project.key}/${bundle.version}" 
 			keyfile="${user.home}/.ssh/id_rsa"
 			passphrase="" />
 	</target>
