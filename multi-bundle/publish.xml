@@ -44,7 +44,7 @@
 		<all-bundles target="install-maven-central"/>
 	</target-->
 
-	<target name="publish-package" depends="aws.init">
+	<target name="publish-package-amazon" depends="aws.init">
 		<fail message="The 'project.name' property must be set on this project.">
 			<condition>
 				<not>
@@ -65,6 +65,18 @@
 					toFile="zips/${adjusted.release.type}/${project.key}/${bundle.version}/${package.file.name}.sha1" publicRead="true">
 			</upload>
 		</aws:s3>
+	</target>
+
+	<target name="publish-package-eclipse">
+		<fail message="The 'project.name' property must be set on this project.">
+			<condition>
+				<not>
+					<isset property="project.name"/>
+				</not>
+			</condition>
+		</fail>
+		<checksum file="${package.output.file}" algorithm="sha1"/>
+		<echo message="${committerId}" />
 	</target>
 
 <!-- Other targets -->
