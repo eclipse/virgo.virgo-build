@@ -98,8 +98,10 @@
 		</chain>
 
 <!-- Publishing repositories -->
-		<s3repo name="ebr-bundle-publish"	bucket="${publish.bucket}"	artifact.type="bundles" 	release.type="${adjusted.release.type}"/>
-		<s3repo name="ebr-library-publish"	bucket="${publish.bucket}"	artifact.type="libraries"	release.type="${adjusted.release.type}"/>
+		<eclipse-build-repo name="eclipse-bundle-publish"	artifact.type="bundles" release.type="${adjusted.release.type}"/>
+		<eclipse-build-repo name="eclipse-library-publish"	artifact.type="libraries" release.type="${adjusted.release.type}"/>
+<!--	<s3repo name="ebr-bundle-publish"	bucket="${publish.bucket}"	artifact.type="bundles" 	release.type="${adjusted.release.type}"/>
+		<s3repo name="ebr-library-publish"	bucket="${publish.bucket}"	artifact.type="libraries"	release.type="${adjusted.release.type}"/>-->
 		<localrepo name="local-bundle-publish"/>
 		<localrepo name="local-library-publish"/>
 	</resolvers>
