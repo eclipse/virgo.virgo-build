@@ -35,7 +35,7 @@
 	<macrodef name="eclipse-build-repo">
 		<attribute name="artifact.type"/>
 		<attribute name="release.type"/>
-		<sftp descriptor="required" user="virgoBuild" userPassword="${eclipse.buildKey}" host="build.eclipse.org">
+		<sftp descriptor="required" user="cfrost" userPassword="${eclipse.buildKey}" host="build.eclipse.org">
 			<ivy pattern="/opt/public/rt/virgo/ivy/@{artifact.type}/@{release.type}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
 			<artifact pattern="/opt/public/rt/virgo/ivy/@{artifact.type}/@{release.type}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
 		</sftp>
@@ -97,9 +97,9 @@
 			<eclipse-build-repo name="eclipse-library-snapshot-repository"	artifact.type="libraries" release.type="snapshot"/>
 		</chain>
 
-<!-- Publishing repositories 
+<!-- Publishing repositories -->
 		<s3repo name="ebr-bundle-publish"	bucket="${publish.bucket}"	artifact.type="bundles" 	release.type="${adjusted.release.type}"/>
-		<s3repo name="ebr-library-publish"	bucket="${publish.bucket}"	artifact.type="libraries"	release.type="${adjusted.release.type}"/>-->
+		<s3repo name="ebr-library-publish"	bucket="${publish.bucket}"	artifact.type="libraries"	release.type="${adjusted.release.type}"/>
 		<localrepo name="local-bundle-publish"/>
 		<localrepo name="local-library-publish"/>
 	</resolvers>
