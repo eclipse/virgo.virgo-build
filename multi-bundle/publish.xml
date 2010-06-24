@@ -67,7 +67,25 @@
 		</aws:s3>
 	</target>
 
-	<target name="publish-package-eclipse">
+	<target name="publish-package-eclipse-build">
+		<fail message="The 'project.name' property must be set on this project.">
+			<condition>
+				<not>
+					<isset property="project.name"/>
+				</not>
+			</condition>
+		</fail>
+		<checksum file="${package.output.file}" algorithm="sha1"/>
+		<sshexec host="build.eclipse.org" 
+				username="virgoBuild" 
+				password="${eclipse.buildKey}" 
+				command="mkdir -pv /opt/public/rt/virgo/zips/${adjusted.release.type}/${project.key}/${bundle.version}"/>
+		<scp localFile="${package.output.file}"
+				todir="$virgoBuild@build.eclipse.org:/opt/public/rt/virgo/zips/${adjusted.release.type}/${project.key}/${bundle.version}" 
+				password="${eclipse.buildKey}" />
+	</target>
+	
+	<target name="publish-package-eclipse-download">
 		<fail message="The 'project.name' property must be set on this project.">
 			<condition>
 				<not>
