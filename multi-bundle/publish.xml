@@ -75,6 +75,9 @@
 		<scp localFile="${package.output.file}"
 				todir="virgoBuild@build.eclipse.org:/opt/public/rt/virgo/zips/${adjusted.release.type}/${project.key}/${bundle.version}" 
 				password="${eclipse.buildKey}" />
+		<scp localFile="${package.output.file}.sha1"
+				todir="virgoBuild@build.eclipse.org:/opt/public/rt/virgo/zips/${adjusted.release.type}/${project.key}/${bundle.version}" 
+				password="${eclipse.buildKey}" />
 	</target>
 	
 	<target name="publish-package-eclipse-download">
@@ -92,6 +95,10 @@
 				passphrase="${passphrase}"
 				command="mkdir -pv /home/data/httpd/download.eclipse.org/virgo/${adjusted.release.type}/${project.key}/${bundle.version}"/>
 		<scp localFile="${package.output.file}"
+				todir="${committerId}@download1.eclipse.org:/home/data/httpd/download.eclipse.org/virgo/${adjusted.release.type}/${project.key}/${bundle.version}" 
+				keyfile="${key.file}"
+				passphrase="${passphrase}" />
+		<scp localFile="${package.output.file}.sha1"
 				todir="${committerId}@download1.eclipse.org:/home/data/httpd/download.eclipse.org/virgo/${adjusted.release.type}/${project.key}/${bundle.version}" 
 				keyfile="${key.file}"
 				passphrase="${passphrase}" />
