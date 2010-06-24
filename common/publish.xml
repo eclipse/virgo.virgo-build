@@ -31,7 +31,7 @@
 	<target name="publish-maven" depends="create.pom, snapshot.pom, maven.init" unless="local.build">
 		<maven:deploy file="${jar.output.file}">
 			<remoteRepository url="scp://build.eclipse.org/opt/public/rt/virgo/maven/bundles/${adjusted.release.type}">
-				<authentication username="cfrost" passphrase="${eclipse.buildKey}"/>
+				<authentication username="virgoBuild" passphrase="${eclipse.buildKey}"/>
 			</remoteRepository>
 			<pom file="${pom.output.file}"/>
 			<attach file="${source-jar.output.file}" classifier="sources"/>
@@ -62,8 +62,10 @@
 				revision="${org.apache.maven.ant.version}" conf="runtime" type="jar" inline="true" log="download-only"/>
 		<taskdef resource="org/apache/maven/artifact/ant/antlib.xml" uri="antlib:org.apache.maven.artifact.ant"
 				classpathref="maven.ant.tasks.classpath"/>
+		<maven:install-provider artifactId="wagon-ssh" version="1.0-beta-2"/>
+			<!--	
 		<maven:install-provider groupId="org.springframework.build.aws" artifactId="org.springframework.build.aws.maven"
-				version="${org.springframework.build.aws.maven.version}"/>
+				version="${org.springframework.build.aws.maven.version}"/> -->
 	</target>
 
 	<target name="create.pom" depends="ivy.init, resolve">
