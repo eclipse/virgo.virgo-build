@@ -83,7 +83,7 @@
 				command="mkdir -pv /home/data/httpd/download.eclipse.org/virgo/${adjusted.release.type}/${project.key}/${bundle.version}"/>
 		<scp localFile="${package.output.file}"
 				todir="${committerId}@download1.eclipse.org:/home/data/httpd/download.eclipse.org/virgo/${adjusted.release.type}/${project.key}/${bundle.version}" 
-				keyfile="${user.home}/.ssh/id_rsa"
+				keyfile="${key.file}"
 				passphrase="${passphrase}" />
 	</target>
 

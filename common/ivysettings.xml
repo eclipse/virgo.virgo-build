@@ -30,6 +30,15 @@
 			<ivy pattern="s3://@{bucket}/ivy/@{artifact.type}/@{release.type}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
 			<artifact pattern="s3://@{bucket}/ivy/@{artifact.type}/@{release.type}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
 		</s3>
+	</macrodef>	
+
+	<macrodef name="eclipse-build-repo">
+		<attribute name="artifact.type"/>
+		<attribute name="release.type"/>
+		<sftp descriptor="required" user="virgoBuild" userPassword="${eclipse.buildKey}" host="build.eclipse.org">
+			<ivy pattern="/opt/public/rt/virgo/ivy/@{artifact.type}/@{release.type}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
+			<artifact pattern="/opt/public/rt/virgo/ivy/@{artifact.type}/@{release.type}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
+		</sftp>
 	</macrodef>
 
 	<macrodef name="localrepo">
@@ -69,17 +78,28 @@
 		<chain name="zodiac-portfolio-lookup" returnFirst="true">
 			<resolver ref="integration"/>
 			<localrepo name="local"/>
-			<s3repo name="zodiac-bundle-release-repository"	bucket="zodiac.springsource.com" artifact.type="bundles" release.type="release"/>
+			<s3repo name="zodiac-bundle-release-repository"		bucket="zodiac.springsource.com" artifact.type="bundles" release.type="release"/>
 			<s3repo name="zodiac-bundle-milestone-repository"	bucket="zodiac.springsource.com" artifact.type="bundles" release.type="milestone"/>
 			<s3repo name="zodiac-bundle-snapshot-repository"	bucket="zodiac.springsource.com" artifact.type="bundles" release.type="snapshot"/>
 			<s3repo name="zodiac-library-release-repository"	bucket="zodiac.springsource.com" artifact.type="libraries" release.type="release"/>
 			<s3repo name="zodiac-library-milestone-repository"	bucket="zodiac.springsource.com" artifact.type="libraries" release.type="milestone"/>
 			<s3repo name="zodiac-library-snapshot-repository"	bucket="zodiac.springsource.com" artifact.type="libraries" release.type="snapshot"/>
 		</chain>
+		
+		<chain name="eclipse-build-lookup" returnFirst="true">
+			<resolver ref="integration"/>
+			<localrepo name="local"/>
+			<eclipse-build-repo name="eclipse-bundle-release-repository"	artifact.type="bundles" release.type="release"/>
+			<eclipse-build-repo name="eclipse-bundle-milestone-repository"	artifact.type="bundles" release.type="milestone"/>
+			<eclipse-build-repo name="eclipse-bundle-snapshot-repository"	artifact.type="bundles" release.type="snapshot"/>
+			<eclipse-build-repo name="eclipse-library-release-repository"	artifact.type="libraries" release.type="release"/>
+			<eclipse-build-repo name="eclipse-library-milestone-repository"	artifact.type="libraries" release.type="milestone"/>
+			<eclipse-build-repo name="eclipse-library-snapshot-repository"	artifact.type="libraries" release.type="snapshot"/>
+		</chain>
 
-<!-- Publishing repositories -->
+<!-- Publishing repositories 
 		<s3repo name="ebr-bundle-publish"	bucket="${publish.bucket}"	artifact.type="bundles" 	release.type="${adjusted.release.type}"/>
-		<s3repo name="ebr-library-publish"	bucket="${publish.bucket}"	artifact.type="libraries"	release.type="${adjusted.release.type}"/>
+		<s3repo name="ebr-library-publish"	bucket="${publish.bucket}"	artifact.type="libraries"	release.type="${adjusted.release.type}"/>-->
 		<localrepo name="local-bundle-publish"/>
 		<localrepo name="local-library-publish"/>
 	</resolvers>
@@ -87,8 +107,8 @@
 	<modules>
 		<module organisation="org.springframework.*"	name="*"	resolver="spring-portfolio-lookup"/>
 		<module organisation="com.springsource.*"		name="*"	resolver="spring-portfolio-lookup"/>
-		<module organisation="org.eclipse.virgo.*"		name="*"	resolver="zodiac-portfolio-lookup"/>
-		<module organisation="org.eclipse.gemini.*"		name="*"	resolver="zodiac-portfolio-lookup"/>
+		<module organisation="org.eclipse.virgo.*"		name="*"	resolver="eclipse-build-lookup"/>
+		<module organisation="org.eclipse.gemini.*"		name="*"	resolver="eclipse-build-lookup"/>
 	</modules>
 
 </ivysettings>
