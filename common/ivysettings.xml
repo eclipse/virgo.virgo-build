@@ -74,7 +74,7 @@
 			<s3repo name="library-milestone-repository"	bucket="repository.springsource.com" artifact.type="libraries" release.type="milestone"/>
 			<s3repo name="library-snapshot-repository"	bucket="repository.springsource.com" artifact.type="libraries" release.type="snapshot"/>
 		</chain>
-
+<!--
 		<chain name="zodiac-portfolio-lookup" returnFirst="true">
 			<resolver ref="integration"/>
 			<localrepo name="local"/>
@@ -85,7 +85,7 @@
 			<s3repo name="zodiac-library-milestone-repository"	bucket="zodiac.springsource.com" artifact.type="libraries" release.type="milestone"/>
 			<s3repo name="zodiac-library-snapshot-repository"	bucket="zodiac.springsource.com" artifact.type="libraries" release.type="snapshot"/>
 		</chain>
-		
+-->
 		<chain name="eclipse-build-lookup" returnFirst="true">
 			<resolver ref="integration"/>
 			<localrepo name="local"/>
@@ -100,8 +100,6 @@
 <!-- Publishing repositories -->
 		<eclipse-build-repo name="eclipse-bundle-publish"	artifact.type="bundles" release.type="${adjusted.release.type}"/>
 		<eclipse-build-repo name="eclipse-library-publish"	artifact.type="libraries" release.type="${adjusted.release.type}"/>
-<!--	<s3repo name="ebr-bundle-publish"	bucket="${publish.bucket}"	artifact.type="bundles" 	release.type="${adjusted.release.type}"/>
-		<s3repo name="ebr-library-publish"	bucket="${publish.bucket}"	artifact.type="libraries"	release.type="${adjusted.release.type}"/>-->
 		<localrepo name="local-bundle-publish"/>
 		<localrepo name="local-library-publish"/>
 	</resolvers>

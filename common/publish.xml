@@ -22,7 +22,6 @@
 	<target name="publish-ivy" depends="ivy.init, resolve">
 		<delete quiet="true" file="${ivy.output.file}"/>
 		<mkdir dir="${ivy.output.dir}"/>
-
 		<ivy:publish resolver="${publication.resolver.prefix}-bundle-publish" pubdate="${timestamp}" status="${release.type}">
 			<artifacts pattern="${ivy.output.dir}/[artifact].[ext]"/>
 			<artifacts pattern="${jar.output.dir}/[artifact].[ext]"/>
@@ -32,6 +31,16 @@
 
 	<target name="publish-maven" depends="create.pom, snapshot.pom, maven.init" unless="local.build">
 		<maven:deploy file="${jar.output.file}">
+			<remoteRepository url="scp://build.eclipse.org/opt/public/rt/virgo/maven/bundles/${adjusted.release.type}">
+				<authentication username="cfrost" passphrase="${eclipse.buildKey}"/>
+			</remoteRepository>
+			<pom file="${pom.output.file}"/>
+			<attach file="${source-jar.output.file}" classifier="sources"/>
+		</maven:deploy>
+	</target>
+
+	<target name="publish-maven-old" depends="create.pom, snapshot.pom, maven.init" unless="local.build">
+		<maven:deploy file="${jar.output.file}">
 			<remoteRepository url="s3://${publish.bucket}/maven/bundles/${adjusted.release.type}">
 				<authentication username="${accessKey}" passphrase="${secretKey}"/>
 			</remoteRepository>
@@ -40,30 +49,12 @@
 		</maven:deploy>
 	</target>
 
-	<!--target name="publish-maven-central" depends="maven.init">
-		<property name="maven.central.repository" value="s3://maven.springframework.org/${adjusted.release.type}"/>
-		<maven:deploy file="${jar.output.file}">
-			<remoteRepository url="${maven.central.repository}">
-				<authentication username="${accessKey}" passphrase="${secretKey}"/>
-			</remoteRepository>
-			<pom file="${local.pom.output.file}"/>
-			<attach file="${source-jar.output.file}" classifier="sources"/>
-		</maven:deploy>
-	</target-->
-
 	<target name="install-maven" depends="create.pom, snapshot.pom, maven.init">
 		<maven:install file="${jar.output.file}">
 			<pom file="${pom.output.file}"/>
 			<attach file="${source-jar.output.file}" classifier="sources"/>
 		</maven:install>
 	</target>
-
-	<!--target name="install-maven-central" depends="maven.init">
-		<maven:install file="${jar.output.file}">
-			<pom file="${local.pom.output.file}"/>
-			<attach file="${source-jar.output.file}" classifier="sources"/>
-		</maven:install>
-	</target-->
 
 <!-- Other targets -->
 	<target name="maven.init" depends="ivy.init">
