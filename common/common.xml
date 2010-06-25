@@ -26,7 +26,7 @@
 		<equals arg1="integration" arg2="${release.type}"/>
 	</condition>
 
-	<condition property="publication.resolver.prefix" value="local" else="eclipse">
+	<condition property="publication.resolver.prefix" value="local" else="remote">
 		<istrue value="${local.build}"/>
 	</condition>
 

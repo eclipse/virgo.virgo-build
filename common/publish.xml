@@ -16,12 +16,23 @@
 	<import file="common.xml"/>
 
 <!-- Main targets , publish-maven -->
-	<target name="publish" depends="publish-ivy" description="Publishes all artifacts to remote repositories"/>
+	<target name="publish" depends="publish-ivy-zodiac" description="Publishes all artifacts to remote repositories"/>
+	<target name="publish-eclipse" depends="publish-ivy-eclipse" description="Publishes all artifacts to remote repositories"/>
 
-	<target name="publish-ivy" depends="ivy.init, resolve">
+	<target name="publish-ivy-eclipse" depends="ivy.init, resolve">
 		<delete quiet="true" file="${ivy.output.file}"/>
 		<mkdir dir="${ivy.output.dir}"/>
-		<ivy:publish resolver="${publication.resolver.prefix}-bundle-publish" pubdate="${timestamp}" status="${release.type}">
+		<ivy:publish resolver="eclipse-${publication.resolver.prefix}-bundle-publish" pubdate="${timestamp}" status="${release.type}">
+			<artifacts pattern="${ivy.output.dir}/[artifact].[ext]"/>
+			<artifacts pattern="${jar.output.dir}/[artifact].[ext]"/>
+			<artifacts pattern="${source-jar.output.dir}/[artifact].[ext]"/>
+		</ivy:publish>
+	</target>
+
+	<target name="publish-ivy-zodiac" depends="ivy.init, resolve">
+		<delete quiet="true" file="${ivy.output.file}"/>
+		<mkdir dir="${ivy.output.dir}"/>
+		<ivy:publish resolver="zodiac-${publication.resolver.prefix}-bundle-publish" pubdate="${timestamp}" status="${release.type}">
 			<artifacts pattern="${ivy.output.dir}/[artifact].[ext]"/>
 			<artifacts pattern="${jar.output.dir}/[artifact].[ext]"/>
 			<artifacts pattern="${source-jar.output.dir}/[artifact].[ext]"/>
