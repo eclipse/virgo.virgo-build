@@ -16,8 +16,8 @@
 	<import file="common.xml"/>
 
 <!-- Main targets , publish-maven -->
-	<target name="publish" depends="publish-ivy-zodiac" description="Publishes all artifacts to remote repositories"/>
-	<target name="publish-eclipse" depends="publish-ivy-eclipse" description="Publishes all artifacts to remote repositories"/>
+	<target name="publish" depends="publish-ivy-zodiac" description="Publishes all artifacts to remote S3 zodiac repositories"/>
+	<target name="publish-eclipse" depends="publish-ivy-eclipse" description="Publishes all artifacts to remote buidl.eclipse repositories"/>
 
 	<target name="publish-ivy-eclipse" depends="ivy.init, resolve">
 		<delete quiet="true" file="${ivy.output.file}"/>

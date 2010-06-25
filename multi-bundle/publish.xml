@@ -56,8 +56,7 @@
 		</fail>
 		<checksum file="${package.output.file}" algorithm="sha1"/>
 		<aws:s3 accessKey="${accessKey}" secretKey="${secretKey}">
-			<upload bucketName="${zodiac.basename}" file="${package.output.file}"
-					toFile="zips/${adjusted.release.type}/${project.key}/${bundle.version}/${package.file.name}" publicRead="true">
+			<upload bucketName="${zodiac.basename}" file="${package.output.file}" toFile="zips/${adjusted.release.type}/${project.key}/${bundle.version}/${package.file.name}" publicRead="true">
 				<metadata name="project.name" value="${project.name}"/>
 				<metadata name="release.type" value="${release.type}"/>
 				<metadata name="bundle.version" value="${bundle.version}"/>
