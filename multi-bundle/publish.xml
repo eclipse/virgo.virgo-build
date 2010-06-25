@@ -22,6 +22,11 @@
 		<all-bundles target="publish"/>
 	</target>
 
+	<target name="publish-eclipse"
+			description="Publishes all artifacts to remote repositories">
+		<all-bundles target="publish-eclipse"/>
+	</target>
+	
 	<target name="publish-ivy-zodiac"
 			description="Publishes all ivy artifacts to remote repositories">
 		<all-bundles target="publish-ivy-zodiac"/>
