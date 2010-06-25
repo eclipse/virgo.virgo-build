@@ -75,7 +75,7 @@
 			<s3repo name="library-snapshot-repository"	bucket="repository.springsource.com" artifact.type="libraries" release.type="snapshot"/>
 		</chain>
 
-		<chain name="zodiac-portfolio-lookup" returnFirst="true">
+		<chain name="zodiac-and-eclipse-lookup" returnFirst="true">
 			<resolver ref="integration"/>
 			<localrepo name="local"/>
 			<s3repo name="zodiac-bundle-release-repository"		bucket="zodiac.springsource.com" artifact.type="bundles" release.type="release"/>
@@ -84,11 +84,6 @@
 			<s3repo name="zodiac-library-release-repository"	bucket="zodiac.springsource.com" artifact.type="libraries" release.type="release"/>
 			<s3repo name="zodiac-library-milestone-repository"	bucket="zodiac.springsource.com" artifact.type="libraries" release.type="milestone"/>
 			<s3repo name="zodiac-library-snapshot-repository"	bucket="zodiac.springsource.com" artifact.type="libraries" release.type="snapshot"/>
-		</chain>
-
-		<chain name="eclipse-build-lookup" returnFirst="true">
-			<resolver ref="integration"/>
-			<localrepo name="local"/>
 			<eclipse-build-repo name="eclipse-bundle-release-repository"	artifact.type="bundles" release.type="release"/>
 			<eclipse-build-repo name="eclipse-bundle-milestone-repository"	artifact.type="bundles" release.type="milestone"/>
 			<eclipse-build-repo name="eclipse-bundle-snapshot-repository"	artifact.type="bundles" release.type="snapshot"/>
@@ -111,8 +106,8 @@
 	<modules>
 		<module organisation="org.springframework.*"	name="*"	resolver="spring-portfolio-lookup"/>
 		<module organisation="com.springsource.*"		name="*"	resolver="spring-portfolio-lookup"/>
-		<module organisation="org.eclipse.virgo.*"		name="*"	resolver="eclipse-build-lookup"/>
-		<module organisation="org.eclipse.gemini.*"		name="*"	resolver="eclipse-build-lookup"/>
+		<module organisation="org.eclipse.virgo.*"		name="*"	resolver="zodiac-and-eclipse-lookup"/>
+		<module organisation="org.eclipse.gemini.*"		name="*"	resolver="zodiac-and-eclipse-lookup"/>
 	</modules>
 
 </ivysettings>
