@@ -67,6 +67,7 @@
 				<path location="${ivy.lib.dir}/commons-httpclient.jar"/>
 				<path location="${ivy.lib.dir}/commons-logging.jar"/>
 				<path location="${ivy.lib.dir}/jets3t.jar"/>
+				<path location="${ivy.lib.dir}/jsch-0.1.42.jar"/>
 				<path location="${ivy.lib.dir}"/>
 			</classpath>
 		</taskdef>
