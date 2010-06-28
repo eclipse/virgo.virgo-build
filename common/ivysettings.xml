@@ -35,7 +35,7 @@
 	<macrodef name="eclipse-build-repo">
 		<attribute name="artifact.type"/>
 		<attribute name="release.type"/>
-		<sftp descriptor="required" user="${eclipse.build.id}" keyFile="${eclipse.build.key.file}" host="build.eclipse.org">
+		<sftp descriptor="required" user="${eclipse.buildId}" keyFile="${key.file}" host="build.eclipse.org">
 			<ivy pattern="/opt/public/rt/virgo/ivy/@{artifact.type}/@{release.type}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
 			<artifact pattern="/opt/public/rt/virgo/ivy/@{artifact.type}/@{release.type}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
 		</sftp>
