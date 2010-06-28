@@ -78,15 +78,18 @@
 		</fail>
 		<checksum file="${package.output.file}" algorithm="sha1"/>
 		<sshexec host="build.eclipse.org" 
-				username="virgoBuild" 
-				password="${eclipse.buildKey}" 
+				username="${eclipse.build.id}" 
+				keyfile="${eclipse.build.key.file}" 
+				passphrase="${passphrase}"
 				command="mkdir -pv /opt/public/rt/virgo/zips/${adjusted.release.type}/${project.key}/${bundle.version}"/>
 		<scp localFile="${package.output.file}"
-				todir="virgoBuild@build.eclipse.org:/opt/public/rt/virgo/zips/${adjusted.release.type}/${project.key}/${bundle.version}" 
-				password="${eclipse.buildKey}" />
+				todir="${eclipse.build.id}@build.eclipse.org:/opt/public/rt/virgo/zips/${adjusted.release.type}/${project.key}/${bundle.version}" 
+				keyfile="${eclipse.build.key.file}"
+				passphrase="${passphrase}" />
 		<scp localFile="${package.output.file}.sha1"
-				todir="virgoBuild@build.eclipse.org:/opt/public/rt/virgo/zips/${adjusted.release.type}/${project.key}/${bundle.version}" 
-				password="${eclipse.buildKey}" />
+				todir="${eclipse.build.id}@build.eclipse.org:/opt/public/rt/virgo/zips/${adjusted.release.type}/${project.key}/${bundle.version}" 
+				keyfile="${eclipse.build.key.file}"
+				passphrase="${passphrase}" />
 	</target>
 	
 	<target name="publish-package-eclipse-download">
@@ -100,7 +103,7 @@
 		<checksum file="${package.output.file}" algorithm="sha1"/>
 		<sshexec host="download1.eclipse.org" 
 				username="${committerId}" 
-				keyfile="${user.home}/.ssh/id_rsa" 
+				keyfile="${key.file}" 
 				passphrase="${passphrase}"
 				command="mkdir -pv /home/data/httpd/download.eclipse.org/virgo/${adjusted.release.type}/${project.key}/${bundle.version}"/>
 		<scp localFile="${package.output.file}"

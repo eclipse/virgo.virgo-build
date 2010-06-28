@@ -16,7 +16,7 @@
 	<import file="common.xml"/>
 
 <!-- Main targets , publish-maven -->
-	<target name="publish" depends="publish-ivy-zodiac" description="Publishes all artifacts to remote S3 zodiac repositories"/>
+	<target name="publish" depends="publish-ivy-zodiac, publish-maven" description="Publishes all artifacts to remote S3 zodiac repositories"/>
 	<target name="publish-eclipse" depends="publish-ivy-eclipse" description="Publishes all artifacts to remote buidl.eclipse repositories"/>
 
 	<target name="publish-ivy-eclipse" depends="ivy.init, resolve">
@@ -41,16 +41,6 @@
 
 	<target name="publish-maven" depends="create.pom, snapshot.pom, maven.init" unless="local.build">
 		<maven:deploy file="${jar.output.file}">
-			<remoteRepository url="scp://build.eclipse.org/opt/public/rt/virgo/maven/bundles/${adjusted.release.type}">
-				<authentication username="virgoBuild" passphrase="${eclipse.buildKey}"/>
-			</remoteRepository>
-			<pom file="${pom.output.file}"/>
-			<attach file="${source-jar.output.file}" classifier="sources"/>
-		</maven:deploy>
-	</target>
-
-	<target name="publish-maven-old" depends="create.pom, snapshot.pom, maven.init" unless="local.build">
-		<maven:deploy file="${jar.output.file}">
 			<remoteRepository url="s3://${publish.bucket}/maven/bundles/${adjusted.release.type}">
 				<authentication username="${accessKey}" passphrase="${secretKey}"/>
 			</remoteRepository>
@@ -72,11 +62,9 @@
 				organisation="org.apache.maven" module="com.springsource.org.apache.maven.ant"
 				revision="${org.apache.maven.ant.version}" conf="runtime" type="jar" inline="true" log="download-only"/>
 		<taskdef resource="org/apache/maven/artifact/ant/antlib.xml" uri="antlib:org.apache.maven.artifact.ant"
-				classpathref="maven.ant.tasks.classpath"/>
-		<maven:install-provider artifactId="wagon-ssh" version="1.0-beta-2"/>
-			<!--	
+				classpathref="maven.ant.tasks.classpath"/>	
 		<maven:install-provider groupId="org.springframework.build.aws" artifactId="org.springframework.build.aws.maven"
-				version="${org.springframework.build.aws.maven.version}"/> -->
+				version="${org.springframework.build.aws.maven.version}"/>
 	</target>
 
 	<target name="create.pom" depends="ivy.init, resolve">

@@ -35,7 +35,7 @@
 	<macrodef name="eclipse-build-repo">
 		<attribute name="artifact.type"/>
 		<attribute name="release.type"/>
-		<sftp descriptor="required" user="virgoBuild" userPassword="${eclipse.buildKey}" host="build.eclipse.org">
+		<sftp descriptor="required" user="${eclipse.build.id}" keyFile="${eclipse.build.key.file}" host="build.eclipse.org">
 			<ivy pattern="/opt/public/rt/virgo/ivy/@{artifact.type}/@{release.type}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
 			<artifact pattern="/opt/public/rt/virgo/ivy/@{artifact.type}/@{release.type}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
 		</sftp>
@@ -61,7 +61,7 @@
 			<s3repo name="bundle-external-repository"			bucket="repository.springsource.com" artifact.type="bundles" release.type="external"/>
 			<s3repo name="library-external-repository"			bucket="repository.springsource.com" artifact.type="libraries" release.type="external"/>
 			<s3repo name="private-bundle-external-repository"	bucket="private.repository.springsource.com" artifact.type="bundles" release.type="external"/>
-            <s3repo name="private-library-external-repository"	bucket="private.repository.springsource.com" artifact.type="libraries" release.type="external"/>
+			<s3repo name="private-library-external-repository"	bucket="private.repository.springsource.com" artifact.type="libraries" release.type="external"/>
 		</chain>
 
 		<chain name="spring-portfolio-lookup" returnFirst="true">
@@ -78,18 +78,18 @@
 		<chain name="zodiac-and-eclipse-lookup" returnFirst="true">
 			<resolver ref="integration"/>
 			<localrepo name="local"/>
-			<s3repo name="zodiac-bundle-release-repository"		bucket="zodiac.springsource.com" artifact.type="bundles" release.type="release"/>
-			<s3repo name="zodiac-bundle-milestone-repository"	bucket="zodiac.springsource.com" artifact.type="bundles" release.type="milestone"/>
-			<s3repo name="zodiac-bundle-snapshot-repository"	bucket="zodiac.springsource.com" artifact.type="bundles" release.type="snapshot"/>
-			<s3repo name="zodiac-library-release-repository"	bucket="zodiac.springsource.com" artifact.type="libraries" release.type="release"/>
-			<s3repo name="zodiac-library-milestone-repository"	bucket="zodiac.springsource.com" artifact.type="libraries" release.type="milestone"/>
-			<s3repo name="zodiac-library-snapshot-repository"	bucket="zodiac.springsource.com" artifact.type="libraries" release.type="snapshot"/>
 			<eclipse-build-repo name="eclipse-bundle-release-repository"	artifact.type="bundles" release.type="release"/>
 			<eclipse-build-repo name="eclipse-bundle-milestone-repository"	artifact.type="bundles" release.type="milestone"/>
 			<eclipse-build-repo name="eclipse-bundle-snapshot-repository"	artifact.type="bundles" release.type="snapshot"/>
 			<eclipse-build-repo name="eclipse-library-release-repository"	artifact.type="libraries" release.type="release"/>
 			<eclipse-build-repo name="eclipse-library-milestone-repository"	artifact.type="libraries" release.type="milestone"/>
 			<eclipse-build-repo name="eclipse-library-snapshot-repository"	artifact.type="libraries" release.type="snapshot"/>
+			<s3repo name="zodiac-bundle-release-repository"		bucket="zodiac.springsource.com" artifact.type="bundles" release.type="release"/>
+			<s3repo name="zodiac-bundle-milestone-repository"	bucket="zodiac.springsource.com" artifact.type="bundles" release.type="milestone"/>
+			<s3repo name="zodiac-bundle-snapshot-repository"	bucket="zodiac.springsource.com" artifact.type="bundles" release.type="snapshot"/>
+			<s3repo name="zodiac-library-release-repository"	bucket="zodiac.springsource.com" artifact.type="libraries" release.type="release"/>
+			<s3repo name="zodiac-library-milestone-repository"	bucket="zodiac.springsource.com" artifact.type="libraries" release.type="milestone"/>
+			<s3repo name="zodiac-library-snapshot-repository"	bucket="zodiac.springsource.com" artifact.type="libraries" release.type="snapshot"/>
 		</chain>
 
 <!-- Publishing repositories -->
