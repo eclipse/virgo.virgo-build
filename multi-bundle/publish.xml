@@ -78,16 +78,16 @@
 		</fail>
 		<checksum file="${package.output.file}" algorithm="sha1"/>
 		<sshexec host="build.eclipse.org" 
-				username="${eclipse.build.id}" 
+				username="${eclipse.buildId}" 
 				keyfile="${eclipse.build.key.file}" 
 				passphrase="${passphrase}"
 				command="mkdir -pv /opt/public/rt/virgo/zips/${adjusted.release.type}/${project.key}/${bundle.version}"/>
 		<scp localFile="${package.output.file}"
-				todir="${eclipse.build.id}@build.eclipse.org:/opt/public/rt/virgo/zips/${adjusted.release.type}/${project.key}/${bundle.version}" 
+				todir="${eclipse.buildId}@build.eclipse.org:/opt/public/rt/virgo/zips/${adjusted.release.type}/${project.key}/${bundle.version}" 
 				keyfile="${eclipse.build.key.file}"
 				passphrase="${passphrase}" />
 		<scp localFile="${package.output.file}.sha1"
-				todir="${eclipse.build.id}@build.eclipse.org:/opt/public/rt/virgo/zips/${adjusted.release.type}/${project.key}/${bundle.version}" 
+				todir="${eclipse.buildId}@build.eclipse.org:/opt/public/rt/virgo/zips/${adjusted.release.type}/${project.key}/${bundle.version}" 
 				keyfile="${eclipse.build.key.file}"
 				passphrase="${passphrase}" />
 	</target>
