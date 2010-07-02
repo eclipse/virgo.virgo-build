@@ -96,26 +96,21 @@
 	</target>
 
 	<target name="resolve.compile" depends="resolve.init">
-		<ivy:cachepath resolveId="compile.classpath" pathid="compile.classpath"
-				conf="compile,optional,provided,server-provided" type="jar" log="download-only"/>
+		<ivy:cachepath resolveId="compile.classpath" pathid="compile.classpath" conf="compile,optional,provided,server-provided" type="jar" log="download-only"/>
 	</target>
 
 	<target name="resolve.test" depends="resolve.init, resolve.compile">
 		<ivy:cachepath resolveId="test.classpath" pathid="test.classpath" conf="test" type="jar" log="download-only"/>
-		<ivy:cachepath resolveId="runtime.classpath" pathid="runtime.classpath" conf="runtime" type="jar"
-				log="download-only"/>
+		<ivy:cachepath resolveId="runtime.classpath" pathid="runtime.classpath" conf="runtime" type="jar" log="download-only"/>
 	</target>
 
 	<target name="resolve.aspects" depends="resolve.init">
-		<ivy:cachepath resolveId="aspects.classpath" pathid="aspects.classpath" conf="aspects" type="jar"
-				log="download-only"/>
+		<ivy:cachepath resolveId="aspects.classpath" pathid="aspects.classpath" conf="aspects" type="jar" log="download-only"/>
 	</target>
 
 	<target name="resolve.external" depends="resolve.init">
-		<ivy:cachepath resolveId="external.classpath" pathid="external.classpath" conf="external" type="jar"
-				transitive="false" log="download-only"/>
-		<ivy:cachepath resolveId="external.srcpath" pathid="external.srcpath" conf="external" type="src"
-				transitive="false" log="download-only"/>
+		<ivy:cachepath resolveId="external.classpath" pathid="external.classpath" conf="external" type="jar" transitive="false" log="download-only"/>
+		<ivy:cachepath resolveId="external.srcpath" pathid="external.srcpath" conf="external" type="src" transitive="false" log="download-only"/>
 	</target>
 
 	<target name="src.init">
