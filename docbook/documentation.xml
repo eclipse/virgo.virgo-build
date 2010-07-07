@@ -18,7 +18,7 @@
 	<filterset id="docbook.filters" />
 
 <!-- Main targets -->
-	<target name="doc-html" depends="docbook.init"
+	<target name="doc-html" depends="docbook.init, ivy.init, resolve"
 			description="Creates both the single and multi-page HTML versions of the reference documentation.">
 		<delete quiet="true" dir="${docbook.output.dir}/html"/>
 		<delete quiet="true" dir="${docbook.output.dir}/htmlsingle"/>
@@ -52,8 +52,17 @@
 			<target name="html"/>
 			<target name="htmlsingle"/>
 		</ant>
+
+		<move file="${docbook.target.dir}/htmlsingle/${ant.project.name}.zip"
+				tofile="${docbook.target.dir}/htmlsingle/${ant.project.name}-single.zip"/>
 		<move file="${docbook.target.dir}/html" todir="${docbook.output.dir}"/>
 		<move file="${docbook.target.dir}/htmlsingle" todir="${docbook.output.dir}"/>
+
+		<ivy:publish resolver="integration" pubdate="${timestamp}" status="${release.type}">
+			<artifacts pattern="${docbook.output.dir}/html/[artifact].[ext]"/>
+			<artifacts pattern="${docbook.output.dir}/htmlsingle/[artifact].[ext]"/>
+			<artifacts pattern="${ivy.output.dir}/[artifact].[ext]"/>
+		</ivy:publish>
 
 		<delete quiet="true" dir="${docbook.target.dir}"/>
 	</target>
