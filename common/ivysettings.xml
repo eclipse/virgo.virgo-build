@@ -40,13 +40,16 @@
 			<artifact pattern="/opt/public/rt/virgo/ivy/@{artifact.type}/@{release.type}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
 		</sftp>
 	</macrodef>
-<!--
+
 	<macrodef name="eclipse-build-repo-read">
 		<attribute name="artifact.type"/>
 		<attribute name="release.type"/>
-			INSERT READ REPO TO USE HTTP ACCESS FROM BUILD.ECLIPSE.ORG HERE
+		<url name="eclipse.build.read.resolver">
+			<ivy pattern="http://build.eclipse.org/rt/virgo/ivy/@{artifact.type}/@{release.type}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
+			<artifact pattern="http://build.eclipse.org/rt/virgo/ivy/@{artifact.type}/@{release.type}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
+		</url>
 	</macrodef>
--->
+
 	<macrodef name="localrepo">
 		<filesystem descriptor="required">
 			<ivy pattern="${local.repo.dir}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
@@ -84,13 +87,12 @@
 		<chain name="zodiac-and-eclipse-lookup" returnFirst="true">
 			<resolver ref="integration"/>
 			<localrepo name="local"/>
-<!-- MAKE ALL THESE ONES BE THE READ ONLY REPO DEFINITION -->
-			<eclipse-build-repo name="eclipse-bundle-release-repository"	artifact.type="bundles" release.type="release"/>
-			<eclipse-build-repo name="eclipse-bundle-milestone-repository"	artifact.type="bundles" release.type="milestone"/>
-			<eclipse-build-repo name="eclipse-bundle-snapshot-repository"	artifact.type="bundles" release.type="snapshot"/>
-			<eclipse-build-repo name="eclipse-library-release-repository"	artifact.type="libraries" release.type="release"/>
-			<eclipse-build-repo name="eclipse-library-milestone-repository"	artifact.type="libraries" release.type="milestone"/>
-			<eclipse-build-repo name="eclipse-library-snapshot-repository"	artifact.type="libraries" release.type="snapshot"/>
+			<eclipse-build-repo-read name="eclipse-bundle-release-repository"	artifact.type="bundles" release.type="release"/>
+			<eclipse-build-repo-read name="eclipse-bundle-milestone-repository"	artifact.type="bundles" release.type="milestone"/>
+			<eclipse-build-repo-read name="eclipse-bundle-snapshot-repository"	artifact.type="bundles" release.type="snapshot"/>
+			<eclipse-build-repo-read name="eclipse-library-release-repository"	artifact.type="libraries" release.type="release"/>
+			<eclipse-build-repo-read name="eclipse-library-milestone-repository"	artifact.type="libraries" release.type="milestone"/>
+			<eclipse-build-repo-read name="eclipse-library-snapshot-repository"	artifact.type="libraries" release.type="snapshot"/>
 			<s3repo name="zodiac-bundle-release-repository"		bucket="zodiac.springsource.com" artifact.type="bundles" release.type="release"/>
 			<s3repo name="zodiac-bundle-milestone-repository"	bucket="zodiac.springsource.com" artifact.type="bundles" release.type="milestone"/>
 			<s3repo name="zodiac-bundle-snapshot-repository"	bucket="zodiac.springsource.com" artifact.type="bundles" release.type="snapshot"/>
