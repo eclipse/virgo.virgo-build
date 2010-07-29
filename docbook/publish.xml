@@ -19,7 +19,7 @@
 	<target name="publish-ivy-zodiac" depends="ivy.init, resolve">
 		<delete quiet="true" file="${ivy.output.file}"/>
 		<mkdir dir="${ivy.output.dir}" />
-		<ivy:publish resolver="zodiac-${publication.resolver.prefix}-bundle-publish" pubdate="${timestamp}" status="${release.type}">
+		<ivy:publish resolver="zodiac-${publication.resolver.prefix}-bundle-publish" overwrite="true" pubdate="${timestamp}" status="${release.type}">
 			<artifacts pattern="${docbook.output.dir}/html/[artifact].[ext]"/>
 			<artifacts pattern="${docbook.output.dir}/htmlsingle/[artifact].[ext]"/>
 			<!-- <artifacts pattern="${docbook.output.dir}/pdf/[artifact].[ext]"/> -->
@@ -30,7 +30,7 @@
 	<target name="publish-ivy-eclipse" depends="ivy.init, resolve">
 		<delete quiet="true" file="${ivy.output.file}"/>
 		<mkdir dir="${ivy.output.dir}" />
-		<ivy:publish resolver="eclipse-${publication.resolver.prefix}-bundle-publish" pubdate="${timestamp}" status="${release.type}">
+		<ivy:publish resolver="eclipse-${publication.resolver.prefix}-bundle-publish" overwrite="true" pubdate="${timestamp}" status="${release.type}">
 			<artifacts pattern="${docbook.output.dir}/html/[artifact].[ext]"/>
 			<artifacts pattern="${docbook.output.dir}/htmlsingle/[artifact].[ext]"/>
 			<!-- <artifacts pattern="${docbook.output.dir}/pdf/[artifact].[ext]"/> -->
