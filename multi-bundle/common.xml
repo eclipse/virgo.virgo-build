@@ -26,6 +26,14 @@
 		<equals arg1="integration" arg2="${release.type}"/>
 	</condition>
 
+	<target name="set-hudson-proxy" description="Sets the jets3t property file to proxy settings from env variables.">
+		<echo file="../virgo-build/lib/ivy/jets3t.properties"># Hudson Generated Proxy Configuration
+httpclient.proxy-autodetect=false
+httpclient.proxy-host=${http.proxyHost}
+httpclient.proxy-port=${http.proxyPort}
+</echo>
+	</target>
+
 <!-- Main targets -->
 	<target name="clean"
 			description="Removes the target directory.">
