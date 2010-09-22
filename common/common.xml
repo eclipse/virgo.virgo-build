@@ -135,6 +135,14 @@
 		</condition>
 	</target>
 
+	<target name="diagnostics" description="diagnostics">
+		<sequential>
+			<echo>The diagnostics target was explicitly requested...</echo>
+        	<diagnostics/>
+			<echo>End of diagnostics requested.</echo>
+		</sequential>
+    </target>	
+
 <!-- Macros -->
 	<macrodef name="compile">
 		<attribute name="classpath.id"/>

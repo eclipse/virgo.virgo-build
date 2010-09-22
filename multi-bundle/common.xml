@@ -27,6 +27,8 @@
 	</condition>
 
 	<target name="set-hudson-proxy" description="Sets the jets3t property file to proxy settings from env variables.">
+		<fail unless="http.proxyHost">Property 'http.proxyHost' is not set for set-hudson-proxy target.</fail>
+		<fail unless="http.proxyPort">Property 'http.proxyPort' is not set for set-hudson-proxy target.</fail>
 		<echo file="../virgo-build/lib/ivy/jets3t.properties"># Hudson Generated Proxy Configuration
 httpclient.proxy-autodetect=false
 httpclient.proxy-host=${http.proxyHost}
