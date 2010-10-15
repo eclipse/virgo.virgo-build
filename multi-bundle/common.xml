@@ -129,6 +129,24 @@ httpclient.proxy-port=${http.proxyPort}
 		</sequential>
 	</macrodef>
 
+	<macrodef name="all-bundles-exec">
+		<attribute name="target"/>
+		<attribute name="buildpathRef" default="bundles"/>
+		<attribute name="exec-ant-args" default=""/>
+		<element name="inherited-properties" optional="true" implicit="true"/>
+		<sequential>
+			<subant target="exec-ant" verbose="true" buildpathRef="@{buildpathRef}">
+				<inherited-properties/>
+				<propertyset>
+					<propertyref builtin="commandline"/>
+				</propertyset>
+				<property name="timestamp" value="${timestamp}"/>
+				<property name="exec-ant-target" value="@{target}"/>
+				<property name="exec-args" value="@{exec-ant-args}"/>
+			</subant>
+		</sequential>
+	</macrodef>
+
 	<macrodef name="java-doc">
 		<attribute name="input.dir"/>
 		<attribute name="output.dir"/>

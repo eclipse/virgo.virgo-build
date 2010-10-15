@@ -141,7 +141,18 @@
         	<diagnostics/>
 			<echo>End of diagnostics requested.</echo>
 		</sequential>
-    </target>	
+    </target>
+
+	<target name="exec-ant" description="execute an ant command">
+		<sequential>
+			<echo>exec-ant for target "${exec-ant-target}" executed</echo>
+			<exec executable="ant" dir="${basedir}"
+				failonerror="true">
+			    <arg line="${exec-ant-target}"/>
+				<arg line="-Dci.build=${ci.build} ${exec-args}"/>
+			</exec>
+		</sequential>
+	</target>	
 
 <!-- Macros -->
 	<macrodef name="compile">
@@ -230,7 +241,7 @@
 			</copy>
 		</sequential>
 	</macrodef>
-
+	
 	<presetdef name="javadoc.links">
 		<javadoc/>
 	</presetdef>

@@ -54,7 +54,7 @@
 
 	<target name="jar"
 			description="Creates a JAR file containing the output of a compilation of the source tree.">
-		<all-bundles target="jar"/>
+		<all-bundles-exec target="jar"/>
 	</target>
 
 <!-- Other targets -->

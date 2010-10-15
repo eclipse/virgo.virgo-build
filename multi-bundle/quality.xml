@@ -43,9 +43,9 @@
 	</target>
 
 	<target name="test.do">
-		<all-bundles target="test.do">
-			<property name="test-results.output.dir" value="${test-results.output.dir}"/>
-		</all-bundles>
+		<all-bundles-exec target="test.do" exec-ant-args="-Dtest-results.output.dir=${test-results.output.dir}">
+<!--			<property name="test-results.output.dir" value="${test-results.output.dir}"/> -->
+		</all-bundles-exec>
 	</target>
 
 	<target name="test.post">
