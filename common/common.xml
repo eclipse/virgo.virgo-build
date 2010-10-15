@@ -138,8 +138,23 @@
 	<target name="diagnostics" description="diagnostics">
 		<sequential>
 			<echo>The diagnostics target was explicitly requested...</echo>
+			<echo>----Ant diagnostics-------------------------------</echo>
         	<diagnostics/>
-			<echo>End of diagnostics requested.</echo>
+			<echo>----Properties--Ant-------------------------------</echo>
+			<echoproperties>
+				<propertyset>
+					<propertyref builtin="all"/>
+				</propertyset>
+			</echoproperties>
+			<echo>----Environment-----------------------------------</echo>
+			<property environment="env"/>
+			<echoproperties>
+				<propertyset>
+					<propertyref prefix="env."/>
+				</propertyset>
+			</echoproperties>
+			<echo>--------------------------------------------------</echo>
+			<fail message="Diagnostics output -- build aborted."/>
 		</sequential>
     </target>
 
