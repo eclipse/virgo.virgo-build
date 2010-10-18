@@ -162,7 +162,12 @@
 		<sequential>
 			<echo>exec-ant for target "${exec-ant-target}" executed</echo>
 			<exec executable="ant" dir="${basedir}"
-				failonerror="true">
+				failonerror="true" osfamily="unix">
+			    <arg line="${exec-ant-target}"/>
+				<arg line="-Dci.build=${ci.build} ${exec-args}"/>
+			</exec>
+			<exec executable="ant.bat" dir="${basedir}"
+				failonerror="true" osfamily="windows">
 			    <arg line="${exec-ant-target}"/>
 				<arg line="-Dci.build=${ci.build} ${exec-args}"/>
 			</exec>
