@@ -162,15 +162,24 @@
 		<sequential>
 			<echo>exec-ant for target "${exec-ant-target}" executed</echo>
 			<exec executable="ant" dir="${basedir}"
-				failonerror="true" osfamily="unix">
+				failonerror="true" osfamily="unix"
+				resultproperty="exec-ant-rc">
 			    <arg line="${exec-ant-target}"/>
 				<arg line="-Dci.build=${ci.build} ${exec-args}"/>
 			</exec>
 			<exec executable="ant.bat" dir="${basedir}"
-				failonerror="true" osfamily="windows">
+				failonerror="true" osfamily="windows"
+				resultproperty="exec-ant-rc">
 			    <arg line="${exec-ant-target}"/>
 				<arg line="-Dci.build=${ci.build} ${exec-args}"/>
 			</exec>
+			<condition property="exec-ant-failed">
+				<and>
+					<isset property="exec-ant-rc"/>
+					<not><equals arg1="${exec-ant-rc}" arg2="0"/></not>
+				</and>
+			</condition>
+			<fail message="exec-ant for ${exec-ant-target} gave return code ${exec-ant-returncode}" if="exec-ant-failed"/>
 		</sequential>
 	</target>	
 
