@@ -160,18 +160,20 @@
 
 	<target name="exec-ant" description="execute an ant command">
 		<sequential>
-			<echo>exec-ant for target "${exec-ant-target}" executed</echo>
+			<echo>exec-ant for target '${exec-ant-target}' executing in directory '${basedir}'</echo>
 			<exec executable="ant" dir="${basedir}"
-				failonerror="true" osfamily="unix"
+				failonerror="false" osfamily="unix"
 				resultproperty="exec-ant-rc">
-			    <arg line="${exec-ant-target}"/>
-				<arg line="-Dci.build=${ci.build} ${exec-args}"/>
+			    <arg value="${exec-ant-target}"/>
+				<arg value="-Dci.build=${ci.build}"/>
+				<arg value="${exec-args}"/>
 			</exec>
 			<exec executable="ant.bat" dir="${basedir}"
-				failonerror="true" osfamily="windows"
+				failonerror="false" osfamily="windows"
 				resultproperty="exec-ant-rc">
-			    <arg line="${exec-ant-target}"/>
-				<arg line="-Dci.build=${ci.build} ${exec-args}"/>
+			    <arg value="${exec-ant-target}"/>
+				<arg value="-Dci.build=${ci.build}"/>
+				<arg value="${exec-args}"/>
 			</exec>
 			<condition property="exec-ant-failed">
 				<and>
@@ -179,7 +181,8 @@
 					<not><equals arg1="${exec-ant-rc}" arg2="0"/></not>
 				</and>
 			</condition>
-			<fail message="exec-ant for ${exec-ant-target} gave return code ${exec-ant-returncode}" if="exec-ant-failed"/>
+			<fail message="exec-ant for target '${exec-ant-target}' gave return code ${exec-ant-rc}" if="exec-ant-failed"/>
+			<echo>exec-ant for target '${exec-ant-target}' gave return code ${exec-ant-rc}</echo>
 		</sequential>
 	</target>	
 
