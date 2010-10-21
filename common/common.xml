@@ -162,26 +162,19 @@
 		<sequential>
 			<echo>exec-ant for target '${exec-ant-target}' executing in directory '${basedir}'</echo>
 			<exec executable="ant" dir="${basedir}"
-				failonerror="false" osfamily="unix"
+				failonerror="true" osfamily="unix"
 				resultproperty="exec-ant-rc">
 			    <arg value="${exec-ant-target}"/>
 				<arg value="-Dci.build=${ci.build}"/>
 				<arg value="${exec-args}"/>
 			</exec>
-			<exec executable="ant.bat" dir="${basedir}"
-				failonerror="false" osfamily="windows"
+			<exec executable="${virgo.build.dir}\common\runant.bat" dir="${basedir}"
+				failonerror="true" osfamily="windows"
 				resultproperty="exec-ant-rc">
 			    <arg value="${exec-ant-target}"/>
 				<arg value="-Dci.build=${ci.build}"/>
 				<arg value="${exec-args}"/>
 			</exec>
-			<condition property="exec-ant-failed">
-				<and>
-					<isset property="exec-ant-rc"/>
-					<not><equals arg1="${exec-ant-rc}" arg2="0"/></not>
-				</and>
-			</condition>
-			<fail message="exec-ant for target '${exec-ant-target}' gave return code ${exec-ant-rc}" if="exec-ant-failed"/>
 			<echo>exec-ant for target '${exec-ant-target}' gave return code ${exec-ant-rc}</echo>
 		</sequential>
 	</target>	
