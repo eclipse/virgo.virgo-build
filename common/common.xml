@@ -167,7 +167,7 @@
 			    <arg value="${exec-ant-target}"/>
 				<arg value="-Dci.build=${ci.build}"/>
 				<arg value="-Dtimestamp=${timestamp}"/>
-				<arg value="-Dbuild.stamp=${build.stamp}"/>
+				<arg value="-Dbundle.version=${bundle.version}"/>
 				<arg value="${exec-args}"/>
 			</exec>
 			<exec executable="${virgo.build.dir}\common\runant.bat" dir="${basedir}"
@@ -176,7 +176,7 @@
 			    <arg value="${exec-ant-target}"/>
 				<arg value="-Dci.build=${ci.build}"/>
 				<arg value="-Dtimestamp=${timestamp}"/>
-				<arg value="-Dbuild.stamp=${build.stamp}"/>
+				<arg value="-Dbundle.version=${bundle.version}"/>
 				<arg value="${exec-args}"/>
 			</exec>
 			<echo>exec-ant for target '${exec-ant-target}' gave return code ${exec-ant-rc}</echo>
