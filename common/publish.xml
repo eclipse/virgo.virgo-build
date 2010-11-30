@@ -41,8 +41,8 @@
 
 	<target name="publish-maven" depends="create.pom, snapshot.pom, maven.init" unless="local.build">
 		<maven:deploy file="${jar.output.file}">
-			<remoteRepository url="s3://${publish.bucket}/maven/bundles/${adjusted.release.type}">
-				<authentication username="${accessKey}" passphrase="${secretKey}"/>
+			<remoteRepository url="scp://build.eclipse.org/opt/public/rt/virgo/maven/bundles/${adjusted.release.type}">
+				<authentication username="${eclipse.buildId}" privateKey="${key.file}"/>
 			</remoteRepository>
 			<pom file="${pom.output.file}"/>
 			<attach file="${source-jar.output.file}" classifier="sources"/>
@@ -62,9 +62,9 @@
 				organisation="org.apache.maven" module="com.springsource.org.apache.maven.ant"
 				revision="${org.apache.maven.ant.version}" conf="runtime" type="jar" inline="true" log="download-only"/>
 		<taskdef resource="org/apache/maven/artifact/ant/antlib.xml" uri="antlib:org.apache.maven.artifact.ant"
-				classpathref="maven.ant.tasks.classpath"/>	
-		<maven:install-provider groupId="org.springframework.build.aws" artifactId="org.springframework.build.aws.maven"
-				version="${org.springframework.build.aws.maven.version}"/>
+				classpathref="maven.ant.tasks.classpath"/>
+		<maven:install-provider groupId="org.springframework.build.aws" artifactId="org.springframework.build.aws.maven" version="${org.springframework.build.aws.maven.version}"/>
+		<maven:install-provider artifactId="wagon-ssh" version="1.0-beta-2"/>
 	</target>
 
 	<target name="create.pom" depends="ivy.init, resolve">
