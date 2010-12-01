@@ -25,6 +25,11 @@
 	<condition property="adjusted.release.type" value="snapshot" else="${release.type}">
 		<equals arg1="integration" arg2="${release.type}"/>
 	</condition>
+	
+	<target name="resolve"
+			description="Resolve the dependencies of all artifacts">
+		<all-bundles target="resolve"/>
+	</target>
 
 	<target name="set-hudson-proxy" description="Sets the jets3t property file to proxy settings from env variables.">
 		<fail unless="http.proxyHost">Property 'http.proxyHost' is not set for set-hudson-proxy target.</fail>
