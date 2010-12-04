@@ -11,7 +11,8 @@
  *   VMware Inc. - initial contribution
  ******************************************************************************
 -->
-<project name="publish-multi-bundle" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+<project name="publish-multi-bundle" xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:aws="antlib:org.springframework.build.aws">
 
     <import file="common.xml"/>
 
