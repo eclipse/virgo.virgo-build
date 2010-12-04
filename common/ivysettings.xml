@@ -22,16 +22,6 @@
 			artifactPattern="[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"
 			useOrigin="true" checkUpToDate="false"/>
 
-	<macrodef name="s3repo">
-		<attribute name="bucket"/>
-		<attribute name="artifact.type"/>
-		<attribute name="release.type"/>
-		<s3 descriptor="required" accessKey="${accessKey}" secretKey="${secretKey}">
-			<ivy pattern="s3://@{bucket}/ivy/@{artifact.type}/@{release.type}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
-			<artifact pattern="s3://@{bucket}/ivy/@{artifact.type}/@{release.type}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
-		</s3>
-	</macrodef>	
-
 	<macrodef name="s3repo-read">
 		<attribute name="bucket"/>
 		<attribute name="artifact.type"/>
@@ -86,47 +76,37 @@
 		<chain name="spring-portfolio-lookup" returnFirst="true">
 			<resolver ref="integration"/>
 			<localrepo name="local"/>
-			<s3repo-read name="bundle-release-repository"	bucket="repository.springsource.com" artifact.type="bundles" release.type="release"/>
-			<s3repo-read name="bundle-milestone-repository"	bucket="repository.springsource.com" artifact.type="bundles" release.type="milestone"/>
-			<s3repo-read name="bundle-snapshot-repository"	bucket="repository.springsource.com" artifact.type="bundles" release.type="snapshot"/>
-			<s3repo-read name="library-release-repository"	bucket="repository.springsource.com" artifact.type="libraries" release.type="release"/>
+			<s3repo-read name="bundle-release-repository"	    bucket="repository.springsource.com" artifact.type="bundles" release.type="release"/>
+			<s3repo-read name="bundle-milestone-repository"	    bucket="repository.springsource.com" artifact.type="bundles" release.type="milestone"/>
+			<s3repo-read name="bundle-snapshot-repository"	    bucket="repository.springsource.com" artifact.type="bundles" release.type="snapshot"/>
+			<s3repo-read name="library-release-repository"	    bucket="repository.springsource.com" artifact.type="libraries" release.type="release"/>
 			<s3repo-read name="library-milestone-repository"	bucket="repository.springsource.com" artifact.type="libraries" release.type="milestone"/>
-			<s3repo-read name="library-snapshot-repository"	bucket="repository.springsource.com" artifact.type="libraries" release.type="snapshot"/>
+			<s3repo-read name="library-snapshot-repository"	    bucket="repository.springsource.com" artifact.type="libraries" release.type="snapshot"/>
 		</chain>
 
-		<chain name="zodiac-and-eclipse-lookup" returnFirst="true">
+		<chain name="eclipse-lookup" returnFirst="true">
 			<resolver ref="integration"/>
 			<localrepo name="local"/>
-			<eclipse-build-repo-read name="eclipse-bundle-release-repository"	artifact.type="bundles" release.type="release"/>
-			<eclipse-build-repo-read name="eclipse-bundle-milestone-repository"	artifact.type="bundles" release.type="milestone"/>
-			<eclipse-build-repo-read name="eclipse-bundle-snapshot-repository"	artifact.type="bundles" release.type="snapshot"/>
-			<eclipse-build-repo-read name="eclipse-library-release-repository"	artifact.type="libraries" release.type="release"/>
+			<eclipse-build-repo-read name="eclipse-bundle-release-repository"	    artifact.type="bundles" release.type="release"/>
+			<eclipse-build-repo-read name="eclipse-bundle-milestone-repository"	    artifact.type="bundles" release.type="milestone"/>
+			<eclipse-build-repo-read name="eclipse-bundle-snapshot-repository"	    artifact.type="bundles" release.type="snapshot"/>
+			<eclipse-build-repo-read name="eclipse-library-release-repository"	    artifact.type="libraries" release.type="release"/>
 			<eclipse-build-repo-read name="eclipse-library-milestone-repository"	artifact.type="libraries" release.type="milestone"/>
-			<eclipse-build-repo-read name="eclipse-library-snapshot-repository"	artifact.type="libraries" release.type="snapshot"/>
-			<s3repo-read name="zodiac-bundle-release-repository"		bucket="zodiac.springsource.com" artifact.type="bundles" release.type="release"/>
-			<s3repo-read name="zodiac-bundle-milestone-repository"	bucket="zodiac.springsource.com" artifact.type="bundles" release.type="milestone"/>
-			<s3repo-read name="zodiac-bundle-snapshot-repository"	bucket="zodiac.springsource.com" artifact.type="bundles" release.type="snapshot"/>
-			<s3repo-read name="zodiac-library-release-repository"	bucket="zodiac.springsource.com" artifact.type="libraries" release.type="release"/>
-			<s3repo-read name="zodiac-library-milestone-repository"	bucket="zodiac.springsource.com" artifact.type="libraries" release.type="milestone"/>
-			<s3repo-read name="zodiac-library-snapshot-repository"	bucket="zodiac.springsource.com" artifact.type="libraries" release.type="snapshot"/>
+			<eclipse-build-repo-read name="eclipse-library-snapshot-repository"	    artifact.type="libraries" release.type="snapshot"/>
 		</chain>
 
 <!-- Publishing repositories -->
 		<eclipse-build-repo name="eclipse-remote-bundle-publish"	artifact.type="bundles"		release.type="${adjusted.release.type}"/>
 		<eclipse-build-repo name="eclipse-remote-library-publish"	artifact.type="libraries"	release.type="${adjusted.release.type}"/>
-		<s3repo name="zodiac-remote-bundle-publish"		bucket="${publish.bucket}"	artifact.type="bundles"		release.type="${adjusted.release.type}"/>
-		<s3repo name="zodiac-remote-library-publish"	bucket="${publish.bucket}"	artifact.type="libraries"	release.type="${adjusted.release.type}"/>
 		<localrepo name="eclipse-local-bundle-publish"/>
 		<localrepo name="eclipse-local-library-publish"/>
-		<localrepo name="zodiac-local-bundle-publish"/>
-		<localrepo name="zodiac-local-library-publish"/>
 	</resolvers>
 
 	<modules>
 		<module organisation="org.springframework.*"	name="*"	resolver="spring-portfolio-lookup"/>
 		<module organisation="com.springsource.*"		name="*"	resolver="spring-portfolio-lookup"/>
-		<module organisation="org.eclipse.virgo.*"		name="*"	resolver="zodiac-and-eclipse-lookup"/>
-		<module organisation="org.eclipse.gemini.*"		name="*"	resolver="zodiac-and-eclipse-lookup"/>
+		<module organisation="org.eclipse.virgo.*"		name="*"	resolver="eclipse-lookup"/>
+		<module organisation="org.eclipse.gemini.*"		name="*"	resolver="eclipse-lookup"/>
 	</modules>
 
 </ivysettings>
