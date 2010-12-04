@@ -20,22 +20,6 @@
 
 	<target name="findbugs" depends="findbugs.pre, findbugs.do" description="Checks all code from the source tree for bugs."/>
 
-	<target name="osgi-validate" depends="ivy.init, osgi.init" description="Validates that a bundle can resolve against it's dependencies.">
-		<ivy:cachepath resolveId="osgi.optional.classpath" pathid="osgi.optional.classpath"
-				conf="compile,optional,provided,server-provided" type="jar" log="download-only"/>
-		<osgi:validate bundlePath="${jar.output.file}">
-			<equinoxPath refid="equinox.classpath"/>
-			<supportingBundlesPath refid="osgi.optional.classpath"/>
-		</osgi:validate>
-
-		<ivy:cachepath resolveId="osgi.compile.classpath" pathid="osgi.compile.classpath"
-				conf="compile,provided,server-provided" type="jar" log="download-only"/>
-		<osgi:validate bundlePath="${jar.output.file}">
-			<equinoxPath refid="equinox.classpath"/>
-			<supportingBundlesPath refid="osgi.compile.classpath"/>
-		</osgi:validate>
-	</target>
-
 	<target name="report" depends="ivy.init, resolve" description="Produce a HTML formatted report about all the dependencies and sub-dependencies of this build">
 		<mkdir dir="${ivy.report.todir}" />
 		<ivy:report conf="test, runtime, optional, provided, server-provided, aspects, external, additional" graph="false" xml="true"/>
@@ -211,18 +195,6 @@
 	<target name="findbugs.post" if="findbugs.enforce">
 		<fail if="findbugs.errors" message="FindBugs errors found"/>
 		<fail if="findbugs.warnings" message="FindBugs warnings found"/>
-	</target>
-
-	<target name="osgi.init" depends="ivy.init">
-		<ivy:cachepath resolveId="equinox.classpath" pathid="equinox.classpath" organisation="org.eclipse.osgi"
-			module="org.eclipse.osgi" revision="${org.eclipse.osgi.version}" type="jar" inline="true"
-			log="download-only"/>
-		<ivy:cachepath resolveId="ant.osgi.classpath" pathid="ant.osgi.classpath"
-				organisation="org.springframework.build" module="org.springframework.build.osgi"
-				revision="${org.springframework.build.osgi.version}" conf="runtime" type="jar" inline="true"
-				log="download-only"/>
-		<taskdef resource="org/springframework/build/osgi/antlib.xml" uri="antlib:org.springframework.build.osgi"
-			classpathref="ant.osgi.classpath"/>
 	</target>
 
 <!-- Macros -->

@@ -16,23 +16,6 @@
 	<import file="common.xml"/>
 	<import file="../common/quality.xml"/>
 
-	<target name="osgi-validate" depends="ivy.init, osgi.init"
-			description="Validates that a bundle can resolve against it's dependencies.">
-		<ivy:cachepath resolveId="osgi.optional.classpath" pathid="osgi.optional.classpath"
-				conf="compile,optional,provided,server-provided" type="jar" log="download-only"/>
-		<osgi:validate bundlePath="${war.output.file}">
-			<equinoxPath refid="equinox.classpath"/>
-			<supportingBundlesPath refid="osgi.optional.classpath"/>
-		</osgi:validate>
-
-		<ivy:cachepath resolveId="osgi.compile.classpath" pathid="osgi.compile.classpath"
-				conf="compile,provided,server-provided" type="jar" log="download-only"/>
-		<osgi:validate bundlePath="${war.output.file}">
-			<equinoxPath refid="equinox.classpath"/>
-			<supportingBundlesPath refid="osgi.compile.classpath"/>
-		</osgi:validate>
-	</target>
-
 <!-- Other targets -->
 	<target name="test.do" depends="ivy.init, resolve.test, compile.init, test.init" if="test.exists">
 		<path id="test.compile.classpath">
