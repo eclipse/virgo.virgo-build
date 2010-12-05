@@ -50,7 +50,7 @@
         </move>
     </target>
 
-    <target name="publish-package-build">
+    <target name="publish-package-build" depends="ivy.init">
         <fail message="The 'project.name' property must be set on this project.">
             <condition>
                 <not>
@@ -74,7 +74,7 @@
                 passphrase="${passphrase}" />
     </target>
     
-    <target name="publish-package-download">
+    <target name="publish-package-download" depends="ivy.init">
         <fail message="The 'project.name' property must be set on this project.">
             <condition>
                 <not>
