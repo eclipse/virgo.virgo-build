@@ -12,7 +12,7 @@
  ******************************************************************************
 -->
 
-<project name="publish-multi-bundle" xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:aws="antlib:org.springframework.build.aws">
+<project name="publish-multi-bundle" xmlns:ivy="antlib:org.apache.ivy.ant">
 
     <import file="common.xml"/>
 
@@ -50,7 +50,7 @@
         </move>
     </target>
 
-    <target name="publish-package-build" depends="ivy.init">
+    <target name="publish-package-build">
         <fail message="The 'project.name' property must be set on this project.">
             <condition>
                 <not>
@@ -74,7 +74,7 @@
                 passphrase="${passphrase}" />
     </target>
     
-    <target name="publish-package-download" depends="ivy.init">
+    <target name="publish-package-download">
         <fail message="The 'project.name' property must be set on this project.">
             <condition>
                 <not>

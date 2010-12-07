@@ -16,7 +16,7 @@
 	<import file="common.xml"/>
 	<import file="../common/publish.xml"/>
 
-	<target name="publish-ivy" depends="ivy.init, resolve">
+	<target name="publish-ivy" depends="common-common.ivy.init, common-common.resolve">
 		<delete quiet="true" file="${ivy.output.file}"/>
 		<mkdir dir="${ivy.output.dir}" />
 		<ivy:publish resolver="eclipse-${publication.resolver.prefix}-library-publish" overwrite="true" pubdate="${timestamp}" status="${release.type}">
