@@ -11,7 +11,7 @@
  *   VMware Inc. - initial contribution
  ******************************************************************************
 -->
-<project name="publish-docbook" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="publish-docbook" xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:maven="antlib:org.apache.maven.artifact.ant">
 
 	<import file="common.xml"/>
 	<import file="../common/publish.xml"/>
@@ -33,7 +33,6 @@
 				<authentication username="${eclipse.buildId}" privateKey="${key.file}"/>
 			</remoteRepository>
 			<pom file="${pom.output.file}"/>
-			<attach file="${source-jar.output.file}" classifier="sources"/>
 		</maven:deploy>
 	</target>
 
