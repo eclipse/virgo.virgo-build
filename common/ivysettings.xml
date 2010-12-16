@@ -112,7 +112,7 @@
 		<module organisation="com.springsource.*"		name="*"	resolver="spring-portfolio-lookup"/>
 		<module organisation="org.eclipse.virgo.*"		name="*"	resolver="eclipse-lookup"/>
 		<module organisation="org.eclipse.gemini.*"		name="*"	resolver="eclipse-lookup"/>
-		<module organisation="org.apache.maven.*"		name="*"	resolver="maven-lookup"/>
+		<module organisation="org.apache.maven.*"		name="maven*"	resolver="maven-lookup"/>
 	</modules>
 
 </ivysettings>
