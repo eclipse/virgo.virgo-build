@@ -22,7 +22,7 @@
 			artifactPattern="[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"
 			useOrigin="true" checkUpToDate="false"/>
 
-	<macrodef name="s3repo-read">
+	<macrodef name="s3repo">
 		<attribute name="bucket"/>
 		<attribute name="artifact.type"/>
 		<attribute name="release.type"/>
@@ -32,7 +32,7 @@
 		</url>
 	</macrodef>	
 
-	<macrodef name="eclipse-build-repo">
+	<macrodef name="eclipse-build">
 		<attribute name="artifact.type"/>
 		<attribute name="release.type"/>
 		<sftp descriptor="required" user="${eclipse.buildId}" keyFile="${key.file}" host="build.eclipse.org">
@@ -41,7 +41,7 @@
 		</sftp>
 	</macrodef>
 
-	<macrodef name="eclipse-build-repo-read">
+	<macrodef name="eclipse-build-read">
 		<attribute name="artifact.type"/>
 		<attribute name="release.type"/>
 		<url name="eclipse.build.read.resolver">
@@ -70,48 +70,54 @@
 			<artifact pattern="http://repo1.maven.org/maven2/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
 		</url>
 
+		<url name="eclipse-external-lookup">
+			<ivy pattern="http://build.eclipse.org/rt/virgo/external/[module]/ivy-[revision].xml"/>
+			<artifact pattern="http://build.eclipse.org/rt/virgo/external/[module]/[artifact]-[revision].[ext]"/>
+		</url>
+
 		<chain name="external-lookup" returnFirst="true">
 			<localrepo name="local-external-repository"/>
-			<s3repo-read name="bundle-external-repository"			bucket="repository.springsource.com" artifact.type="bundles" release.type="external"/>
-			<s3repo-read name="library-external-repository"			bucket="repository.springsource.com" artifact.type="libraries" release.type="external"/>
-			<s3repo-read name="private-bundle-external-repository"	bucket="private.repository.springsource.com" artifact.type="bundles" release.type="external"/>
-			<s3repo-read name="private-library-external-repository"	bucket="private.repository.springsource.com" artifact.type="libraries" release.type="external"/>
+			<s3repo name="bundle-external-repository"			bucket="repository.springsource.com" artifact.type="bundles" release.type="external"/>
+			<s3repo name="library-external-repository"			bucket="repository.springsource.com" artifact.type="libraries" release.type="external"/>
+			<s3repo name="private-bundle-external-repository"	bucket="private.repository.springsource.com" artifact.type="bundles" release.type="external"/>
+			<s3repo name="private-library-external-repository"	bucket="private.repository.springsource.com" artifact.type="libraries" release.type="external"/>
 		</chain>
 
-		<chain name="spring-portfolio-lookup" returnFirst="true">
+		<chain name="third-party-lookup" returnFirst="true">
 			<resolver ref="integration"/>
 			<localrepo name="local"/>
-			<s3repo-read name="bundle-release-repository"	    bucket="repository.springsource.com" artifact.type="bundles" release.type="release"/>
-			<s3repo-read name="bundle-milestone-repository"	    bucket="repository.springsource.com" artifact.type="bundles" release.type="milestone"/>
-			<s3repo-read name="bundle-snapshot-repository"	    bucket="repository.springsource.com" artifact.type="bundles" release.type="snapshot"/>
-			<s3repo-read name="library-release-repository"	    bucket="repository.springsource.com" artifact.type="libraries" release.type="release"/>
-			<s3repo-read name="library-milestone-repository"	bucket="repository.springsource.com" artifact.type="libraries" release.type="milestone"/>
-			<s3repo-read name="library-snapshot-repository"	    bucket="repository.springsource.com" artifact.type="libraries" release.type="snapshot"/>
+			<s3repo name="bundle-release-repository"		bucket="repository.springsource.com" artifact.type="bundles" release.type="release"/>
+			<s3repo name="bundle-milestone-repository"		bucket="repository.springsource.com" artifact.type="bundles" release.type="milestone"/>
+			<s3repo name="bundle-snapshot-repository"		bucket="repository.springsource.com" artifact.type="bundles" release.type="snapshot"/>
+			<s3repo name="library-release-repository"		bucket="repository.springsource.com" artifact.type="libraries" release.type="release"/>
+			<s3repo name="library-milestone-repository"		bucket="repository.springsource.com" artifact.type="libraries" release.type="milestone"/>
+			<s3repo name="library-snapshot-repository"		bucket="repository.springsource.com" artifact.type="libraries" release.type="snapshot"/>
 		</chain>
 
 		<chain name="eclipse-lookup" returnFirst="true">
 			<resolver ref="integration"/>
 			<localrepo name="local"/>
-			<eclipse-build-repo-read name="eclipse-bundle-release-repository"	    artifact.type="bundles" release.type="release"/>
-			<eclipse-build-repo-read name="eclipse-bundle-milestone-repository"	    artifact.type="bundles" release.type="milestone"/>
-			<eclipse-build-repo-read name="eclipse-bundle-snapshot-repository"	    artifact.type="bundles" release.type="snapshot"/>
-			<eclipse-build-repo-read name="eclipse-library-release-repository"	    artifact.type="libraries" release.type="release"/>
-			<eclipse-build-repo-read name="eclipse-library-milestone-repository"	artifact.type="libraries" release.type="milestone"/>
-			<eclipse-build-repo-read name="eclipse-library-snapshot-repository"	    artifact.type="libraries" release.type="snapshot"/>
+			<eclipse-build-read name="eclipse-bundle-release-repository"	    artifact.type="bundles" release.type="release"/>
+			<eclipse-build-read name="eclipse-bundle-milestone-repository"	    artifact.type="bundles" release.type="milestone"/>
+			<eclipse-build-read name="eclipse-bundle-snapshot-repository"	    artifact.type="bundles" release.type="snapshot"/>
+			<eclipse-build-read name="eclipse-library-release-repository"	    artifact.type="libraries" release.type="release"/>
+			<eclipse-build-read name="eclipse-library-milestone-repository"		artifact.type="libraries" release.type="milestone"/>
+			<eclipse-build-read name="eclipse-library-snapshot-repository"	    artifact.type="libraries" release.type="snapshot"/>
 		</chain>
 
 <!-- Publishing repositories -->
-		<eclipse-build-repo name="eclipse-remote-bundle-publish"	artifact.type="bundles"		release.type="${adjusted.release.type}"/>
-		<eclipse-build-repo name="eclipse-remote-library-publish"	artifact.type="libraries"	release.type="${adjusted.release.type}"/>
+		<eclipse-build name="eclipse-remote-bundle-publish"		artifact.type="bundles"		release.type="${adjusted.release.type}"/>
+		<eclipse-build name="eclipse-remote-library-publish"	artifact.type="libraries"	release.type="${adjusted.release.type}"/>
 		<localrepo name="eclipse-local-bundle-publish"/>
 		<localrepo name="eclipse-local-library-publish"/>
 	</resolvers>
 
 	<modules>
-		<module organisation="org.springframework.*"	name="*"		resolver="spring-portfolio-lookup"/>
-		<module organisation="com.springsource.*"		name="*"		resolver="spring-portfolio-lookup"/>
+		<module organisation="org.springframework.*"	name="*"		resolver="third-party-lookup"/>
+		<module organisation="com.springsource.*"		name="*"		resolver="third-party-lookup"/>
 		<module organisation="org.eclipse.virgo.*"		name="*"		resolver="eclipse-lookup"/>
 		<module organisation="org.eclipse.gemini.*"		name="*"		resolver="eclipse-lookup"/>
+		<module organisation="org.eclipse"				name="*"		resolver="eclipse-external-lookup"/>
 		<module organisation="org.apache.maven.*"		name="maven-.*"	resolver="maven-lookup"/>
 	</modules>
 
