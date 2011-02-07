@@ -74,6 +74,11 @@
 			<ivy pattern="http://build.eclipse.org/rt/virgo/external/[module]/ivy-[revision].xml"/>
 			<artifact pattern="http://build.eclipse.org/rt/virgo/external/[module]/[artifact]-[revision].[ext]"/>
 		</url>
+		
+		<url name="eclipse-external-read">
+			<ivy pattern="http://build.eclipse.org/rt/virgo/external/[module]/[revision]/ivy-[revision].xml"/>
+			<artifact pattern="http://build.eclipse.org/rt/virgo/external/[module]/[revision]/[artifact]_[revision].[ext]"/>
+		</url>
 
 		<chain name="external-lookup" returnFirst="true">
 			<localrepo name="local-external-repository"/>
@@ -118,6 +123,7 @@
 		<module organisation="org.eclipse.virgo.*"		name="*"		resolver="eclipse-lookup"/>
 		<module organisation="org.eclipse.gemini.*"		name="*"		resolver="eclipse-lookup"/>
 		<module organisation="org.eclipse"				name="*"		resolver="eclipse-external-lookup"/>
+		<module organisation="org.eclipse"				name="*"		resolver="eclipse-external-read"/>
 		<module organisation="org.apache.maven.*"		name="maven-.*"	resolver="maven-lookup"/>
 	</modules>
 
