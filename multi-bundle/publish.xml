@@ -17,15 +17,12 @@
     <import file="common.xml"/>
 
 <!-- Main targets -->
-    <target name="publish" description="Publishes all artifacts to remote repositories">
-        <all-bundles target="publish"/>
-    </target>
 
-    <target name="publish-ivy" description="Publishes all ivy artifacts to remote repositories">
+    <target name="publish-ivy" description="Publishes all ivy artifacts to remote Eclipse Ivy repositories">
         <all-bundles target="publish-ivy"/>
     </target>
 
-    <target name="publish-maven" description="Publishes all maven artifacts to remote repositories">
+    <target name="publish-maven" description="Publishes all maven artifacts to remote Eclipse Maven repositories">
         <all-bundles target="publish-maven"/>
     </target>
 
