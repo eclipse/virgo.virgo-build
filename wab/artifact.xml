@@ -43,7 +43,10 @@
 				<attribute name="Implementation-Version" value="${implementation.version}"/>
 			</manifest>
 		</jar>
-		<jar destfile="${source-jar.output.file}" basedir="${main.java.dir}" index="true"/>
+		<jar destfile="${source-jar.output.file}" index="true" filesetmanifest="merge">
+			<fileset dir="${main.webapp.dir}"/>
+			<fileset dir="${main.java.dir}"/>
+		</jar>
 		<ivy:publish resolver="integration" pubdate="${timestamp}" status="${release.type}">
 			<artifacts pattern="${ivy.output.dir}/[artifact].[ext]"/>
 			<artifacts pattern="${wab.output.dir}/[artifact].[ext]"/>
