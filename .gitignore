@@ -1,2 +1,6 @@
 lib/findbugs
 lib/docbook
+ivy-cache
+build-virgo-build/target/*
+integration-repo
+org.eclipse.virgo.build.p2tools/target/*

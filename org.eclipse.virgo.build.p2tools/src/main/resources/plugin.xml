@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.5"?>
+<plugin
+   id="org.eclipse.virgo.build.p2tools"
+   version="1.0.0"
+>
+	<extension id="org.eclipse.virgo.build.p2tools.binaries.BinaryPublisherApplication" point="org.eclipse.core.runtime.applications">
+		<application cardinality="1" thread="any" visible="true">
+			<run class="org.eclipse.virgo.build.p2tools.binaries.BinaryPublisherApplication" />
+		</application>
+	</extension>
+
+</plugin>

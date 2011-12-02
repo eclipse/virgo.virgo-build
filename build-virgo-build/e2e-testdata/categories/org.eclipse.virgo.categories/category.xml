@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/testFeatureA_1.0.0.jar" id="testFeatureA" version="1.0.0">
+      <category name="test.category"/>
+   </feature>
+   <feature url="features/testFeatureB_1.0.0.jar" id="testFeatureB" version="1.0.0">
+      <category name="test.category"/>
+   </feature>
+   <category-def name="test.category" label="Test Category">
+      <description>
+         This is a test category.
+      </description>
+   </category-def>
+</site>

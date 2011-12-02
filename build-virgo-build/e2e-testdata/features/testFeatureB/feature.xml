@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="testFeatureB"
+      version="1.0.0">
+
+   <description url="http://www.eclipse.org/virgo/">
+   </description>
+
+   <copyright url="http://www.eclipse.org/virgo/">
+   </copyright>
+
+   <plugin
+         id="testBundleC"
+         download-size="0"
+         install-size="0"
+         version="1.0.0"
+         unpack="false"/>
+    
+    <plugin
+         id="root.zip"
+         download-size="0"
+         install-size="0"
+         version="1.0.0"/>
+         
+    <plugin
+         id="properties.zip"
+         download-size="0"
+         install-size="0"
+         version="1.0.0"/>
+
+</feature>

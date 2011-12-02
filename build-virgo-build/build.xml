@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="build-virgo-build" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<path id="unit.test.bundles">
+		<pathelement location="../org.eclipse.virgo.build.p2tools"/>
+    </path>
+
+	<path id="bundles">
+		<path refid="unit.test.bundles" />
+	</path>
+
+	<property file="${basedir}/../build.properties"/>
+	<property file="${basedir}/../build.versions"/>
+	<import file="${basedir}/../multi-bundle/default.xml"/>
+    
+	<target name="package" depends="ivy.init">
+		<delete dir="${package.output.dir}" quiet="true"/>
+		<mkdir dir="${package.output.dir}"/>
+        <mkdir dir="${package.output.dir}/plugins"/>
+		<property name="p2.tools.plugins.location" value="${package.output.dir}/plugins"/>
+
+		<!-- Prepare the minimal p2 publishing client -->
+		<ivy:resolve resolveId="copy.path" file="${basedir}/p2runtime-ivy.xml" transitive="true"/>
+		<ivy:retrieve resolveId="copy.path" pattern="${p2.tools.plugins.location}/[artifact]_[revision].[ext]" conf="p2-runtime" type="jar"/>
+		
+		<ivy:resolve resolveId="copy.path" file="${basedir}/p2build-ivy.xml" transitive="true"/>
+		<ivy:retrieve resolveId="copy.path" pattern="${p2.tools.plugins.location}/[artifact]_[revision].[ext]" conf="p2-build" type="jar"/>
+		
+		<copy todir="${package.output.dir}/configuration" failonerror="false">
+			<fileset dir="${basedir}/p2tools_ini" excludes="keystore"/>
+			<filterset>
+				<filter token="SIMPLE.CONFIG.VERSION" value="${org.eclipse.equinox.simpleconfigurator}"/>
+                <filter token="ECLIPSE.OSGI.VERSION" value="${org.eclipse.osgi}"/>
+			</filterset>
+		</copy>
+		<echo message="Building bundles.info for the minimal p2 client"/>
+		<java jar="${p2.tools.plugins.location}/org.eclipse.virgo.build.p2tools_${bundle.version}.jar" fork="true" taskname="BundlesInfoBuilder" failonerror="true" maxmemory="256m">
+			<arg value="${package.output.dir}"/>
+		</java>
+		
+        <!-- Zip the minimal p2 client as artifact produced by this build -->
+        <mkdir dir="${artifacts.dir}"/>
+        <zip destfile="${package.output.file}">
+			<zipfileset dir="${package.output.dir}"/>
+		</zip>
+        
+     </target>
+     
+     <target name="test-e2e-test" depends="package">       
+     
+        <property name="repository.dir" value="${target.dir}/test-results/repository"/>
+        <property name="destination.dir" value="${target.dir}/test-results/install"/>
+        
+        <echo message="[Test]Publish of empty binary directory."/>
+        <antcall target="p2.publish-binary">
+            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="repository" value="${repository.dir}"/>
+            <param name="source" value="${basedir}/e2e-testdata/binary.source/empty"/>
+        </antcall>
+        
+        <antcall target="check-repository-exists">
+            <param name="repository" value="${repository.dir}"/>
+        </antcall>
+        
+        <echo message="[Test]Publish of scripts binary directory with permissions." />
+        <antcall target="p2.publish-binary-chmod">
+            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="repository" value="${repository.dir}"/>
+            <param name="source" value="${basedir}/e2e-testdata/binary.source/scripts"/>
+            <param name="chmod.args" value="testScript.sh@/bin#755"/>
+        </antcall>
+        
+        <antcall target="check-repository-exists">
+            <param name="repository" value="${repository.dir}"/>
+        </antcall>
+        
+        <echo message="[Test]Publish of properties binary directory with permissions." />
+        <antcall target="p2.publish-binary-chmod">
+            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="repository" value="${repository.dir}"/>
+            <param name="source" value="${basedir}/e2e-testdata/binary.source/properties"/>
+            <param name="chmod.args" value="testProperties.properties@/config#600"/>
+        </antcall>
+        
+        <antcall target="check-repository-exists">
+            <param name="repository" value="${repository.dir}"/>
+        </antcall>
+        
+        <echo message="[Test]Publish of root properties binary with permissions." />
+        <antcall target="p2.publish-binary-chmod">
+            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="repository" value="${repository.dir}"/>
+            <param name="source" value="${basedir}/e2e-testdata/binary.source/root"/>
+            <param name="chmod.args" value="rootProperties.properties@/#600"/>
+        </antcall>
+        
+        <antcall target="check-repository-exists">
+            <param name="repository" value="${repository.dir}"/>
+        </antcall>
+        
+        <echo message="[Test]Publish bundles and features to the repository." />
+        <antcall target="p2.publish-bundles-features">
+            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="repository" value="${repository.dir}"/>
+            <param name="source" value="${basedir}/e2e-testdata"/>
+        </antcall>
+        
+        <antcall target="check-repository-exists">
+            <param name="repository" value="${repository.dir}"/>
+        </antcall>
+        
+        <echo message="[Test]Publish base.product to the repository." />
+        <antcall target="p2.publish-product">
+            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="repository" value="${repository.dir}"/>
+            <param name="product.file.location" value="${basedir}/e2e-testdata/products/base/base.product"/>
+        </antcall>
+        
+        <antcall target="check-repository-exists">
+            <param name="repository" value="${repository.dir}"/>
+        </antcall>
+        
+        <echo message="[Test]Publish extension.product to the repository." />
+        <antcall target="p2.publish-product">
+            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="repository" value="${repository.dir}"/>
+            <param name="product.file.location" value="${basedir}/e2e-testdata/products/extension/extension.product"/>
+        </antcall>
+        
+        <antcall target="check-repository-exists">
+            <param name="repository" value="${repository.dir}"/>
+        </antcall>
+        
+        <echo message="[Test]Categorize the features in the repository." />
+        <antcall target="p2.publish-category">
+            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="repository" value="${repository.dir}"/>
+            <param name="category.file.location" value="${basedir}/e2e-testdata/categories/org.eclipse.virgo.categories/category.xml"/>
+        </antcall>
+        
+        <antcall target="check-repository-exists">
+            <param name="repository" value="${repository.dir}"/>
+        </antcall>
+        
+        <echo message="[Test]Install the extension propduct." />
+        <antcall target="p2.install-virgo-product">
+            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="repository" value="${repository.dir}"/>
+            <param name="destination" value="${destination.dir}"/>
+            <param name="product.iu" value="extension.product"/>
+        </antcall>
+        
+        <!-- validation! -->
+        <echo message="Checking if the installtion is good..."/>
+        <antcall target="check-installation-for-expected-artifacts">
+            <param name="repository" value="${repository.dir}"/>
+            <param name="file.to.check" value="${destination.dir}/rootProperties.properties"/>
+        </antcall>
+        <antcall target="check-installation-for-expected-artifacts">
+            <param name="repository" value="${repository.dir}"/>
+            <param name="file.to.check" value="${destination.dir}/bin/testScript.sh"/>
+        </antcall>
+        <antcall target="check-installation-for-expected-artifacts">
+            <param name="repository" value="${repository.dir}"/>
+            <param name="file.to.check" value="${destination.dir}/config/testProperties.properties"/>
+        </antcall>
+        <antcall target="check-installation-for-expected-artifacts">
+            <param name="repository" value="${repository.dir}"/>
+            <param name="file.to.check" value="${destination.dir}/plugins/testBundleC_1.0.0.jar"/>
+        </antcall>
+        <antcall target="check-installation-for-expected-artifacts">
+            <param name="repository" value="${repository.dir}"/>
+            <param name="file.to.check" value="${destination.dir}/p2/org.eclipse.equinox.p2.engine/profileRegistry/VIRGOProfile.profile"/>
+        </antcall>
+        <antcall target="check-installation-for-unexpected-artifacts">
+            <param name="repository" value="${repository.dir}"/>
+            <param name="file.to.check" value="${destination.dir}/features"/>
+        </antcall>
+        <echo message="[OK]Installation is good."/>
+
+        <echo message="[Test]Uninstall the root properties binary." />
+        <antcall target="p2.uninstall-iu">
+            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="repository" value="${repository.dir}"/>
+            <param name="destination" value="${destination.dir}"/>
+            <param name="iu" value="root.zip"/>
+        </antcall>
+        
+        <!-- if the uninstall isn't working correctly this install will fail with "IU already installed error" -->
+        <echo message="[Test]Install the root properties binary without getting already installed." />
+        <antcall target="p2.install-iu">
+            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="repository" value="${repository.dir}"/>
+            <param name="destination" value="${destination.dir}"/>
+            <param name="iu" value="root.zip"/>
+        </antcall>
+        
+     </target>
+     
+     <target name="check-repository-exists">
+        <condition property="areContentEqual" value="true">
+            <resourceexists>
+                <file file="${repository}/content.jar"/>
+            </resourceexists>
+        </condition>
+        <condition property="areArtifactsEqual" value="true">
+            <resourceexists>
+                <file file="${repository}/artifacts.jar"/>
+            </resourceexists>
+        </condition>
+        <fail message="[FAILURE] Missing metadata repository at ${repository}!" unless="areContentEqual"/>
+        <fail message="[FAILURE] Missing artifact repository at ${repository}!" unless="areArtifactsEqual"/>
+        <echo message="[OK]Generated repository exists at ${repository}."/>
+     </target>
+     
+     <target name="check-installation-for-expected-artifacts">
+        <condition property="isExisting" value="true">
+            <resourceexists>
+                <file file="${file.to.check}"/>
+            </resourceexists>
+        </condition>
+        <fail message="[FAILURE] Missing file at ${file.to.check}. The repository at ${repository} might be incorrect!" unless="isExisting"/>
+     </target>
+     <target name="check-installation-for-unexpected-artifacts">
+        <condition property="isExisting" value="true">
+            <resourceexists>
+                <file file="${file.to.check}"/>
+            </resourceexists>
+        </condition>
+        <fail message="[FAILURE] Unexpected file at ${file.to.check}. The repository at ${repository} might be incorrect!" if="isExisting"/>
+     </target>
+     
+     
+     <target name="test-e2e" depends="package">       
+     
+     <echo message="Testing install of scripts binary directory." />
+        <antcall target="p2.install-iu">
+            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="repository" value="${target.dir}/test-results/2"/>
+            <param name="iu" value="scripts"/>
+            <param name="destination" value="${target.dir}/test-results/2/install"/>
+        </antcall>
+        
+        
+        
+        <property name="p2.products.location" value="${basedir}/publish_resources/products"/>
+        <property name="p2.categories.location" value="${basedir}/publish_resources/categories"/>
+        <property name="publishing.dir" value="${basedir}/target/repository"/>
+        <property name="launcher.jar" value="${p2.tools.plugins.location}/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar"/>
+		
+        <echo message="Publishing Virgo Nano common resources in p2 repository" />
+        <java jar="${launcher.jar}" fork="true" taskname="p2Binaries" failonerror="true" maxmemory="256m">
+            <!--jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
+            <arg line="-application org.eclipse.virgo.nano.p2.build.BinaryPublisherApplication"/>
+            <arg line="-metadataRepository file:${publishing.dir}"/>
+            <arg line="-artifactRepository file:${publishing.dir}"/>
+            <arg line="-source ${common.resources.location}"/>
+            <arg line="-publishArtifacts"/>
+            <arg line="-append"/>
+            <arg line="-chmod org.eclipse.virgo.kernel.jmxremote.access.properties@config#600"/>
+        </java>
+        
+		<!-- execute repository publisher -->
+		<echo message="Publishing Virgo Nano features and bundles in p2 repository" />
+        <java jar="${launcher.jar}" fork="true" taskname="p2BundlesAndFeatures" failonerror="true" maxmemory="256m">
+            <!--jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
+            <arg line="-application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher"/>
+            <arg line="-metadataRepository file:${publishing.dir}"/>
+            <arg line="-artifactRepository file:${publishing.dir}"/>
+            <arg line="-source ${target.dir}/assembly"/>
+            <arg line="-publishArtifacts"/>
+        </java>
+        
+        <echo message="Publishing Virgo Nano common resources in p2 repository" />
+        <java jar="${launcher.jar}" fork="true" taskname="p2Binaries" failonerror="true" maxmemory="256m">
+            <!--jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
+            <arg line="-application org.eclipse.virgo.nano.p2.build.BinaryPublisherApplication"/>
+            <arg line="-metadataRepository file:${publishing.dir}"/>
+            <arg line="-artifactRepository file:${publishing.dir}"/>
+            <arg line="-source ${common.resources.location}"/>
+            <arg line="-publishArtifacts"/>
+            <arg line="-append"/>
+            <arg line="-chmod org.eclipse.virgo.kernel.jmxremote.access.properties@config#600"/>
+        </java>
+        
+        <echo message="Publishing Virgo Nano scripts in p2 repository" />
+        <java jar="${launcher.jar}" fork="true" taskname="p2Binaries" failonerror="true" maxmemory="256m">
+            <!--jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
+            <arg line="-application org.eclipse.virgo.nano.p2.build.BinaryPublisherApplication"/>
+            <arg line="-metadataRepository file:${publishing.dir}"/>
+            <arg line="-artifactRepository file:${publishing.dir}"/>
+            <arg line="-source ${scripts.location}"/>
+            <arg line="-publishArtifacts"/>
+            <arg line="-append"/>
+            <arg line="-chmod startup.sh@bin#755,dmk.sh@bin#755,checkJava.sh@bin#755,jconsole.sh@bin#755,setupClasspath.sh@bin#755,shutdown.sh@bin#755"/>
+        </java>
+        
+        <echo message="Publishing Virgo Nano product in p2 repository" />
+		<java jar="${launcher.jar}" fork="true" taskname="p2Product" failonerror="true" maxmemory="256m">
+            <!--jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
+            <arg line="-application org.eclipse.equinox.p2.publisher.ProductPublisher"/>
+			<arg line="-metadataRepository file:${target.dir}/repository"/>
+			<arg line="-artifactRepository file:${target.dir}/repository"/>
+			<arg line="-productFile ${p2.products.location}/nano/nano.product"/>
+            <arg line="-configs ANY"/>
+            <arg line="-publishArtifacts"/>
+            <arg line="-append"/>
+            <arg line="-flavor tooling"/>
+		</java>
+        
+        <echo message="Publishing Virgo Nano Web product in p2 repository" />
+		<java jar="${launcher.jar}" fork="true" taskname="p2Product" failonerror="true" maxmemory="256m">
+            <!--jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
+            <arg line="-application org.eclipse.equinox.p2.publisher.ProductPublisher"/>
+			<arg line="-metadataRepository file:${target.dir}/repository"/>
+			<arg line="-artifactRepository file:${target.dir}/repository"/>
+			<arg line="-productFile ${p2.products.location}/nanoweb/nanoweb.product"/>
+            <arg line="-configs ANY"/>
+            <arg line="-publishArtifacts"/>
+            <arg line="-append"/>
+            <arg line="-flavor tooling"/>
+		</java>
+        
+        <echo message="Publishing Virgo Nano With Web p2 product in p2 repository" />
+		<java jar="${launcher.jar}" fork="true" taskname="p2Product" failonerror="true" maxmemory="256m">
+            <!--jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
+            <arg line="-application org.eclipse.equinox.p2.publisher.ProductPublisher"/>
+			<arg line="-metadataRepository file:${target.dir}/repository"/>
+			<arg line="-artifactRepository file:${target.dir}/repository"/>
+			<arg line="-productFile ${p2.products.location}/nanoweb-with-p2/nanoweb-with-p2.product"/>
+            <arg line="-configs ANY"/>
+            <arg line="-publishArtifacts"/>
+            <arg line="-append"/>
+            <arg line="-flavor tooling"/>
+		</java>
+        
+        <echo message="Publishing Virgo Add-Ons feature category in the p2 repository" />
+		<java jar="${launcher.jar}" fork="true" taskname="p2Category" failonerror="true" maxmemory="256m">
+            <!--jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
+            <arg line="-application org.eclipse.equinox.p2.publisher.CategoryPublisher"/>
+			<arg line="-metadataRepository file:${target.dir}/repository"/>
+			<arg line="-categoryDefinition file:${p2.categories.location}/org.eclipse.virgo.categories/category.xml"/>
+		</java>
+        
+        <echo message="Installing the largest Nano flavor for distribution purposes" />
+		<java jar="${launcher.jar}" fork="true" taskname="p2Director" failonerror="true" maxmemory="256m">
+            <!--jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
+            <arg line="-application org.eclipse.equinox.p2.director"/>
+			<arg line="-repository file:${target.dir}/repository"/>
+			<arg line="-installIU nanoweb-with-p2.product"/>
+            <arg line="-tag InitialState"/>
+            <arg line="-destination ${package.output.dir}"/>
+            <arg line="-profile VIRGOProfile"/>
+            <arg line="-roaming"/>
+		</java>
+        
+        <zip destfile="${package.output.file}">
+			<zipfileset dir="${package.dir}" includes="${package.basename}/bin/*.sh" filemode="755"/>
+			<zipfileset dir="${package.dir}" includes="${package.basename}/config/org.eclipse.virgo.kernel.jmxremote.access.properties" filemode="600"/>
+			<zipfileset dir="${package.dir}">
+				<exclude name="${package.basename}/bin/*.sh"/>
+				<exclude name="${package.basename}/config/org.eclipse.virgo.kernel.jmxremote.access.properties"/>
+			</zipfileset>
+		</zip>
+        
+        <delete dir="${target.dir}/assembly" quiet="true"/>
+        <delete dir="${common.resources.location}" quiet="true"/>
+        <delete dir="${scripts.location}" quiet="true"/>
+		
+     </target>
+
+</project>

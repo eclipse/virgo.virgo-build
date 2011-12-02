@@ -18,5 +18,6 @@
 	<import file="quality.xml"/>
 	<import file="package.xml"/>
 	<import file="publish.xml"/>
+    <import file="p2tools.xml"/>
 
 </project>
