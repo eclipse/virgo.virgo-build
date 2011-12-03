@@ -46,7 +46,7 @@
         
      </target>
      
-     <target name="test-e2e-test" depends="package">       
+     <target name="test-e2e" depends="package">       
      
         <property name="repository.dir" value="${target.dir}/test-results/repository"/>
         <property name="destination.dir" value="${target.dir}/test-results/install"/>
@@ -60,6 +60,9 @@
         
         <antcall target="check-repository-exists">
             <param name="repository" value="${repository.dir}"/>
+        </antcall>        
+        <antcall target="check-file-not-exists">
+            <param name="file" value="${repository.dir}/binary"/>
         </antcall>
         
         <echo message="[Test]Publish of scripts binary directory with permissions." />
@@ -73,6 +76,9 @@
         <antcall target="check-repository-exists">
             <param name="repository" value="${repository.dir}"/>
         </antcall>
+        <antcall target="check-file-exists">
+            <param name="file" value="${repository.dir}/binary/scripts_1.0.0"/>
+        </antcall>
         
         <echo message="[Test]Publish of properties binary directory with permissions." />
         <antcall target="p2.publish-binary-chmod">
@@ -85,6 +91,9 @@
         <antcall target="check-repository-exists">
             <param name="repository" value="${repository.dir}"/>
         </antcall>
+        <antcall target="check-file-exists">
+            <param name="file" value="${repository.dir}/binary/properties.zip_1.0.0"/>
+        </antcall>
         
         <echo message="[Test]Publish of root properties binary with permissions." />
         <antcall target="p2.publish-binary-chmod">
@@ -96,6 +105,9 @@
         
         <antcall target="check-repository-exists">
             <param name="repository" value="${repository.dir}"/>
+        </antcall>
+        <antcall target="check-file-exists">
+            <param name="file" value="${repository.dir}/binary/root.zip_1.0.0"/>
         </antcall>
         
         <echo message="[Test]Publish bundles and features to the repository." />
@@ -198,19 +210,39 @@
      </target>
      
      <target name="check-repository-exists">
-        <condition property="areContentEqual" value="true">
+        <condition property="isContentThere" value="true">
             <resourceexists>
                 <file file="${repository}/content.jar"/>
             </resourceexists>
         </condition>
-        <condition property="areArtifactsEqual" value="true">
+        <condition property="areArtifactsThere" value="true">
             <resourceexists>
                 <file file="${repository}/artifacts.jar"/>
             </resourceexists>
         </condition>
-        <fail message="[FAILURE] Missing metadata repository at ${repository}!" unless="areContentEqual"/>
-        <fail message="[FAILURE] Missing artifact repository at ${repository}!" unless="areArtifactsEqual"/>
+        <fail message="[FAILURE] Missing metadata repository at ${repository}!" unless="isContentThere"/>
+        <fail message="[FAILURE] Missing artifact repository at ${repository}!" unless="areArtifactsThere"/>
         <echo message="[OK]Generated repository exists at ${repository}."/>
+     </target>
+     
+     <target name="check-file-exists">
+        <condition property="doesFileExist" value="true">
+            <resourceexists>
+                <file file="${file}"/>
+            </resourceexists>
+        </condition>
+        <fail message="[FAILURE] Missing file at ${file}!" unless="doesFileExist"/>
+        <echo message="[OK]File exists at ${file}."/>
+     </target>
+     
+     <target name="check-file-not-exists">
+        <condition property="doesFileExist" value="true">
+            <resourceexists>
+                <file file="${file}"/>
+            </resourceexists>
+        </condition>
+        <fail message="[FAILURE] Unexpected file at ${file}!" if="doesFileExist"/>
+        <echo message="[OK]File is not existing at ${file}."/>
      </target>
      
      <target name="check-installation-for-expected-artifacts">
@@ -228,154 +260,6 @@
             </resourceexists>
         </condition>
         <fail message="[FAILURE] Unexpected file at ${file.to.check}. The repository at ${repository} might be incorrect!" if="isExisting"/>
-     </target>
-     
-     
-     <target name="test-e2e" depends="package">       
-     
-     <echo message="Testing install of scripts binary directory." />
-        <antcall target="p2.install-iu">
-            <param name="p2tools.root.dir" value="${package.output.dir}"/>
-            <param name="repository" value="${target.dir}/test-results/2"/>
-            <param name="iu" value="scripts"/>
-            <param name="destination" value="${target.dir}/test-results/2/install"/>
-        </antcall>
-        
-        
-        
-        <property name="p2.products.location" value="${basedir}/publish_resources/products"/>
-        <property name="p2.categories.location" value="${basedir}/publish_resources/categories"/>
-        <property name="publishing.dir" value="${basedir}/target/repository"/>
-        <property name="launcher.jar" value="${p2.tools.plugins.location}/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar"/>
-		
-        <echo message="Publishing Virgo Nano common resources in p2 repository" />
-        <java jar="${launcher.jar}" fork="true" taskname="p2Binaries" failonerror="true" maxmemory="256m">
-            <!--jvmarg value="-Xdebug"/>
-            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
-            <arg line="-application org.eclipse.virgo.nano.p2.build.BinaryPublisherApplication"/>
-            <arg line="-metadataRepository file:${publishing.dir}"/>
-            <arg line="-artifactRepository file:${publishing.dir}"/>
-            <arg line="-source ${common.resources.location}"/>
-            <arg line="-publishArtifacts"/>
-            <arg line="-append"/>
-            <arg line="-chmod org.eclipse.virgo.kernel.jmxremote.access.properties@config#600"/>
-        </java>
-        
-		<!-- execute repository publisher -->
-		<echo message="Publishing Virgo Nano features and bundles in p2 repository" />
-        <java jar="${launcher.jar}" fork="true" taskname="p2BundlesAndFeatures" failonerror="true" maxmemory="256m">
-            <!--jvmarg value="-Xdebug"/>
-            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
-            <arg line="-application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher"/>
-            <arg line="-metadataRepository file:${publishing.dir}"/>
-            <arg line="-artifactRepository file:${publishing.dir}"/>
-            <arg line="-source ${target.dir}/assembly"/>
-            <arg line="-publishArtifacts"/>
-        </java>
-        
-        <echo message="Publishing Virgo Nano common resources in p2 repository" />
-        <java jar="${launcher.jar}" fork="true" taskname="p2Binaries" failonerror="true" maxmemory="256m">
-            <!--jvmarg value="-Xdebug"/>
-            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
-            <arg line="-application org.eclipse.virgo.nano.p2.build.BinaryPublisherApplication"/>
-            <arg line="-metadataRepository file:${publishing.dir}"/>
-            <arg line="-artifactRepository file:${publishing.dir}"/>
-            <arg line="-source ${common.resources.location}"/>
-            <arg line="-publishArtifacts"/>
-            <arg line="-append"/>
-            <arg line="-chmod org.eclipse.virgo.kernel.jmxremote.access.properties@config#600"/>
-        </java>
-        
-        <echo message="Publishing Virgo Nano scripts in p2 repository" />
-        <java jar="${launcher.jar}" fork="true" taskname="p2Binaries" failonerror="true" maxmemory="256m">
-            <!--jvmarg value="-Xdebug"/>
-            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
-            <arg line="-application org.eclipse.virgo.nano.p2.build.BinaryPublisherApplication"/>
-            <arg line="-metadataRepository file:${publishing.dir}"/>
-            <arg line="-artifactRepository file:${publishing.dir}"/>
-            <arg line="-source ${scripts.location}"/>
-            <arg line="-publishArtifacts"/>
-            <arg line="-append"/>
-            <arg line="-chmod startup.sh@bin#755,dmk.sh@bin#755,checkJava.sh@bin#755,jconsole.sh@bin#755,setupClasspath.sh@bin#755,shutdown.sh@bin#755"/>
-        </java>
-        
-        <echo message="Publishing Virgo Nano product in p2 repository" />
-		<java jar="${launcher.jar}" fork="true" taskname="p2Product" failonerror="true" maxmemory="256m">
-            <!--jvmarg value="-Xdebug"/>
-            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
-            <arg line="-application org.eclipse.equinox.p2.publisher.ProductPublisher"/>
-			<arg line="-metadataRepository file:${target.dir}/repository"/>
-			<arg line="-artifactRepository file:${target.dir}/repository"/>
-			<arg line="-productFile ${p2.products.location}/nano/nano.product"/>
-            <arg line="-configs ANY"/>
-            <arg line="-publishArtifacts"/>
-            <arg line="-append"/>
-            <arg line="-flavor tooling"/>
-		</java>
-        
-        <echo message="Publishing Virgo Nano Web product in p2 repository" />
-		<java jar="${launcher.jar}" fork="true" taskname="p2Product" failonerror="true" maxmemory="256m">
-            <!--jvmarg value="-Xdebug"/>
-            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
-            <arg line="-application org.eclipse.equinox.p2.publisher.ProductPublisher"/>
-			<arg line="-metadataRepository file:${target.dir}/repository"/>
-			<arg line="-artifactRepository file:${target.dir}/repository"/>
-			<arg line="-productFile ${p2.products.location}/nanoweb/nanoweb.product"/>
-            <arg line="-configs ANY"/>
-            <arg line="-publishArtifacts"/>
-            <arg line="-append"/>
-            <arg line="-flavor tooling"/>
-		</java>
-        
-        <echo message="Publishing Virgo Nano With Web p2 product in p2 repository" />
-		<java jar="${launcher.jar}" fork="true" taskname="p2Product" failonerror="true" maxmemory="256m">
-            <!--jvmarg value="-Xdebug"/>
-            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
-            <arg line="-application org.eclipse.equinox.p2.publisher.ProductPublisher"/>
-			<arg line="-metadataRepository file:${target.dir}/repository"/>
-			<arg line="-artifactRepository file:${target.dir}/repository"/>
-			<arg line="-productFile ${p2.products.location}/nanoweb-with-p2/nanoweb-with-p2.product"/>
-            <arg line="-configs ANY"/>
-            <arg line="-publishArtifacts"/>
-            <arg line="-append"/>
-            <arg line="-flavor tooling"/>
-		</java>
-        
-        <echo message="Publishing Virgo Add-Ons feature category in the p2 repository" />
-		<java jar="${launcher.jar}" fork="true" taskname="p2Category" failonerror="true" maxmemory="256m">
-            <!--jvmarg value="-Xdebug"/>
-            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
-            <arg line="-application org.eclipse.equinox.p2.publisher.CategoryPublisher"/>
-			<arg line="-metadataRepository file:${target.dir}/repository"/>
-			<arg line="-categoryDefinition file:${p2.categories.location}/org.eclipse.virgo.categories/category.xml"/>
-		</java>
-        
-        <echo message="Installing the largest Nano flavor for distribution purposes" />
-		<java jar="${launcher.jar}" fork="true" taskname="p2Director" failonerror="true" maxmemory="256m">
-            <!--jvmarg value="-Xdebug"/>
-            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
-            <arg line="-application org.eclipse.equinox.p2.director"/>
-			<arg line="-repository file:${target.dir}/repository"/>
-			<arg line="-installIU nanoweb-with-p2.product"/>
-            <arg line="-tag InitialState"/>
-            <arg line="-destination ${package.output.dir}"/>
-            <arg line="-profile VIRGOProfile"/>
-            <arg line="-roaming"/>
-		</java>
-        
-        <zip destfile="${package.output.file}">
-			<zipfileset dir="${package.dir}" includes="${package.basename}/bin/*.sh" filemode="755"/>
-			<zipfileset dir="${package.dir}" includes="${package.basename}/config/org.eclipse.virgo.kernel.jmxremote.access.properties" filemode="600"/>
-			<zipfileset dir="${package.dir}">
-				<exclude name="${package.basename}/bin/*.sh"/>
-				<exclude name="${package.basename}/config/org.eclipse.virgo.kernel.jmxremote.access.properties"/>
-			</zipfileset>
-		</zip>
-        
-        <delete dir="${target.dir}/assembly" quiet="true"/>
-        <delete dir="${common.resources.location}" quiet="true"/>
-        <delete dir="${scripts.location}" quiet="true"/>
-		
      </target>
 
 </project>

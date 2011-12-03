@@ -30,7 +30,7 @@
         <all-bundles target="install-maven"/>
     </target>
     
-    <!--target name="p2.extract-publisher" description="Extracts Equinox+P2 needed for P2 Publishing">
+    <target name="p2.extract-publisher" description="Extracts Equinox+P2 needed for P2 Publishing">
         <delete quiet="true" file="${p2.publishing.dir}"/>
         <mkdir dir="${p2.publishing.dir}"/>
         <get src="http://www.eclipse.org/downloads/download.php?file=/equinox/drops/R-3.6.1-201009090800/equinox-p2-agent-3.6.1-linux.tar.gz&amp;r=1"
@@ -45,7 +45,7 @@
               <include name="org.eclipse.equinox.launcher*.jar"/>
             </fileset>
         </move>
-    </target-->
+    </target>
 
     <target name="publish-package-build">
         <fail message="The 'project.name' property must be set on this project.">

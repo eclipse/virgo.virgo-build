@@ -12,7 +12,7 @@ import org.eclipse.equinox.p2.publisher.PublisherInfo;
 
 /**
  * 
- * This is the IApplication implementation for publishing binary artifacts. This application published only one artifact oer source location.
+ * This is the IApplication implementation for publishing binary artifacts. This application published only one artifact per source location.
  * For each new artifact and source location that needs publishing the application has to be executed again.
  * In case the source location is empty the application publishes empty p2 repository at the repository location.
  * <p />
@@ -46,12 +46,15 @@ public class BinaryPublisherApplication extends AbstractPublisherApplication {
     /**
      * Parses an array of mappings with syntax <b>location#permission</b>, where location :=
      * <b>targetFile@targetDir</b>. <b>targetFile</b> is the name of the file on which <b>permission</b> will be applied.
-     * <b>targetDir</b> is the relative path from the root of the binary(zip).<\n> Ignores invalid mappings.
+     * <b>targetDir</b> is the relative path from the root of the binary(zip).
+     * If the <b>targetFile</b> is located in the root then the <b>targetDir</b> must be equal to <b>"/"</b>
+     * <p>Check for correctness(e.g. existing path, many slashes in a row) of the <b>targetDir</b> path is performed by p2 during installation.
+     * <p>Ignores invalid mappings.
      * 
      * @param parameter - comma-separated list of location#permission values
      * @return - a map with all valid location and permission mappings
      */
-    private Map<String, String> parseChmodValues(String parameter) {
+    Map<String, String> parseChmodValues(String parameter) {
         Map<String, String> result = new HashMap<String, String>();
 
         if (parameter != null && !parameter.isEmpty()) {
@@ -68,7 +71,12 @@ public class BinaryPublisherApplication extends AbstractPublisherApplication {
         return result;
     }
 
-    private boolean isLocationValid(String location) {
+    /**
+     * Checks if the passed location meets the <b>targetFile@targetDir</b> syntax.
+     * @param location - the location to be validated
+     * @return
+     */
+    boolean isLocationValid(String location) {
         String[] targetDetails = location.split("@");
         if (targetDetails != null && 
             targetDetails.length == 2 && 
