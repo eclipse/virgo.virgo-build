@@ -53,7 +53,7 @@
         
         <echo message="[Test]Publish of empty binary directory."/>
         <antcall target="p2.publish-binary">
-            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="tools.dir" value="${package.output.dir}"/>
             <param name="repository" value="${repository.dir}"/>
             <param name="source" value="${basedir}/e2e-testdata/binary.source/empty"/>
         </antcall>
@@ -67,7 +67,7 @@
         
         <echo message="[Test]Publish of scripts binary directory with permissions." />
         <antcall target="p2.publish-binary-chmod">
-            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="tools.dir" value="${package.output.dir}"/>
             <param name="repository" value="${repository.dir}"/>
             <param name="source" value="${basedir}/e2e-testdata/binary.source/scripts"/>
             <param name="chmod.args" value="testScript.sh@/bin#755"/>
@@ -82,7 +82,7 @@
         
         <echo message="[Test]Publish of properties binary directory with permissions." />
         <antcall target="p2.publish-binary-chmod">
-            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="tools.dir" value="${package.output.dir}"/>
             <param name="repository" value="${repository.dir}"/>
             <param name="source" value="${basedir}/e2e-testdata/binary.source/properties"/>
             <param name="chmod.args" value="testProperties.properties@/config#600"/>
@@ -97,7 +97,7 @@
         
         <echo message="[Test]Publish of root properties binary with permissions." />
         <antcall target="p2.publish-binary-chmod">
-            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="tools.dir" value="${package.output.dir}"/>
             <param name="repository" value="${repository.dir}"/>
             <param name="source" value="${basedir}/e2e-testdata/binary.source/root"/>
             <param name="chmod.args" value="rootProperties.properties@/#600"/>
@@ -112,7 +112,7 @@
         
         <echo message="[Test]Publish bundles and features to the repository." />
         <antcall target="p2.publish-bundles-features">
-            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="tools.dir" value="${package.output.dir}"/>
             <param name="repository" value="${repository.dir}"/>
             <param name="source" value="${basedir}/e2e-testdata"/>
         </antcall>
@@ -123,7 +123,7 @@
         
         <echo message="[Test]Publish base.product to the repository." />
         <antcall target="p2.publish-product">
-            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="tools.dir" value="${package.output.dir}"/>
             <param name="repository" value="${repository.dir}"/>
             <param name="product.file.location" value="${basedir}/e2e-testdata/products/base/base.product"/>
         </antcall>
@@ -134,7 +134,7 @@
         
         <echo message="[Test]Publish extension.product to the repository." />
         <antcall target="p2.publish-product">
-            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="tools.dir" value="${package.output.dir}"/>
             <param name="repository" value="${repository.dir}"/>
             <param name="product.file.location" value="${basedir}/e2e-testdata/products/extension/extension.product"/>
         </antcall>
@@ -145,7 +145,7 @@
         
         <echo message="[Test]Categorize the features in the repository." />
         <antcall target="p2.publish-category">
-            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="tools.dir" value="${package.output.dir}"/>
             <param name="repository" value="${repository.dir}"/>
             <param name="category.file.location" value="${basedir}/e2e-testdata/categories/org.eclipse.virgo.categories/category.xml"/>
         </antcall>
@@ -156,7 +156,7 @@
         
         <echo message="[Test]Install the extension propduct." />
         <antcall target="p2.install-virgo-product">
-            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="tools.dir" value="${package.output.dir}"/>
             <param name="repository" value="${repository.dir}"/>
             <param name="destination" value="${destination.dir}"/>
             <param name="product.iu" value="extension.product"/>
@@ -192,7 +192,7 @@
 
         <echo message="[Test]Uninstall the root properties binary." />
         <antcall target="p2.uninstall-iu">
-            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="tools.dir" value="${package.output.dir}"/>
             <param name="repository" value="${repository.dir}"/>
             <param name="destination" value="${destination.dir}"/>
             <param name="iu" value="root.zip"/>
@@ -201,7 +201,7 @@
         <!-- if the uninstall isn't working correctly this install will fail with "IU already installed error" -->
         <echo message="[Test]Install the root properties binary without getting already installed." />
         <antcall target="p2.install-iu">
-            <param name="p2tools.root.dir" value="${package.output.dir}"/>
+            <param name="tools.dir" value="${package.output.dir}"/>
             <param name="repository" value="${repository.dir}"/>
             <param name="destination" value="${destination.dir}"/>
             <param name="iu" value="root.zip"/>

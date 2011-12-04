@@ -71,6 +71,30 @@
                 passphrase="${passphrase}" />
     </target>
     
+    <target name="publish-updatesite-build">
+        <fail message="The 'project.name' property must be set on this project.">
+            <condition>
+                <not>
+                    <isset property="project.name"/>
+                </not>
+            </condition>
+        </fail>
+        <checksum file="${updatesite.output.file}" algorithm="sha1"/>
+        <sshexec host="build.eclipse.org" 
+                username="${eclipse.buildId}" 
+                keyfile="${key.file}" 
+                passphrase="${passphrase}"
+                command="mkdir -pv /opt/public/rt/virgo/zips/${adjusted.release.type}/${project.key}/${bundle.version}"/>
+        <scp localFile="${updatesite.output.file}"
+                todir="${eclipse.buildId}@build.eclipse.org:/opt/public/rt/virgo/zips/${adjusted.release.type}/${project.key}/${bundle.version}" 
+                keyfile="${key.file}"
+                passphrase="${passphrase}" />
+        <scp localFile="${updatesite.output.file}.sha1"
+                todir="${eclipse.buildId}@build.eclipse.org:/opt/public/rt/virgo/zips/${adjusted.release.type}/${project.key}/${bundle.version}" 
+                keyfile="${key.file}"
+                passphrase="${passphrase}" />
+    </target>
+    
     <target name="publish-package-download">
         <fail message="The 'project.name' property must be set on this project.">
             <condition>

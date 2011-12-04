@@ -18,13 +18,6 @@
 
 <!-- Main targets -->
     <target name="p2.publish-binary" description="Publishes a single zipped artifact with unzip instructions to a p2 repository.">
-        <fail message="The 'p2tools.root.dir' property must be set on this target.">
-            <condition>
-                <not>
-                    <isset property="p2tools.root.dir"/>
-                </not>
-            </condition>
-        </fail>
         <fail message="The 'repository' property must be set on this target.">
             <condition>
                 <not>
@@ -39,7 +32,7 @@
                 </not>
             </condition>
         </fail>
-        <java jar="${p2tools.root.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Binaries" failonerror="true" maxmemory="256m">
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Binaries" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
             <arg line="-application org.eclipse.virgo.build.p2tools.binaries.BinaryPublisherApplication"/>
@@ -53,13 +46,6 @@
     </target>
     
     <target name="p2.publish-binary-chmod" description="Publishes a single zipped artifact with proper unzip and permissions instructions to a p2 repository.">
-        <fail message="The 'p2tools.root.dir' property must be set on this target.">
-            <condition>
-                <not>
-                    <isset property="p2tools.root.dir"/>
-                </not>
-            </condition>
-        </fail>
         <fail message="The 'repository' property must be set on this target.">
             <condition>
                 <not>
@@ -81,7 +67,7 @@
                 </not>
             </condition>
         </fail>
-        <java jar="${p2tools.root.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Binaries" failonerror="true" maxmemory="256m">
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Binaries" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
             <arg line="-application org.eclipse.virgo.build.p2tools.binaries.BinaryPublisherApplication"/>
@@ -96,13 +82,6 @@
     </target>
     
     <target name="p2.publish-bundles-features" description="Publishes bundles and features located in separate folders in the source location to a p2 repository.">
-        <fail message="The 'p2tools.root.dir' property must be set on this project.">
-            <condition>
-                <not>
-                    <isset property="p2tools.root.dir"/>
-                </not>
-            </condition>
-        </fail>
         <fail message="The 'repository' property must be set on this target.">
             <condition>
                 <not>
@@ -117,7 +96,7 @@
                 </not>
             </condition>
         </fail>
-        <java jar="${p2tools.root.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2FeaturesAndBundles" failonerror="true" maxmemory="256m">
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2FeaturesAndBundles" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
             <arg line="-application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher"/>
@@ -131,13 +110,6 @@
     </target>
     
     <target name="p2.publish-product" description="Publishes a product to a p2 repository. The publishing uses ANY environment configurations.">
-        <fail message="The 'p2tools.root.dir' property must be set on this project.">
-            <condition>
-                <not>
-                    <isset property="p2tools.root.dir"/>
-                </not>
-            </condition>
-        </fail>
         <fail message="The 'repository' property must be set on this target.">
             <condition>
                 <not>
@@ -152,7 +124,7 @@
                 </not>
             </condition>
         </fail>
-        <java jar="${p2tools.root.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Product" failonerror="true" maxmemory="256m">
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Product" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
             <arg line="-application org.eclipse.equinox.p2.publisher.ProductPublisher"/>
@@ -168,13 +140,6 @@
     </target>
     
     <target name="p2.publish-category" description="Categorizes features published in a p2 repository.">
-        <fail message="The 'p2tools.root.dir' property must be set on this project.">
-            <condition>
-                <not>
-                    <isset property="p2tools.root.dir"/>
-                </not>
-            </condition>
-        </fail>
         <fail message="The 'repository' property must be set on this target.">
             <condition>
                 <not>
@@ -189,7 +154,7 @@
                 </not>
             </condition>
         </fail>
-        <java jar="${p2tools.root.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Category" failonerror="true" maxmemory="256m">
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Category" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
             <arg line="-application org.eclipse.equinox.p2.publisher.CategoryPublisher"/>
@@ -200,13 +165,6 @@
     </target>
     
     <target name="p2.install-virgo-product" description="Installs a Virgo product to a desired destination. Default profile(roaming) is VIRGOProfile, the environment cofigurations are ANY.">
-        <fail message="The 'p2tools.root.dir' property must be set on this project.">
-            <condition>
-                <not>
-                    <isset property="p2tools.root.dir"/>
-                </not>
-            </condition>
-        </fail>
         <fail message="The 'repository' property must be set on this target.">
             <condition>
                 <not>
@@ -228,7 +186,7 @@
                 </not>
             </condition>
         </fail>
-        <java jar="${p2tools.root.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Director" failonerror="true" maxmemory="256m">
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Director" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
             <arg line="-application org.eclipse.equinox.p2.director"/>
@@ -242,13 +200,6 @@
     </target>
     
     <target name="p2.install-iu" description="Installs one or more IUs to a target p2 installation's profile.">
-        <fail message="The 'p2tools.root.dir' property must be set on this project.">
-            <condition>
-                <not>
-                    <isset property="p2tools.root.dir"/>
-                </not>
-            </condition>
-        </fail>
         <fail message="The 'repository' property must be set on this target.">
             <condition>
                 <not>
@@ -270,7 +221,7 @@
                 </not>
             </condition>
         </fail>
-        <java jar="${p2tools.root.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Director" failonerror="true" maxmemory="256m">
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Director" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
             <arg line="-application org.eclipse.equinox.p2.director"/>
@@ -282,13 +233,6 @@
     </target>
     
     <target name="p2.uninstall-iu" description="Uninstalls one or more IUs to a target p2 installation's profile.">
-        <fail message="The 'p2tools.root.dir' property must be set on this project.">
-            <condition>
-                <not>
-                    <isset property="p2tools.root.dir"/>
-                </not>
-            </condition>
-        </fail>
         <fail message="The 'repository' property must be set on this target.">
             <condition>
                 <not>
@@ -310,7 +254,7 @@
                 </not>
             </condition>
         </fail>
-        <java jar="${p2tools.root.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Director" failonerror="true" maxmemory="256m">
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Director" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
             <arg line="-application org.eclipse.equinox.p2.director"/>
@@ -320,5 +264,47 @@
             <arg line="-profile VIRGOProfile"/>
         </java>
     </target>
+    
+    <target name="fetch-unzipped-virgo-build-tools">
+        <fail message="The 'org.eclipse.virgo.build' version property must be set on this target.">
+            <condition>
+                <not>
+                    <isset property="org.eclipse.virgo.build"/>
+                </not>
+            </condition>
+        </fail>
+        
+        <!-- target dir is always initialized by virgo-build, no need to validate if it's set -->
+		<mkdir dir="${target.dir}"/>
+        
+		<condition property="dependency.folder" value="snapshot" else="${adjusted.release.type}">
+            <or>
+				<contains string="${org.eclipse.virgo.build}" substring=".BUILD"/>
+				<contains string="${org.eclipse.virgo.build}" substring=".D"/>
+			</or>
+		</condition>
+        
+		<condition property="dependency.folder" value="milestone" else="${adjusted.release.type}">
+			<or>
+				<contains string="${org.eclipse.virgo.build}" substring=".M"/>
+				<contains string="${org.eclipse.virgo.build}" substring=".RC"/>
+			</or>
+		</condition>
+		
+		<condition property="dependency.folder" value="release" else="${adjusted.release.type}">
+			<contains string="${org.eclipse.virgo.build}" substring=".RELEASE"/>
+		</condition>
+		
+		<get src="http://build.eclipse.org/rt/virgo/zips/${dependency.folder}/VB/${org.eclipse.virgo.build}/virgo-build-tools-${org.eclipse.virgo.build}.zip"
+				dest="${tools.dir}.zip" 
+				usetimestamp="true" />
+
+		<echo message="Fetched the Virgo Build Tools zip to ${tools.dir}.zip"/>
+        <unzip src="${tools.dir}.zip" dest="${tools.dir}">
+			<globmapper from="virgo-build-tools-${org.eclipse.virgo.build}/*" to="*"/>
+		</unzip>
+        <delete file="${tools.dir}.zip" quiet="true"/>
+        <echo message="Unzipped the Virgo Build Tools zip to ${tools.dir}"/>
+	</target>
 
 </project>
