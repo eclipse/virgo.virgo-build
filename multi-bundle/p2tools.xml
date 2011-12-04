@@ -266,10 +266,10 @@
     </target>
     
     <target name="fetch-unzipped-virgo-build-tools">
-        <fail message="The 'org.eclipse.virgo.build' version property must be set on this target.">
+        <fail message="The 'org.eclipse.virgo.build.tools' version property must be set on this target.">
             <condition>
                 <not>
-                    <isset property="org.eclipse.virgo.build"/>
+                    <isset property="org.eclipse.virgo.build.tools"/>
                 </not>
             </condition>
         </fail>
@@ -277,13 +277,13 @@
         <!-- target dir is always initialized by virgo-build, no need to validate if it's set -->
 		<mkdir dir="${target.dir}"/>
 		
-		<get src="http://build.eclipse.org/rt/virgo/zips/release/VB/${org.eclipse.virgo.build}/virgo-build-tools-${org.eclipse.virgo.build}.zip"
+		<get src="http://build.eclipse.org/rt/virgo/zips/release/VB/${org.eclipse.virgo.build.tools}/virgo-build-tools-${org.eclipse.virgo.build.tools}.zip"
 				dest="${tools.dir}.zip" 
 				usetimestamp="true" />
 
 		<echo message="Fetched the Virgo Build Tools zip to ${tools.dir}.zip"/>
         <unzip src="${tools.dir}.zip" dest="${tools.dir}">
-			<globmapper from="virgo-build-tools-${org.eclipse.virgo.build}/*" to="*"/>
+			<globmapper from="virgo-build-tools-${org.eclipse.virgo.build.tools}/*" to="*"/>
 		</unzip>
         <delete file="${tools.dir}.zip" quiet="true"/>
         <echo message="Unzipped the Virgo Build Tools zip to ${tools.dir}"/>
