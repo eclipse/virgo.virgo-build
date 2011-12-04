@@ -276,26 +276,8 @@
         
         <!-- target dir is always initialized by virgo-build, no need to validate if it's set -->
 		<mkdir dir="${target.dir}"/>
-        
-		<condition property="dependency.folder" value="snapshot" else="${adjusted.release.type}">
-            <or>
-				<contains string="${org.eclipse.virgo.build}" substring=".BUILD"/>
-				<contains string="${org.eclipse.virgo.build}" substring=".D"/>
-			</or>
-		</condition>
-        
-		<condition property="dependency.folder" value="milestone" else="${adjusted.release.type}">
-			<or>
-				<contains string="${org.eclipse.virgo.build}" substring=".M"/>
-				<contains string="${org.eclipse.virgo.build}" substring=".RC"/>
-			</or>
-		</condition>
 		
-		<condition property="dependency.folder" value="release" else="${adjusted.release.type}">
-			<contains string="${org.eclipse.virgo.build}" substring=".RELEASE"/>
-		</condition>
-		
-		<get src="http://build.eclipse.org/rt/virgo/zips/${dependency.folder}/VB/${org.eclipse.virgo.build}/virgo-build-tools-${org.eclipse.virgo.build}.zip"
+		<get src="http://build.eclipse.org/rt/virgo/zips/release/VB/${org.eclipse.virgo.build}/virgo-build-tools-${org.eclipse.virgo.build}.zip"
 				dest="${tools.dir}.zip" 
 				usetimestamp="true" />
 
