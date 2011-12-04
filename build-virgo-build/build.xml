@@ -121,6 +121,24 @@
             <param name="repository" value="${repository.dir}"/>
         </antcall>
         
+        <echo message="[Test]Publish bundles and features using the alternative form to the repository." />
+        <antcall target="p2.publish-bundles-features-alt">
+            <param name="tools.dir" value="${package.output.dir}"/>
+            <param name="repository" value="${repository.dir}"/>
+            <param name="bundles" value="${basedir}/e2e-testdata/plugins-alt"/>
+            <param name="features" value="${basedir}/e2e-testdata/features-alt"/>
+        </antcall>
+        
+        <antcall target="check-repository-exists">
+            <param name="repository" value="${repository.dir}"/>
+        </antcall>
+        <antcall target="check-file-exists">
+            <param name="file" value="${repository.dir}/features/testFeatureC_1.0.0.jar"/>
+        </antcall>
+        <antcall target="check-file-exists">
+            <param name="file" value="${repository.dir}/plugins/testBundleD_1.0.0.jar"/>
+        </antcall>
+        
         <echo message="[Test]Publish base.product to the repository." />
         <antcall target="p2.publish-product">
             <param name="tools.dir" value="${package.output.dir}"/>

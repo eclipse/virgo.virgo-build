@@ -109,6 +109,42 @@
         </java>
     </target>
     
+    <target name="p2.publish-bundles-features-alt" description="Alternative form. Publishes bundles and features passed as separate sources.">
+        <fail message="The 'repository' property must be set on this target.">
+            <condition>
+                <not>
+                    <isset property="repository"/>
+                </not>
+            </condition>
+        </fail>
+        <fail message="The 'bundles' property must be set on this target.">
+            <condition>
+                <not>
+                    <isset property="bundles"/>
+                </not>
+            </condition>
+        </fail>
+        <fail message="The 'features' property must be set on this target.">
+            <condition>
+                <not>
+                    <isset property="features"/>
+                </not>
+            </condition>
+        </fail>
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2FeaturesAndBundles" failonerror="true" maxmemory="256m">
+            <!--jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
+            <arg line="-application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher"/>
+            <arg line="-metadataRepository file:${repository}"/>
+            <arg line="-artifactRepository file:${repository}"/>
+            <arg line="-bundles ${bundles}"/>
+            <arg line="-features ${features}"/>
+            <arg line="-append"/>
+            <arg line="-compress"/>
+            <arg line="-publishArtifacts"/>
+        </java>
+    </target>
+    
     <target name="p2.publish-product" description="Publishes a product to a p2 repository. The publishing uses ANY environment configurations.">
         <fail message="The 'repository' property must be set on this target.">
             <condition>
