@@ -117,6 +117,7 @@
 		<module organisation="com.springsource.*"		name="*"		resolver="third-party-lookup"/>
 		<module organisation="org.eclipse.virgo.*"		name="*"		resolver="eclipse-lookup"/>
 		<module organisation="org.eclipse.gemini.*"		name="*"		resolver="eclipse-lookup"/>
+		<module organisation="org.eclipse.gemini.*"		name="*"		resolver="external-lookup"/>
 		<module organisation="org.eclipse"				name="*"		resolver="eclipse-external-lookup"/>
 		<module organisation="org.apache.maven.*"		name="maven-.*"	resolver="maven-lookup"/>
 	</modules>
