@@ -94,7 +94,7 @@
 			<s3repo name="library-snapshot-repository"		bucket="repository.springsource.com" artifact.type="libraries" release.type="snapshot"/>
 		</chain>
 
-		<chain name="eclipse-lookup" returnFirst="true">
+		<chain name="virgo-lookup" returnFirst="true">
 			<resolver ref="integration"/>
 			<localrepo name="local"/>
 			<eclipse-build-read name="eclipse-bundle-release-repository"	    artifact.type="bundles" release.type="release"/>
@@ -103,6 +103,18 @@
 			<eclipse-build-read name="eclipse-library-release-repository"	    artifact.type="libraries" release.type="release"/>
 			<eclipse-build-read name="eclipse-library-milestone-repository"		artifact.type="libraries" release.type="milestone"/>
 			<eclipse-build-read name="eclipse-library-snapshot-repository"	    artifact.type="libraries" release.type="snapshot"/>
+		</chain>
+
+		<chain name="gemini-lookup" returnFirst="true">
+			<resolver ref="integration"/>
+			<localrepo name="local"/>
+			<eclipse-build-read name="eclipse-bundle-release-repository"	    artifact.type="bundles" release.type="release"/>
+			<eclipse-build-read name="eclipse-bundle-milestone-repository"	    artifact.type="bundles" release.type="milestone"/>
+			<eclipse-build-read name="eclipse-bundle-snapshot-repository"	    artifact.type="bundles" release.type="snapshot"/>
+			<eclipse-build-read name="eclipse-library-release-repository"	    artifact.type="libraries" release.type="release"/>
+			<eclipse-build-read name="eclipse-library-milestone-repository"		artifact.type="libraries" release.type="milestone"/>
+			<eclipse-build-read name="eclipse-library-snapshot-repository"	    artifact.type="libraries" release.type="snapshot"/>
+			<resolver ref="external-lookup"/>
 		</chain>
 
 <!-- Publishing repositories -->
@@ -115,9 +127,8 @@
 	<modules>
 		<module organisation="org.springframework.*"	name="*"		resolver="third-party-lookup"/>
 		<module organisation="com.springsource.*"		name="*"		resolver="third-party-lookup"/>
-		<module organisation="org.eclipse.virgo.*"		name="*"		resolver="eclipse-lookup"/>
-		<module organisation="org.eclipse.gemini.*"		name="*"		resolver="eclipse-lookup"/>
-		<module organisation="org.eclipse.gemini.*"		name="*"		resolver="external-lookup"/>
+		<module organisation="org.eclipse.virgo.*"		name="*"		resolver="virgo-lookup"/>
+		<module organisation="org.eclipse.gemini.*"		name="*"		resolver="gemini-lookup"/>
 		<module organisation="org.eclipse"				name="*"		resolver="eclipse-external-lookup"/>
 		<module organisation="org.apache.maven.*"		name="maven-.*"	resolver="maven-lookup"/>
 	</modules>
