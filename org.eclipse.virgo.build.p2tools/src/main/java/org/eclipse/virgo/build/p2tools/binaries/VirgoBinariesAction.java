@@ -103,7 +103,7 @@ public class VirgoBinariesAction extends AbstractPublisherAction {
     private void setTouchpointInstructionsToIUDescription(InstallableUnitDescription iuDescription) {
         String chmodTouchpointData = getCHMODConfiguration();
         Map<String, String> touchpointData = new HashMap<String, String>();
-        touchpointData.put("install", "unzip(source:@artifact, target:${installFolder}/);" + chmodTouchpointData);
+        touchpointData.put("install", "unzip(source:@artifact, target:${installFolder}/);" + chmodTouchpointData + "remove(path:${artifact.location});");
         touchpointData.put("uninstall", "cleanupzip(source:@artifact, target:${installFolder}/);");
         iuDescription.addTouchpointData(MetadataFactory.createTouchpointData(touchpointData));
     }

@@ -76,7 +76,7 @@ public class BinaryPublisherApplicationTests {
         virgoBinaryAction.perform(new PublisherInfo(), actual, new NullProgressMonitor());
         
         IInstallableUnit iu = actual.getIU("scripts", Version.create("1.0.0"), "root");
-        String installInstructions = "unzip(source:@artifact, target:${installFolder}/);";
+        String installInstructions = "unzip(source:@artifact, target:${installFolder}/);remove(path:${artifact.location});";
         String uninstallInstructions = "cleanupzip(source:@artifact, target:${installFolder}/);";
         validateIU(iu, installInstructions, uninstallInstructions);
         
@@ -109,7 +109,7 @@ public class BinaryPublisherApplicationTests {
         virgoBinaryAction.perform(new PublisherInfo(), actual, new NullProgressMonitor());
         
         IInstallableUnit iu = actual.getIU("scripts", Version.create("1.0.0"), "root");
-        String installInstructions = "unzip(source:@artifact, target:${installFolder}/);chmod(targetDir:${installFolder}\\wronglocation\\,targetFile:file,permissions:600);chmod(targetDir:${installFolder}path,targetFile:file,permissions:permission);";
+        String installInstructions = "unzip(source:@artifact, target:${installFolder}/);chmod(targetDir:${installFolder}\\wronglocation\\,targetFile:file,permissions:600);chmod(targetDir:${installFolder}path,targetFile:file,permissions:permission);remove(path:${artifact.location});";
         String uninstallInstructions = "cleanupzip(source:@artifact, target:${installFolder}/);";
         validateIU(iu, installInstructions, uninstallInstructions);
     }
