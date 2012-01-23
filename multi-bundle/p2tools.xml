@@ -17,6 +17,22 @@
     <import file="common.xml"/>
 
 <!-- Main targets -->
+    <target name="p2.generate-inf" description="Generates p2.inf-s for all feature directories inside a wrapping 'features' directory.">
+        <fail message="The 'source' property must be set on this target.">
+            <condition>
+                <not>
+                    <isset property="source"/>
+                </not>
+            </condition>
+        </fail>
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2InfGenerator" failonerror="true" maxmemory="256m">
+            <!--jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
+            <arg line="-application org.eclipse.virgo.build.p2tools.instructions.P2InstructionGeneratorApplication"/>
+            <arg line="-source ${source}"/>
+        </java>
+    </target>
+    
     <target name="p2.publish-binary" description="Publishes a single zipped artifact with unzip instructions to a p2 repository.">
         <fail message="The 'repository' property must be set on this target.">
             <condition>

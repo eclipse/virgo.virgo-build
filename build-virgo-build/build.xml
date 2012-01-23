@@ -51,6 +51,16 @@
         <property name="repository.dir" value="${target.dir}/test-results/repository"/>
         <property name="destination.dir" value="${target.dir}/test-results/install"/>
         
+        <echo message="[Test]Generate autostart p2.inf instruction for a features directory."/>
+        <antcall target="p2.generate-inf">
+            <param name="tools.dir" value="${package.output.dir}"/>
+            <param name="source" value="${basedir}/e2e-testdata/features"/>
+        </antcall>
+        <antcall target="check-file-exists">
+            <param name="file" value="${basedir}/e2e-testdata/features/testFeatureA/p2.inf"/>
+        </antcall>
+        <delete file="${basedir}/e2e-testdata/features/testFeatureA/p2.inf"/>
+        
         <echo message="[Test]Publish of empty binary directory."/>
         <antcall target="p2.publish-binary">
             <param name="tools.dir" value="${package.output.dir}"/>

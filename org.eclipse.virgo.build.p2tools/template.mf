@@ -12,6 +12,9 @@ Import-Template: org.eclipse.equinox.internal.p2.*;version="0",
  org.eclipse.equinox.p2.repository.artifact;version="0",
  org.osgi.framework;version="0",
  org.osgi.service.component;version="0",
- org.eclipse.core.runtime;version="0"
+ org.eclipse.core.runtime;version="0",
+ javax.xml.parsers;version="0",
+ org.eclipse.equinox.app;version="0",
+ org.xml.sax.*;version="0"
 Excluded-Exports: 
  *.internal.*

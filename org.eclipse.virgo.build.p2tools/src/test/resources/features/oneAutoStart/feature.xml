@@ -1,34 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="testFeatureA"
+      id="testFeature"
       version="1.0.0">
 
    <description url="http://www.eclipse.org/virgo/">
+      testDescription
    </description>
 
    <copyright url="http://www.eclipse.org/virgo/">
+      testCopyright
    </copyright>
 
+   <license url="http://noUrl">
+      testLicense
+   </license>
+
+   <requires>
+      <import feature="anotherFeature" version="0.0.0"/>
+   </requires>
+
    <plugin
-         id="testBundleA"
+         id="plugin1"
          download-size="0"
          install-size="0"
          version="1.0.0"
          unpack="false"
          autostart="true"/>
-         
     <plugin
-         id="testBundleB"
+         id="plugin2"
          download-size="0"
          install-size="0"
          version="1.0.0"
-         unpack="false"
-         autostart="true"/>
-         
+         unpack="false"/>
     <plugin
-         id="scripts"
+         id="plugin3"
          download-size="0"
          install-size="0"
-         version="1.0.0"/>
+         version="1.0.0"
+         unpack="false"/>
 
 </feature>

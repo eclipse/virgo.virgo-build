@@ -9,5 +9,11 @@
 			<run class="org.eclipse.virgo.build.p2tools.binaries.BinaryPublisherApplication" />
 		</application>
 	</extension>
+	
+	<extension id="org.eclipse.virgo.build.p2tools.instructions.P2InstructionGeneratorApplication" point="org.eclipse.core.runtime.applications">
+		<application cardinality="1" thread="any" visible="true">
+			<run class="org.eclipse.virgo.build.p2tools.instructions.P2InstructionGeneratorApplication" />
+		</application>
+	</extension>
 
 </plugin>
