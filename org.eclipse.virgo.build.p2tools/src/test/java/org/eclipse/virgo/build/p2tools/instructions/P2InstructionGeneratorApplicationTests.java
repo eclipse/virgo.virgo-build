@@ -24,7 +24,7 @@ public class P2InstructionGeneratorApplicationTests {
     private static final File testResources = new File(SRC_TEST_RESOURCES);
     
     @Test
-    public void InstructionGenerationTest() throws IOException {
+    public void instructionGenerationTest() throws IOException {
         P2InstructionGeneratorApplication appToTest = new P2InstructionGeneratorApplication();
         String[] testArgs = {"-source", testResources.getAbsolutePath()};
         try {
@@ -51,6 +51,52 @@ public class P2InstructionGeneratorApplicationTests {
         
         oneToStart.delete();
         manyToStart.delete();
+    }
+    
+    @Test
+    public void missingMandatoryArgumentTest() throws IOException {
+        P2InstructionGeneratorApplication appToTest = new P2InstructionGeneratorApplication();
+        String[] testArgs = {"-sourcee", testResources.getAbsolutePath()};
+        try {
+            appToTest.run(testArgs);
+            fail("Expected application to fail because of incorrect mandatory '-source' argument");
+        } catch (Exception e) {
+            
+        }
+    }
+    
+    @Test
+    public void wrongValueOfMandatoryArgumentTest() throws IOException {
+        P2InstructionGeneratorApplication appToTest = new P2InstructionGeneratorApplication();
+        String[] testArgs = {"-source", testResources.getAbsolutePath() + File.separator + "missingDir"};
+        try {
+            appToTest.run(testArgs);
+            fail("Expected application to fail because of incorrect mandatory '-source' argument");
+        } catch (Exception e) {
+            
+        }
+    }
+    
+    @Test
+    public void tooMuchArgumentsTest() throws IOException {
+        P2InstructionGeneratorApplication appToTest = new P2InstructionGeneratorApplication();
+        String[] testArgs = {"-source", testResources.getAbsolutePath(), "-testarg", "parameter", "-testarg2"};
+        try {
+            appToTest.run(testArgs);
+            fail("Expected application to fail because of too many arguments");
+        } catch (Exception e) {
+        }
+    }
+    
+    @Test
+    public void noArgumentsTest() throws IOException {
+        P2InstructionGeneratorApplication appToTest = new P2InstructionGeneratorApplication();
+        String[] testArgs = {};
+        try {
+            appToTest.run(testArgs);
+            fail("Expected application to fail because of missing arguments");
+        } catch (Exception e) {
+        }
     }
     
     private boolean areFilesEqual(File file1, File file2) throws IOException {

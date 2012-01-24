@@ -22,8 +22,8 @@ public class InstructionGeneratorAction {
         for (File featureDir : featuresLocation.listFiles()) {
             if (featureDir.isDirectory()) {
                 File featureXml = new File(featureDir, "feature.xml");
-                ArrayList<String> autoStartPlugins = parser.parse(featureXml);
                 try {
+                    ArrayList<String> autoStartPlugins = parser.parse(featureXml);
                     generateInstructions(autoStartPlugins, featureDir);
                 } catch (IOException e) {
                     System.err.println("Failed to generate autostart instructions for feature: " + featureXml.getAbsolutePath() + " Error was: " + e);

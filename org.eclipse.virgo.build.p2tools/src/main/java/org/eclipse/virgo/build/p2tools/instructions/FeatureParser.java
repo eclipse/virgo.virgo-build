@@ -34,9 +34,7 @@ public class FeatureParser extends DefaultHandler {
     public FeatureParser() {
         try {
             this.parser = this.parserFactory.newSAXParser();
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -48,7 +46,7 @@ public class FeatureParser extends DefaultHandler {
         }
     }
 
-    public ArrayList<String> parse(File featureXml) {
+    public ArrayList<String> parse(File featureXml) throws IOException {
         this.result = new ArrayList<String>();
         if (featureXml.exists()) {
             InputStream input = null;
@@ -57,11 +55,7 @@ public class FeatureParser extends DefaultHandler {
                 this.parser.parse(input, this);
             } catch (Exception e) {
             } finally {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                input.close();
             }
             return this.result;
         }

@@ -1,6 +1,7 @@
 package org.eclipse.virgo.build.p2tools.instructions;
 
 import java.io.File;
+import java.util.Arrays;
 
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
@@ -25,7 +26,7 @@ public class P2InstructionGeneratorApplication implements IApplication {
     
     private void processCommandLineArguments(String[] args) throws Exception {
         if (args == null || args.length <= 0 || args.length > 2) {
-            System.err.println("This application requires a single argument '-source' with a valid file-system value. Incorrect arguments: " + args);
+            throw new IllegalArgumentException("This application requires a single argument '-source' with a valid file-system value. Incorrect arguments: " + Arrays.toString(args));
         }
         String arg = args[0];
         String parameter = args[1];
