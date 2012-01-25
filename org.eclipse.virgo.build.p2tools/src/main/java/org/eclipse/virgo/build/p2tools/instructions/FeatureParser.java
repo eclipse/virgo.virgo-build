@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -63,7 +62,7 @@ public class FeatureParser extends DefaultHandler {
     }
 
     private void processAutostart(Attributes attributes) {
-        if (attributes.getValue("autostart").equals("true")) {
+        if (attributes.getValue("autostart") != null && attributes.getValue("autostart").equals("true")) {
             this.result.add(attributes.getValue("id"));
         }
     }

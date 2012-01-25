@@ -27,17 +27,17 @@
          unpack="false"
          autostart="true"/>
     <plugin
+         id="plugin3"
+         download-size="0"
+         install-size="0"
+         version="1.0.0"
+         unpack="false"/>
+    <plugin
          id="plugin2"
          download-size="0"
          install-size="0"
          version="1.0.0"
          unpack="false"
          autostart="true"/>
-    <plugin
-         id="plugin3"
-         download-size="0"
-         install-size="0"
-         version="1.0.0"
-         unpack="false"/>
 
 </feature>
