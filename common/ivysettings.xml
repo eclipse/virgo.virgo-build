@@ -66,10 +66,6 @@
 
 <!-- Lookup repositories -->
 
-		<url name="maven-lookup" m2compatible="true">
-			<artifact pattern="http://repo1.maven.org/maven2/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
-		</url>
-
 		<url name="eclipse-external-lookup">
 			<ivy pattern="http://build.eclipse.org/rt/virgo/external/[module]/ivy-[revision].xml"/>
 			<artifact pattern="http://build.eclipse.org/rt/virgo/external/[module]/[artifact]-[revision].[ext]"/>
@@ -130,7 +126,6 @@
 		<module organisation="org.eclipse.virgo.*"		name="*"		resolver="virgo-lookup"/>
 		<module organisation="org.eclipse.gemini.*"		name="*"		resolver="gemini-lookup"/>
 		<module organisation="org.eclipse"				name="*"		resolver="eclipse-external-lookup"/>
-		<module organisation="org.apache.maven.*"		name="maven-.*"	resolver="maven-lookup"/>
 	</modules>
 
 </ivysettings>
