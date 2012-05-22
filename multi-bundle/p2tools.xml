@@ -25,7 +25,7 @@
                 </not>
             </condition>
         </fail>
-        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2InfGenerator" failonerror="true" maxmemory="256m">
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${tools.org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2InfGenerator" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
             <arg line="-application org.eclipse.virgo.build.p2tools.instructions.P2InstructionGeneratorApplication"/>
@@ -48,7 +48,7 @@
                 </not>
             </condition>
         </fail>
-        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Binaries" failonerror="true" maxmemory="256m">
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${tools.org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Binaries" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
             <arg line="-application org.eclipse.virgo.build.p2tools.binaries.BinaryPublisherApplication"/>
@@ -83,7 +83,7 @@
                 </not>
             </condition>
         </fail>
-        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Binaries" failonerror="true" maxmemory="256m">
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${tools.org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Binaries" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
             <arg line="-application org.eclipse.virgo.build.p2tools.binaries.BinaryPublisherApplication"/>
@@ -112,7 +112,7 @@
                 </not>
             </condition>
         </fail>
-        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2FeaturesAndBundles" failonerror="true" maxmemory="256m">
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${tools.org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2FeaturesAndBundles" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
             <arg line="-application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher"/>
@@ -147,7 +147,7 @@
                 </not>
             </condition>
         </fail>
-        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2FeaturesAndBundles" failonerror="true" maxmemory="256m">
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${tools.org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2FeaturesAndBundles" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
             <arg line="-application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher"/>
@@ -176,7 +176,7 @@
                 </not>
             </condition>
         </fail>
-        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Product" failonerror="true" maxmemory="256m">
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${tools.org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Product" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
             <arg line="-application org.eclipse.equinox.p2.publisher.ProductPublisher"/>
@@ -206,7 +206,7 @@
                 </not>
             </condition>
         </fail>
-        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Category" failonerror="true" maxmemory="256m">
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${tools.org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Category" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
             <arg line="-application org.eclipse.equinox.p2.publisher.CategoryPublisher"/>
@@ -238,7 +238,7 @@
                 </not>
             </condition>
         </fail>
-        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Director" failonerror="true" maxmemory="256m">
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${tools.org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Director" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
             <arg line="-application org.eclipse.equinox.p2.director"/>
@@ -273,7 +273,7 @@
                 </not>
             </condition>
         </fail>
-        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2MetadataMirror" failonerror="true" maxmemory="256m">
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${tools.org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2MetadataMirror" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
              <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
             <arg line="-application org.eclipse.equinox.p2.metadata.repository.mirrorApplication"/>
@@ -305,7 +305,7 @@
                 </not>
             </condition>
         </fail>
-        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2ArtifactMirror" failonerror="true" maxmemory="256m">
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${tools.org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2ArtifactMirror" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
              <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
             <arg line="-application org.eclipse.virgo.build.p2tools.artifact.mirrorApplication"/>
@@ -337,7 +337,7 @@
                 </not>
             </condition>
         </fail>
-        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Director" failonerror="true" maxmemory="256m">
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${tools.org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Director" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
             <arg line="-application org.eclipse.equinox.p2.director"/>
@@ -370,7 +370,7 @@
                 </not>
             </condition>
         </fail>
-        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Director" failonerror="true" maxmemory="256m">
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${tools.org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Director" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
             <arg line="-application org.eclipse.equinox.p2.director"/>
@@ -410,7 +410,7 @@
                 </not>
             </condition>
         </fail>
-        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2ToIvyConvertor" failonerror="true" maxmemory="256m">
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${tools.org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2ToIvyConvertor" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
             <arg line="-application org.eclipse.virgo.build.p2tools.convertor.ConvertorApplication"/>
