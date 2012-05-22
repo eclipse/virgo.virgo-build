@@ -25,6 +25,8 @@
 		
 		<ivy:resolve resolveId="copy.path" file="${basedir}/p2build-ivy.xml" transitive="true"/>
 		<ivy:retrieve resolveId="copy.path" pattern="${p2.tools.plugins.location}/[artifact]_[revision].[ext]" conf="p2-build" type="jar"/>
+        
+        <get src="http://www.eclipse.org/downloads/download.php?file=/equinox/drops/S-3.8RC1-201205182145/org.eclipse.equinox.p2.repository.tools_2.0.100.v20120501-1314.jar&amp;r=1$" dest="${package.output.dir}/plugins/org.eclipse.equinox.p2.repository.tools_2.0.100.v20120501-1314.jar" usetimestamp="true" />
 		
 		<copy todir="${package.output.dir}/configuration" failonerror="false">
 			<fileset dir="${basedir}/p2tools_ini" excludes="keystore"/>
@@ -49,6 +51,8 @@
      <target name="test-e2e" depends="package">       
      
         <property name="repository.dir" value="${target.dir}/test-results/repository"/>
+        <property name="mirrored.repository.dir" value="${target.dir}/test-results/repository-mirrored"/>
+        <property name="converted.repository.dir" value="${target.dir}/test-results/repository-converted"/>
         <property name="destination.dir" value="${target.dir}/test-results/install"/>
         
         <echo message="[Test]Generate autostart p2.inf instruction for a features directory."/>
@@ -234,6 +238,72 @@
             <param name="destination" value="${destination.dir}"/>
             <param name="iu" value="root.zip"/>
         </antcall>
+         
+        <echo message="[Test]Mirroring metadata from test repository." />
+        <antcall target="p2.mirror-metadata">
+            <param name="tools.dir" value="${package.output.dir}"/>
+            <param name="source" value="file:${repository.dir}"/>
+            <param name="destination" value="${mirrored.repository.dir}"/>
+            <param name="roots" value="testBundleA"/>
+        </antcall>
+         
+         <echo message="[Test]Mirroring artifacts from test repository." />
+         <antcall target="p2.mirror-artifacts">
+             <param name="tools.dir" value="${package.output.dir}"/>
+             <param name="source" value="file:${repository.dir}"/>
+             <param name="destination" value="${mirrored.repository.dir}"/>
+             <param name="roots" value="testBundleA,testBundleB"/>
+         </antcall>
+         
+         <antcall target="check-repository-exists">
+             <param name="repository" value="${mirrored.repository.dir}"/>
+         </antcall>
+         
+         <antcall target="check-file-exists">
+             <param name="file" value="${mirrored.repository.dir}/plugins/testBundleA_1.0.0.jar"/>
+         </antcall>
+                  
+         <echo message="[Test]Convert test p2 repository to Ivy one." />
+         <delete dir="${converted.repository.dir}" quiet="true"/>
+         <mkdir dir="${converted.repository.dir}"/>
+         <antcall target="convert-p2-to-ivy">
+             <param name="tools.dir" value="${package.output.dir}"/>
+             <param name="source.plugins.dir" value="${mirrored.repository.dir}/plugins"/>
+             <param name="destination" value="${converted.repository.dir}"/>
+             <param name="offset.to.virgo.build" value="../../../.."/>
+             <param name="updated.build.versions.location" value="${converted.repository.dir}/updated.build.versions"/>
+         </antcall>
+         
+         <antcall target="check-file-exists">
+             <param name="file" value="${converted.repository.dir}/updated.build.versions"/>
+         </antcall>
+         <antcall target="check-file-exists">
+             <param name="file" value="${converted.repository.dir}/build.xml"/>
+         </antcall>
+         <antcall target="check-file-exists">
+             <param name="file" value="${converted.repository.dir}/testBundleA_1.0.0/build.xml"/>
+         </antcall>
+         <antcall target="check-file-exists">
+             <param name="file" value="${converted.repository.dir}/testBundleA_1.0.0/ivy.xml"/>
+         </antcall>
+         <antcall target="check-file-exists">
+             <param name="file" value="${converted.repository.dir}/testBundleA_1.0.0/build.properties"/>
+         </antcall>
+         <antcall target="check-file-exists">
+             <param name="file" value="${converted.repository.dir}/testBundleA_1.0.0/target/artifacts/testBundleA.jar"/>
+         </antcall>
+         <antcall target="check-file-exists">
+             <param name="file" value="${converted.repository.dir}/testBundleB_1.0.0/build.xml"/>
+         </antcall>
+         <antcall target="check-file-exists">
+             <param name="file" value="${converted.repository.dir}/testBundleB_1.0.0/ivy.xml"/>
+         </antcall>
+         <antcall target="check-file-exists">
+             <param name="file" value="${converted.repository.dir}/testBundleB_1.0.0/build.properties"/>
+         </antcall>
+         <antcall target="check-file-exists">
+             <param name="file" value="${converted.repository.dir}/testBundleB_1.0.0/target/artifacts/testBundleB.jar"/>
+         </antcall>
         
      </target>
      

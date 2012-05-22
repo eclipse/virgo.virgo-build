@@ -21,6 +21,10 @@
     <target name="publish-ivy" description="Publishes all ivy artifacts to remote Eclipse Ivy repositories">
         <all-bundles target="publish-ivy"/>
     </target>
+    
+    <target name="publish-mirrored-ivy" description="Publishes all ivy artifacts to remote Eclipse Ivy repositories">
+        <all-bundles target="publish-mirrored-ivy"/>
+    </target>
 
     <target name="publish-maven" description="Publishes all maven artifacts to remote Eclipse Maven repositories">
         <all-bundles target="publish-maven"/>

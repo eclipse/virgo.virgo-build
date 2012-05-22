@@ -25,6 +25,15 @@
 			<artifacts pattern="${source-jar.output.dir}/[artifact].[ext]"/>
 		</ivy:publish>
 	</target>
+    
+    <target name="publish-mirrored-ivy" depends="ivy.init, resolve" description="Publishes all artifacts to remote Eclipse Ivy repositories">
+		<mkdir dir="${ivy.output.dir}"/>
+		<ivy:publish resolver="eclipse-${publication.resolver.prefix}-bundle-publish" overwrite="true" organisation="${organisation}" module="${module}" pubrevision="${revision}" status="release">
+			<artifacts pattern="${ivy.output.dir}/[artifact].[ext]"/>
+			<artifacts pattern="${jar.output.dir}/[artifact].[ext]"/>
+			<artifacts pattern="${source-jar.output.dir}/[artifact].[ext]"/>
+		</ivy:publish>
+	</target>
 
 	<target name="publish-maven" depends="create.pom, snapshot.pom, maven.init" unless="local.build" description="Publishes all artifacts to remote Eclipse Maven repositories">
 		<maven:deploy file="${jar.output.file}">

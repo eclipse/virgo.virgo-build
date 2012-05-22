@@ -4,6 +4,7 @@ Bundle-Name: Virgo Build p2 Tools
 Bundle-Version: 3.0.0
 Main-Class: org.eclipse.virgo.build.p2tools.Main
 Bundle-SymbolicName: org.eclipse.virgo.build.p2tools;singleton:=true
+Require-Bundle: org.eclipse.equinox.p2.repository.tools
 Import-Template: org.eclipse.equinox.internal.p2.*;version="0",
  org.eclipse.equinox.p2.publisher;version="0",
  org.eclipse.equinox.p2.publisher.eclipse;version="0",

@@ -251,6 +251,70 @@
         </java>
     </target>
     
+    <target name="p2.mirror-metadata" description="Mirrors a metadata set of rootIUs from a local or remote p2 repository to a local destination. The metadata mirror app must be ran first.">
+        <fail message="The 'source' property must be set on this target."> 
+            <condition>
+                <not>
+                    <isset property="source"/>
+                </not>
+            </condition>
+        </fail>
+        <fail message="The 'destination' property must be set on this target.">
+            <condition>
+                <not>
+                    <isset property="destination"/>
+                </not>
+            </condition>
+        </fail>
+        <fail message="The 'roots' property must be set on this target.">
+            <condition>
+                <not>
+                    <isset property="roots"/>
+                </not>
+            </condition>
+        </fail>
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2MetadataMirror" failonerror="true" maxmemory="256m">
+            <!--jvmarg value="-Xdebug"/>
+             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
+            <arg line="-application org.eclipse.equinox.p2.metadata.repository.mirrorApplication"/>
+			<arg line="-source ${source}"/>
+            <arg line="-destination ${destination}"/>
+            <arg line="-roots ${roots}"/>
+        </java>
+    </target>
+    
+    <target name="p2.mirror-artifacts" description="Mirrors an artifact set of rootIUs from a local or remote p2 repository to a local destination. The artifacts mirror app must be ran after the metadata one.">
+        <fail message="The 'source' property must be set on this target."> 
+            <condition>
+                <not>
+                    <isset property="source"/>
+                </not>
+            </condition>
+        </fail>
+        <fail message="The 'destination' property must be set on this target.">
+            <condition>
+                <not>
+                    <isset property="destination"/>
+                </not>
+            </condition>
+        </fail>
+        <fail message="The 'roots' property must be set on this target.">
+            <condition>
+                <not>
+                    <isset property="roots"/>
+                </not>
+            </condition>
+        </fail>
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2ArtifactMirror" failonerror="true" maxmemory="256m">
+            <!--jvmarg value="-Xdebug"/>
+             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
+            <arg line="-application org.eclipse.virgo.build.p2tools.artifact.mirrorApplication"/>
+			<arg line="-source ${source}"/>
+            <arg line="-destination ${destination}"/>
+            <arg line="-roots ${roots}"/>
+        </java>
+    </target>
+    
     <target name="p2.install-iu" description="Installs one or more IUs to a target p2 installation's profile.">
         <fail message="The 'repository' property must be set on this target.">
             <condition>
@@ -314,6 +378,46 @@
 			<arg line="-uninstallIU ${iu}"/>
             <arg line="-destination ${destination}"/>
             <arg line="-profile VIRGOProfile"/>
+        </java>
+    </target>
+    
+    <target name="convert-p2-to-ivy" description="Prepares p2 repository artifacts for Ivy publishing">
+        <fail message="The 'source.plugins.dir' property must be set on this target.">
+            <condition>
+                <not>
+                    <isset property="source.plugins.dir"/>
+                </not>
+            </condition>
+        </fail>
+        <fail message="The 'destination' property must be set on this target.">
+            <condition>
+                <not>
+                    <isset property="destination"/>
+                </not>
+            </condition>
+        </fail>
+        <fail message="The 'offset.to.virgo.build' property must be set on this target.">
+            <condition>
+                <not>
+                    <isset property="offset.to.virgo.build"/>
+                </not>
+            </condition>
+        </fail>
+        <fail message="The 'updated.build.versions.location' property must be set on this target.">
+            <condition>
+                <not>
+                    <isset property="updated.build.versions.location"/>
+                </not>
+            </condition>
+        </fail>
+        <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2ToIvyConvertor" failonerror="true" maxmemory="256m">
+            <!--jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
+            <arg line="-application org.eclipse.virgo.build.p2tools.convertor.ConvertorApplication"/>
+			<arg line="-source.plugins.dir ${source.plugins.dir}"/>
+            <arg line="-destination ${destination}"/>
+            <arg line="-offset.to.virgo.build ${offset.to.virgo.build}"/>
+            <arg line="-build.versions.location ${updated.build.versions.location}"/>
         </java>
     </target>
     

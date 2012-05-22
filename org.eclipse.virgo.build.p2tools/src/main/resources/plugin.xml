@@ -15,5 +15,18 @@
 			<run class="org.eclipse.virgo.build.p2tools.instructions.P2InstructionGeneratorApplication" />
 		</application>
 	</extension>
-
+	
+	<extension id="org.eclipse.virgo.build.p2tools.convertor.ConvertorApplication" point="org.eclipse.core.runtime.applications">
+		<application cardinality="1" thread="any" visible="true">
+			<run class="org.eclipse.virgo.build.p2tools.convertor.ConvertorApplication" />
+		</application>
+	</extension>
+	
+	<extension id="org.eclipse.virgo.build.p2tools.artifact.mirrorApplication"  point="org.eclipse.core.runtime.applications">
+		<application cardinality="1" thread="main" visible="true">
+			<run class="org.eclipse.equinox.p2.internal.repository.tools.MirrorApplication" >
+			</run> 
+		</application>
+	</extension>
+	
 </plugin>
