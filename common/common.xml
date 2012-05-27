@@ -43,7 +43,14 @@
 				</not>
 			</condition>
 		</fail>
-		<delete quiet="true" dir="${integration.repo.dir}"/>
+        <fail message="The 'project.organisation' property must be set on this project.">
+			<condition>
+				<not>
+					<isset property="project.organisation"/>
+				</not>
+			</condition>
+		</fail>
+		<delete dir="${integration.repo.dir}/${project.organisation}"/>
 	</target>
 
 	<target name="clean-ivy" description="Removes the ivy cache directory.">
