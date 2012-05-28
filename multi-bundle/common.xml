@@ -99,7 +99,8 @@ httpclient.proxy-port=${http.proxyPort}
 		<all-bundles target="clean"/>
 	</target>
 
-	<target name="clean-integration" description="Removes the integration repository directory.">
+	<target name="clean-integration"
+			description="Removes the integration repository directory.">
 		<fail message="The 'integration.repo.dir' property must be set on this project.">
 			<condition>
 				<not>
@@ -107,14 +108,7 @@ httpclient.proxy-port=${http.proxyPort}
 				</not>
 			</condition>
 		</fail>
-        <fail message="The 'project.organisation' property must be set on this project.">
-			<condition>
-				<not>
-					<isset property="project.organisation"/>
-				</not>
-			</condition>
-		</fail>
-		<delete dir="${integration.repo.dir}/${project.organisation}"/>
+		<delete quiet="true" dir="${integration.repo.dir}"/>
 	</target>
 
 	<target name="clean-ivy" depends="ivy.init"
