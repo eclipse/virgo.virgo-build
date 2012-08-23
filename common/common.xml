@@ -142,7 +142,7 @@
 		</condition>
         <delete file="${basedir}/../user-ivy.properties"/>
         <echo file="${basedir}/../user-ivy.properties"
-        message="ivy.cache=${ivy.cache.dir}&#xa;"/>
+        message="ivy.cache=${ivy.cache.dir}&#xa;integration.repo.dir=${integration.repo.dir}&#xa;"/>
 	</target>
 
 	<target name="diagnostics" description="diagnostics">
