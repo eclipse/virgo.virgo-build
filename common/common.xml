@@ -139,10 +139,14 @@
 					<include name="*.java"/>
 				</fileset>
 			</resourcecount>
-		</condition>
+        </condition>
+        
+        <!-- init the property containing the ivy-cache and the integration repo location placeholders -->
         <delete file="${basedir}/../user-ivy.properties"/>
-        <echo file="${basedir}/../user-ivy.properties"
-        message="ivy.cache=${ivy.cache.dir}&#xa;integration.repo.dir=${integration.repo.dir}&#xa;"/>
+        <condition property="virgo.deps.path" value="${integration.repo.dir}" else="${ivy.cache.dir}/repository">
+            <equals arg1="${virgo.deps.location}" arg2="integration-repo"/>
+        </condition>
+        <echo file="${basedir}/../user-ivy.properties" message="ivy.cache=${ivy.cache.dir}&#xa;integration.repo.dir=${virgo.deps.path}&#xa;"/> 
 	</target>
 
 	<target name="diagnostics" description="diagnostics">
@@ -178,6 +182,7 @@
 				<arg value="-Dci.build=${ci.build}"/>
 				<arg value="-Dtimestamp=${timestamp}"/>
 				<arg value="-Dbundle.version=${bundle.version}"/>
+                <arg value="-Dvirgo.deps.location=${virgo.deps.location}"/>
 				<arg value="${exec-args}"/>
 			</exec>
 			<exec executable="${virgo.build.dir}\common\runant.bat" dir="${basedir}"
@@ -187,6 +192,7 @@
 				<arg value="-Dci.build=${ci.build}"/>
 				<arg value="-Dtimestamp=${timestamp}"/>
 				<arg value="-Dbundle.version=${bundle.version}"/>
+                <arg value="-Dvirgo.deps.location=${virgo.deps.location}"/>
 				<arg value="${exec-args}"/>
 			</exec>
 			<echo>exec-ant for target '${exec-ant-target}' gave return code ${exec-ant-rc}</echo>
