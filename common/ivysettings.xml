@@ -94,10 +94,10 @@
 	</resolvers>
 
 	<modules>
-		<module organisation="org.springframework.*"	name="*"		resolver="third-party-lookup"/>
-		<module organisation="com.springsource.*"		name="*"		resolver="third-party-lookup"/>
-		<module organisation="org.eclipse.virgo.*"		name="*"		resolver="virgo-lookup"/> <!-- This will also catch all the org.eclipse.virgo.mirror artifacts from orbit -->
-		<module organisation="org.eclipse.gemini.*"		name="*"		resolver="gemini-lookup"/>
+		<module organisation="org.springframework.*"	resolver="third-party-lookup"/>
+		<module organisation="com.springsource.*"		resolver="third-party-lookup"/>
+		<module organisation="org.eclipse.virgo.*"		resolver="virgo-lookup"/> <!-- This will also catch all the org.eclipse.virgo.mirror artifacts from orbit -->
+		<module organisation="org.eclipse.gemini.*"		resolver="gemini-lookup"/>
 	</modules>
 
 </ivysettings>
