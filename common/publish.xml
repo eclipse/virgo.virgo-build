@@ -19,23 +19,23 @@
 	<target name="publish-ivy" depends="ivy.init, resolve" description="Publishes all artifacts to remote Eclipse Ivy repositories">
 		<delete quiet="true" file="${ivy.output.file}"/>
 		<mkdir dir="${ivy.output.dir}"/>
-		<ivy:publish resolver="eclipse-${publication.resolver.prefix}-bundle-publish" overwrite="true" pubdate="${timestamp}" status="${release.type}">
+		<ivy:publish resolver="eclipse-remote-bundle-publish" overwrite="true" pubdate="${timestamp}" status="${release.type}">
 			<artifacts pattern="${ivy.output.dir}/[artifact].[ext]"/>
 			<artifacts pattern="${jar.output.dir}/[artifact].[ext]"/>
 			<artifacts pattern="${source-jar.output.dir}/[artifact].[ext]"/>
 		</ivy:publish>
 	</target>
     
-    <target name="publish-mirrored-ivy" depends="ivy.init, resolve" description="Publishes all artifacts to remote Eclipse Ivy repositories">
+    <target name="publish-mirrored-ivy" depends="ivy.init, resolve" description="Publishes all mirrored Orbit artifacts to remote Eclipse Ivy repositories">
 		<mkdir dir="${ivy.output.dir}"/>
-		<ivy:publish resolver="eclipse-${publication.resolver.prefix}-bundle-publish" overwrite="true" organisation="${organisation}" module="${module}" pubrevision="${revision}" status="release">
+		<ivy:publish resolver="eclipse-remote-bundle-publish" overwrite="true" organisation="${organisation}" module="${module}" pubrevision="${revision}" status="release">
 			<artifacts pattern="${ivy.output.dir}/[artifact].[ext]"/>
 			<artifacts pattern="${jar.output.dir}/[artifact].[ext]"/>
 			<artifacts pattern="${source-jar.output.dir}/[artifact].[ext]"/>
 		</ivy:publish>
 	</target>
 
-	<target name="publish-maven" depends="create.pom, snapshot.pom, maven.init" unless="local.build" description="Publishes all artifacts to remote Eclipse Maven repositories">
+	<target name="publish-maven" depends="create.pom, snapshot.pom, maven.init"  description="Publishes all artifacts to remote Eclipse Maven repositories">
 		<maven:deploy file="${jar.output.file}">
 			<remoteRepository url="scp://build.eclipse.org/opt/public/rt/virgo/maven/bundles/${adjusted.release.type}">
 				<authentication username="${eclipse.buildId}" privateKey="${key.file}"/>

@@ -26,13 +26,9 @@
 		<equals arg1="integration" arg2="${release.type}"/>
 	</condition>
 
-	<condition property="publication.resolver.prefix" value="local" else="remote">
-		<istrue value="${local.build}"/>
-	</condition>
-
 <!-- Main targets -->
 	<target name="clean" description="Removes the target directory.">
-		<delete quiet="true" dir="${target.dir}"/>
+		<delete dir="${target.dir}"/>
 	</target>
 
 	<target name="clean-integration" description="Removes the integration repository directory.">
@@ -53,6 +49,17 @@
 		<delete dir="${integration.repo.dir}/${project.organisation}"/>
 	</target>
 
+	<target name="clean-all-integration" description="Removes the integration repository directory.">
+		<fail message="The 'integration.repo.dir' property must be set on this project.">
+			<condition>
+				<not>
+					<isset property="integration.repo.dir"/>
+				</not>
+			</condition>
+		</fail>
+		<delete dir="${integration.repo.dir}"/>
+	</target>
+
 	<target name="clean-ivy" description="Removes the ivy cache directory.">
 		<fail message="The 'ivy.cache.dir' property must be set on this project.">
 			<condition>
@@ -61,7 +68,7 @@
 				</not>
 			</condition>
 		</fail>
-		<delete quiet="true" dir="${ivy.cache.dir}"/>
+		<delete dir="${ivy.cache.dir}"/>
 	</target>
 
 	<target name="resolve" depends="resolve.init" description="Retrieves all external dependencies for this project.">
