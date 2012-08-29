@@ -20,7 +20,7 @@
 	<caches resolutionCacheDir="${ivy.cache.dir}/resolution" repositoryCacheDir="${ivy.cache.dir}/repository"
 			ivyPattern="[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"
 			artifactPattern="[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"
-			useOrigin="true" checkUpToDate="false"/>
+			useOrigin="false" checkUpToDate="false"/>
 
 	<macrodef name="s3repo">
 		<attribute name="bucket"/>
@@ -59,7 +59,7 @@
 
 	<resolvers>
 <!-- Integration repositories -->
-		<filesystem name="integration" descriptor="required">
+		<filesystem name="integration" descriptor="required" >
 			<ivy pattern="${integration.repo.dir}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
 			<artifact pattern="${integration.repo.dir}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
 		</filesystem>
