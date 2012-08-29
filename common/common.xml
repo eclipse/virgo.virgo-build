@@ -28,7 +28,8 @@
 
 <!-- Main targets -->
 	<target name="clean" description="Removes the target directory.">
-		<delete dir="${target.dir}"/>
+		<delete quiet="true" dir="${target.dir}"/>
+		<echo message="Deleted directory: ${target.dir}"/>
 	</target>
 
 	<target name="clean-integration" description="Removes the integration repository directory.">
@@ -46,7 +47,8 @@
 				</not>
 			</condition>
 		</fail>
-		<delete dir="${integration.repo.dir}/${project.organisation}"/>
+		<delete quiet="true" dir="${integration.repo.dir}/${project.organisation}"/>
+		<echo message="Deleted directory: ${integration.repo.dir}/${project.organisation}"/>
 	</target>
 
 	<target name="clean-all-integration" description="Removes the integration repository directory.">
@@ -57,7 +59,8 @@
 				</not>
 			</condition>
 		</fail>
-		<delete dir="${integration.repo.dir}"/>
+		<delete quiet="true" dir="${integration.repo.dir}"/>
+		<echo message="Deleted directory: ${integration.repo.dir}"/>
 	</target>
 
 	<target name="clean-ivy" description="Removes the ivy cache directory.">
@@ -68,7 +71,8 @@
 				</not>
 			</condition>
 		</fail>
-		<delete dir="${ivy.cache.dir}"/>
+		<delete quiet="true" dir="${ivy.cache.dir}"/>
+		<echo message="Deleted directory: ${ivy.cache.dir}"/>
 	</target>
 
 	<target name="resolve" depends="resolve.init" description="Retrieves all external dependencies for this project.">

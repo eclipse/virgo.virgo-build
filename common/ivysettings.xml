@@ -51,14 +51,12 @@
 	</macrodef>
 
 	<resolvers>
-<!-- Integration repositories -->
+<!-- Lookup repositories -->
 
 		<filesystem name="integration" descriptor="required" >
 			<ivy pattern="${integration.repo.dir}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
 			<artifact pattern="${integration.repo.dir}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
 		</filesystem>
-
-<!-- Lookup repositories -->
 
 		<chain name="external-lookup" returnFirst="true">
 			<s3repo name="bundle-external-repository"			bucket="repository.springsource.com" artifact.type="bundles" release.type="external"/>
@@ -92,6 +90,7 @@
 <!-- Publishing repositories -->
 		<eclipse-build name="eclipse-remote-bundle-publish"		artifact.type="bundles"		release.type="${adjusted.release.type}"/>
 		<eclipse-build name="eclipse-remote-library-publish"	artifact.type="libraries"	release.type="${adjusted.release.type}"/>
+		
 	</resolvers>
 
 	<modules>

@@ -93,9 +93,9 @@ httpclient.proxy-port=${http.proxyPort}
     </target>
 
 <!-- Main targets -->
-	<target name="clean"
-			description="Removes the target directory.">
+	<target name="clean" description="Removes the target directory.">
 		<delete quiet="true" dir="${target.dir}"/>
+		<echo message="Deleted directory: ${target.dir}"/>
 		<all-bundles target="clean"/>
 	</target>
 
@@ -114,7 +114,8 @@ httpclient.proxy-port=${http.proxyPort}
 				</not>
 			</condition>
 		</fail>
-		<delete dir="${integration.repo.dir}/${project.organisation}"/>
+		<delete quiet="true" dir="${integration.repo.dir}/${project.organisation}"/>
+		<echo message="Deleted directory: ${integration.repo.dir}/${project.organisation}"/>
 	</target>
 
 	<target name="clean-all-integration" description="Removes the integration repository directory.">
@@ -125,7 +126,8 @@ httpclient.proxy-port=${http.proxyPort}
 				</not>
 			</condition>
 		</fail>
-		<delete dir="${integration.repo.dir}"/>
+		<delete quiet="true" dir="${integration.repo.dir}"/>
+		<echo message="Deleted directory: ${integration.repo.dir}"/>
 	</target>
 
 	<target name="clean-ivy" depends="ivy.init" description="Removes the ivy cache directory.">
@@ -136,7 +138,8 @@ httpclient.proxy-port=${http.proxyPort}
 				</not>
 			</condition>
 		</fail>
-		<delete dir="${ivy.cache.dir}"/>
+		<delete quiet="true" dir="${ivy.cache.dir}"/>
+		<echo message="Deleted directory: ${ivy.cache.dir}"/>
 	</target>
 
 <!-- Other targets -->
