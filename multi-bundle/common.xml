@@ -113,7 +113,7 @@ httpclient.proxy-port=${http.proxyPort}
 				</not>
 			</condition>
 		</fail>
-		<echo message="Integration project folder ${integration.repo.dir}/${project.organisation}"/>
+		<echo message="Project Integration Repo: ${integration.repo.dir}/${project.organisation}"/>
 		<delete quiet="false" failonerror="false" dir="${integration.repo.dir}/${project.organisation}"/>
 	</target>
 
@@ -125,7 +125,7 @@ httpclient.proxy-port=${http.proxyPort}
 				</not>
 			</condition>
 		</fail>
-		<echo message="Integration folder ${integration.repo.dir}"/>
+		<echo message="Integration Repo: ${integration.repo.dir}"/>
 		<delete quiet="false" failonerror="false" dir="${integration.repo.dir}"/>
 	</target>
 
@@ -137,7 +137,7 @@ httpclient.proxy-port=${http.proxyPort}
 				</not>
 			</condition>
 		</fail>
-		<echo message="Ivy-cache folder ${ivy.cache.dir}"/>
+		<echo message="Ivy Cache: ${ivy.cache.dir}"/>
 		<delete quiet="false" failonerror="false" dir="${ivy.cache.dir}"/>
 	</target>
 
