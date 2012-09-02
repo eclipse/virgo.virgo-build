@@ -143,10 +143,7 @@
         
         <!-- init the property containing the ivy-cache and the integration repo location placeholders -->
         <delete file="${basedir}/../user-ivy.properties"/>
-        <condition property="virgo.deps.path" value="${integration.repo.dir}" else="${ivy.cache.dir}/repository">
-            <equals arg1="${virgo.deps.location}" arg2="integration-repo"/>
-        </condition>
-        <echo file="${basedir}/../user-ivy.properties" message="ivy.cache=${ivy.cache.dir}&#xa;integration.repo.dir=${virgo.deps.path}&#xa;"/> 
+        <echo file="${basedir}/../user-ivy.properties" message="ivy.cache=${ivy.cache.dir}&#xa;"/> 
 	</target>
 
 	<target name="diagnostics" description="diagnostics">
