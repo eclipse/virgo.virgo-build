@@ -50,38 +50,20 @@
 		</url>
 	</macrodef>
 
-	<macrodef name="localrepo">
-		<filesystem descriptor="required">
-			<ivy pattern="${local.repo.dir}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
-			<artifact pattern="${local.repo.dir}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
-		</filesystem>
-	</macrodef>
-
 	<resolvers>
-<!-- Integration repositories -->
+<!-- Lookup repositories -->
+
 		<filesystem name="integration" descriptor="required" >
 			<ivy pattern="${integration.repo.dir}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
 			<artifact pattern="${integration.repo.dir}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
 		</filesystem>
 
-<!-- Lookup repositories -->
-
-		<url name="eclipse-external-lookup">
-			<ivy pattern="http://build.eclipse.org/rt/virgo/external/[module]/ivy-[revision].xml"/>
-			<artifact pattern="http://build.eclipse.org/rt/virgo/external/[module]/[artifact]-[revision].[ext]"/>
-		</url>
-
 		<chain name="external-lookup" returnFirst="true">
-			<localrepo name="local-external-repository"/>
 			<s3repo name="bundle-external-repository"			bucket="repository.springsource.com" artifact.type="bundles" release.type="external"/>
 			<s3repo name="library-external-repository"			bucket="repository.springsource.com" artifact.type="libraries" release.type="external"/>
-			<s3repo name="private-bundle-external-repository"	bucket="private.repository.springsource.com" artifact.type="bundles" release.type="external"/>
-			<s3repo name="private-library-external-repository"	bucket="private.repository.springsource.com" artifact.type="libraries" release.type="external"/>
 		</chain>
 
 		<chain name="third-party-lookup" returnFirst="true">
-			<resolver ref="integration"/>
-			<localrepo name="local"/>
 			<s3repo name="bundle-release-repository"		bucket="repository.springsource.com" artifact.type="bundles" release.type="release"/>
 			<s3repo name="bundle-milestone-repository"		bucket="repository.springsource.com" artifact.type="bundles" release.type="milestone"/>
 			<s3repo name="bundle-snapshot-repository"		bucket="repository.springsource.com" artifact.type="bundles" release.type="snapshot"/>
@@ -92,7 +74,6 @@
 
 		<chain name="virgo-lookup" returnFirst="true">
 			<resolver ref="integration"/>
-			<localrepo name="local"/>
 			<eclipse-build-read name="eclipse-bundle-release-repository"	    artifact.type="bundles" release.type="release"/>
 			<eclipse-build-read name="eclipse-bundle-milestone-repository"	    artifact.type="bundles" release.type="milestone"/>
 			<eclipse-build-read name="eclipse-bundle-snapshot-repository"	    artifact.type="bundles" release.type="snapshot"/>
@@ -102,30 +83,21 @@
 		</chain>
 
 		<chain name="gemini-lookup" returnFirst="true">
-			<resolver ref="integration"/>
-			<localrepo name="local"/>
-			<eclipse-build-read name="eclipse-bundle-release-repository"	    artifact.type="bundles" release.type="release"/>
-			<eclipse-build-read name="eclipse-bundle-milestone-repository"	    artifact.type="bundles" release.type="milestone"/>
-			<eclipse-build-read name="eclipse-bundle-snapshot-repository"	    artifact.type="bundles" release.type="snapshot"/>
-			<eclipse-build-read name="eclipse-library-release-repository"	    artifact.type="libraries" release.type="release"/>
-			<eclipse-build-read name="eclipse-library-milestone-repository"		artifact.type="libraries" release.type="milestone"/>
-			<eclipse-build-read name="eclipse-library-snapshot-repository"	    artifact.type="libraries" release.type="snapshot"/>
+			<resolver ref="virgo-lookup"/>
 			<resolver ref="external-lookup"/>
 		</chain>
 
 <!-- Publishing repositories -->
 		<eclipse-build name="eclipse-remote-bundle-publish"		artifact.type="bundles"		release.type="${adjusted.release.type}"/>
 		<eclipse-build name="eclipse-remote-library-publish"	artifact.type="libraries"	release.type="${adjusted.release.type}"/>
-		<localrepo name="eclipse-local-bundle-publish"/>
-		<localrepo name="eclipse-local-library-publish"/>
+		
 	</resolvers>
 
 	<modules>
-		<module organisation="org.springframework.*"	name="*"		resolver="third-party-lookup"/>
-		<module organisation="com.springsource.*"		name="*"		resolver="third-party-lookup"/>
-		<module organisation="org.eclipse.virgo.*"		name="*"		resolver="virgo-lookup"/>
-		<module organisation="org.eclipse.gemini.*"		name="*"		resolver="gemini-lookup"/>
-		<module organisation="org.eclipse"				name="*"		resolver="eclipse-external-lookup"/>
+		<module organisation="org.springframework.*"	resolver="third-party-lookup"/>
+		<module organisation="com.springsource.*"		resolver="third-party-lookup"/>
+		<module organisation="org.eclipse.virgo.*"		resolver="virgo-lookup"/> <!-- This will also catch all the org.eclipse.virgo.mirror artifacts from orbit -->
+		<module organisation="org.eclipse.gemini.*"		resolver="gemini-lookup"/>
 	</modules>
 
 </ivysettings>
