@@ -153,7 +153,18 @@
         
         <!-- init the property containing the ivy-cache and the integration repo location placeholders -->
         <delete file="${basedir}/../user-ivy.properties"/>
-        <echo file="${basedir}/../user-ivy.properties" message="ivy.cache=${ivy.cache.dir}&#xa;"/> 
+        <!-- replace the backslashes with slashes in the ivy.cache.dir -->
+        <echo message="${ivy.cache.dir}" file="tmp.file" />
+        <loadfile property="transformed.ivy.cache.dir" srcFile="tmp.file">
+            <filterchain>
+                <tokenfilter>
+                    <replaceregex pattern="\\" replace="/" flags="g"/>
+                </tokenfilter>
+            </filterchain>
+        </loadfile>
+        <delete file="tmp.file"/>
+
+        <echo file="${basedir}/../user-ivy.properties" message="ivy.cache=${transformed.ivy.cache.dir}&#xa;"/> 
 	</target>
 
 	<target name="diagnostics" description="diagnostics">
