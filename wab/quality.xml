@@ -12,7 +12,7 @@
  *   SAP AG - initial contribution
  ******************************************************************************
 -->
-<project name="quality-wab" xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:osgi="antlib:org.springframework.build.osgi">
+<project name="quality-wab" xmlns:ivy="antlib:org.apache.ivy.ant" >
 
 	<import file="common.xml"/>
 	<import file="../common/quality.xml"/>

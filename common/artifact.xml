@@ -15,20 +15,15 @@
 		xmlns:bundlor="antlib:com.springsource.bundlor.ant">
 
 <!-- Main targets -->
-	<target name="javadoc-all" depends="ivy.init, resolve.compile, src.init" if="src.exists"
-			description="Creates javadoc documentation for all classes.">
-		<java-doc input.dir="${main.java.dir}" output.dir="${javadoc-all.output.dir}" classpath.id="compile.classpath"
-				access="private"/>
+	<target name="javadoc-all" depends="ivy.init, resolve.compile, src.init" if="src.exists" description="Creates javadoc documentation for all classes.">
+		<java-doc input.dir="${main.java.dir}" output.dir="${javadoc-all.output.dir}" classpath.id="compile.classpath" access="private"/>
 	</target>
 
-	<target name="javadoc-api" depends="ivy.init, resolve.compile, src.init" if="src.exists"
-			description="Creates javadoc documentation for all classes.">
-		<java-doc input.dir="${main.java.dir}" output.dir="${javadoc-api.output.dir}" classpath.id="compile.classpath"
-				access="protected" exclude.package.names="${javadoc.exclude.package.names}"/>
+	<target name="javadoc-api" depends="ivy.init, resolve.compile, src.init" if="src.exists" description="Creates javadoc documentation for all classes.">
+		<java-doc input.dir="${main.java.dir}" output.dir="${javadoc-api.output.dir}" classpath.id="compile.classpath" access="protected" exclude.package.names="${javadoc.exclude.package.names}"/>
 	</target>
 
-	<target name="jar" depends="ivy.init, resolve.compile, compile.init, jar.init"
-			description="Creates a JAR file containing the output of a compilation of the source tree.">
+	<target name="jar" depends="ivy.init, resolve.compile, compile.init, jar.init" description="Creates a JAR file containing the output of a compilation of the source tree.">
 		<delete quiet="true" file="${ivy.output.file}"/>
 		<mkdir dir="${ivy.output.dir}"/>
 		<delete quiet="true" file="${jar.output.file}"/>
@@ -36,11 +31,12 @@
 		<delete quiet="true" file="${source-jar.output.file}"/>
 		<mkdir dir="${source-jar.output.dir}"/>
 
-		<compile classpath.id="compile.classpath" input.dir="${main.java.dir}" output.dir="${main.output.dir}"
-				resources.dir="${main.resources.dir}"/>
-		<ivy:retrieve resolveId="additional.classpath" conf="additional" type="jar" transitive="false"
-				pattern="${main.output.dir}/[artifact]-[revision].[ext]" log="download-only"/>
+		<compile classpath.id="compile.classpath" input.dir="${main.java.dir}" output.dir="${main.output.dir}" resources.dir="${main.resources.dir}"/>
+
+		<ivy:retrieve resolveId="additional.classpath" conf="additional" type="jar" transitive="false" pattern="${main.output.dir}/[artifact]-[revision].[ext]" log="download-only"/>
+
 		<antcall target="bundlor"/>
+		
 		<jar destfile="${jar.output.file}" basedir="${main.output.dir}" index="true" filesetmanifest="merge">
 			<manifest>
 				<attribute name="Bundle-ManifestVersion" value="2"/>

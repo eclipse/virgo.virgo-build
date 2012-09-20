@@ -11,7 +11,7 @@
  *   VMware Inc. - initial contribution
  ******************************************************************************
 -->
-<project name="quality-common" xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:osgi="antlib:org.springframework.build.osgi">
+<project name="quality-common" xmlns:ivy="antlib:org.apache.ivy.ant" >
 
 <!-- Main targets -->
 	<target name="test" depends="jar, test.pre, test.do, test.post" description="Executes all tests resulting from a compilation of the test tree returning test success metrics."/>

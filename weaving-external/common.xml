@@ -9,9 +9,10 @@
  *
  * Contributors:
  *   VMware Inc. - initial contribution
+ *
  ******************************************************************************
 -->
-<project name="common-weaving-external" xmlns:s="antlib:org.springframework.build">
+<project name="common-weaving-external" >
 
 	<import file="../common/common.xml"/>
 
@@ -22,14 +23,14 @@
 		<attribute name="output.dir"/>
 		<attribute name="resources.dir"/>
 		<sequential>
-			<s:javac destdir="@{output.dir}" source="${source.version}" target="${target.version}"
-					debug="${compile.debug}" debugLevel="${compile.debug.level}">
+			<javac destdir="@{output.dir}" source="${source.version}" target="${target.version}"
+					debug="${compile.debug}" debugLevel="${compile.debug.level}" includeantruntime="false">
 				<compilerarg line="${compiler.args}"/>
 				<src path="@{input.dir}"/>
 				<include name="**/*.java"/>
 				<include name="*.java"/>
 				<classpath refid="@{classpath.id}"/>
-			</s:javac>
+			</javac>
 			<copy todir="@{output.dir}">
 				<fileset dir="@{input.dir}" erroronmissingdir="false">
 					<exclude name="**/*.java"/>

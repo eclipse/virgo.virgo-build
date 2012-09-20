@@ -11,7 +11,7 @@
  *   VMware Inc. - initial contribution
  ******************************************************************************
 -->
-<project name="common-resource" xmlns:s="antlib:org.springframework.build">
+<project name="common-resource" >
 
 	<import file="../common/common.xml"/>
 
