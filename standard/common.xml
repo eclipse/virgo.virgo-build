@@ -10,20 +10,20 @@
  * Contributors:
  *   VMware Inc. - initial contribution
  ******************************************************************************
--->
+ -->
 <project name="common-standard" xmlns:s="antlib:org.springframework.build">
-
+    
 	<import file="../common/common.xml"/>
-
-<!-- Macros -->
+    
+    <!-- Macros -->
 	<macrodef name="do-compile">
 		<attribute name="classpath.id"/>
 		<attribute name="input.dir"/>
 		<attribute name="output.dir"/>
 		<attribute name="resources.dir"/>
 		<sequential>
-			<s:javac destdir="@{output.dir}" source="${source.version}" target="${target.version}"
-					debug="${compile.debug}" debugLevel="${compile.debug.level}">
+			<s:javac includeJavaRuntime="yes" bootclasspath="" destdir="@{output.dir}" source="${source.version}" target="${target.version}"
+                debug="${compile.debug}" debugLevel="${compile.debug.level}">
 				<compilerarg line="${compiler.args}"/>
 				<src path="@{input.dir}"/>
 				<include name="**/*.java"/>
@@ -41,5 +41,5 @@
 			</copy>
 		</sequential>
 	</macrodef>
-
+    
 </project>
