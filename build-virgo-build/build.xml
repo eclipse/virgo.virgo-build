@@ -20,13 +20,11 @@
 		<property name="p2.tools.plugins.location" value="${package.output.dir}/plugins"/>
 
 		<!-- Prepare the minimal p2 publishing client -->
-		<ivy:resolve resolveId="copy.path" file="${basedir}/p2runtime-ivy.xml" transitive="true"/>
+		<ivy:resolve resolveId="copy.path" file="${basedir}/p2runtime-ivy.xml" transitive="false"/>
 		<ivy:retrieve resolveId="copy.path" pattern="${p2.tools.plugins.location}/[artifact]_[revision].[ext]" conf="p2-runtime" type="jar"/>
 		
 		<ivy:resolve resolveId="copy.path" file="${basedir}/p2build-ivy.xml" transitive="true"/>
 		<ivy:retrieve resolveId="copy.path" pattern="${p2.tools.plugins.location}/[artifact]_[revision].[ext]" conf="p2-build" type="jar"/>
-        
-        <get src="http://www.eclipse.org/downloads/download.php?file=/equinox/drops/S-3.8RC1-201205182145/org.eclipse.equinox.p2.repository.tools_2.0.100.v20120501-1314.jar&amp;r=1$" dest="${package.output.dir}/plugins/org.eclipse.equinox.p2.repository.tools_2.0.100.v20120501-1314.jar" usetimestamp="true" />
 		
 		<copy todir="${package.output.dir}/configuration" failonerror="false">
 			<fileset dir="${basedir}/p2tools_ini" excludes="keystore"/>
@@ -158,17 +156,41 @@
             <param name="tools.dir" value="${package.output.dir}"/>
             <param name="repository" value="${repository.dir}"/>
             <param name="product.file.location" value="${basedir}/e2e-testdata/products/base/base.product"/>
+            <param name="javaprofile.location" value="${basedir}/e2e-testdata/products/java6-server.profile"/>
         </antcall>
         
         <antcall target="check-repository-exists">
             <param name="repository" value="${repository.dir}"/>
         </antcall>
-        
+         
+        <!-- Tests if the java profile was published successfully -->
+        <unzip src="${repository.dir}/content.jar" dest="${repository.dir}"/>
+        <property name="search.string" value="org.eclipse.virgo.kernel.equinox.extensions" />
+        <fileset id="existing" dir="${repository.dir}">
+           <patternset id="files">
+                    <!-- includes/excludes here -->
+           </patternset>
+        </fileset>
+            
+        <fileset id="matches" dir="${repository.dir}">
+           <patternset refid="files" />
+           <contains text="${search.string}" />
+        </fileset>
+            
+        <fail message="Not found '${search.string}' in one or more files in '${repository.dir}'">
+            <condition>
+               <resourcecount when="equal" count="0" refid="matches" />
+            </condition>
+        </fail>
+        <!-- The profile was successfully published, move on -->
+            
+            
         <echo message="[Test]Publish extension.product to the repository." />
         <antcall target="p2.publish-product">
             <param name="tools.dir" value="${package.output.dir}"/>
             <param name="repository" value="${repository.dir}"/>
             <param name="product.file.location" value="${basedir}/e2e-testdata/products/extension/extension.product"/>
+            <param name="javaprofile.location" value="${basedir}/e2e-testdata/products/java6-server.profile"/>
         </antcall>
         
         <antcall target="check-repository-exists">

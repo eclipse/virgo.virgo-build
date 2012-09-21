@@ -176,6 +176,13 @@
                 </not>
             </condition>
         </fail>
+        <fail message="The 'javaprofile.location' property must be set on this target.">
+            <condition>
+                <not>
+                    <isset property="javaprofile.location"/>
+                </not>
+            </condition>
+        </fail>
         <java jar="${tools.dir}/plugins/org.eclipse.equinox.launcher_${tools.org.eclipse.equinox.launcher}.jar" fork="true" taskname="p2Product" failonerror="true" maxmemory="256m">
             <!--jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/-->
@@ -183,6 +190,7 @@
 			<arg line="-metadataRepository file:${repository}"/>
 			<arg line="-artifactRepository file:${repository}"/>
 			<arg line="-productFile ${product.file.location}"/>
+            <arg line="-jreLocation ${javaprofile.location}"/>
             <arg line="-configs ANY.ANY.ANY"/>
             <arg line="-publishArtifacts"/>
             <arg line="-append"/>

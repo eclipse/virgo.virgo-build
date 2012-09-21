@@ -4,3 +4,4 @@ ivy-cache
 build-virgo-build/target/*
 integration-repo
 org.eclipse.virgo.build.p2tools/target/*
+user-ivy.properties
