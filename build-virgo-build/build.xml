@@ -46,6 +46,12 @@
         
      </target>
      
+     <target name="publish-build">
+         <antcall target="publish-package-build">
+             <param name="package.file" value="${package.output.file}"/>
+         </antcall>
+     </target>
+    
      <target name="test-e2e" depends="package">       
      
         <property name="repository.dir" value="${target.dir}/test-results/repository"/>
