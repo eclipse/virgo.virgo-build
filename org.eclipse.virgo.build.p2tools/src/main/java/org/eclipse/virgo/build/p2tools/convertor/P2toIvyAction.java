@@ -33,9 +33,9 @@ public class P2toIvyAction {
             	continue;
             }
         	String nameVersion = bundle.getName().substring(0, bundle.getName().lastIndexOf("."));
-			String[] pair = nameVersion.split("_");
-            String bundleName = pair[0];
-            String bundleVersion = pair[1];
+			String[] parts = nameVersion.split("_");
+            String bundleName = parts[0];
+            String bundleVersion = createBundleVersion(parts);
             if (!processed.contains(nameVersion)) {
             	File bundleDir = createDirectory(targetIvyRepo, nameVersion);
             	File targetDir = createDirectory(bundleDir, "target");
@@ -62,11 +62,19 @@ public class P2toIvyAction {
         generateBuildVersionsFile(buildVersionsFile, processed);
         System.out.println("Successfully generated build.versions for mirrored artifacts.");
     }
+
+    String createBundleVersion(String[] parts) {
+        String bundleVersion = parts[1];
+        for (int i = 2; i < parts.length; i++) {
+            bundleVersion += "_" + parts[i];
+        }
+        return bundleVersion;
+    }
     
     public void generateBuildVersionsFile(File buildVersions, Set<String> processed) throws IOException {
     	StringBuilder builder = new StringBuilder();
     	for (String nameVersionPair : processed) {
-    		builder.append(nameVersionPair.replaceAll("_", "=") + EOL);
+    		builder.append(nameVersionPair.replaceFirst("_", "=") + EOL);
     	}
     	writeToFile(buildVersions, builder.toString());
     }
