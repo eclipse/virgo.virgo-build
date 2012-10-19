@@ -114,7 +114,9 @@ httpclient.proxy-port=${http.proxyPort}
 			</condition>
 		</fail>
 		<echo message="Project Integration Repo: ${integration.repo.dir}/${project.organisation}"/>
+		<echo message="Project Ivy Cache: ${ivy.cache.dir}/repository/${project.organisation}"/>
 		<delete quiet="false" failonerror="false" dir="${integration.repo.dir}/${project.organisation}"/>
+		<delete quiet="false" failonerror="false" dir="${ivy.cache.dir}/repository/${project.organisation}"/>
 	</target>
 
 	<target name="clean-all-integration" description="Removes the integration repository directory.">
