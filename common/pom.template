@@ -1,0 +1,36 @@
+${ivy.pom.license}
+${ivy.pom.header}
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>${ivy.pom.groupId}</groupId>
+  <artifactId>${ivy.pom.artifactId}</artifactId>
+  <packaging>${ivy.pom.packaging}</packaging>
+  <version>${ivy.pom.version}</version>
+  <name>${ant.project.name}</name>
+  <description>Virgo from EclipseRT is a completely module-based Java application server</description>
+  <url>http://www.eclipse.org/virgo/</url>
+  <scm>
+    <url>http://wiki.eclipse.org/Virgo/Source#Virgo_git_Repositories</url>
+    <connection>http://wiki.eclipse.org/Virgo/Source#Virgo_git_Repositories</connection>
+  </scm>
+  <developers>
+    <developer>
+      <id>virgo-dev</id>
+      <name>Virgo Developer List</name>
+      <email>virgo-dev@eclipse.org</email>
+      <url>http://projects.eclipse.org/projects/rt.virgo/who/</url>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+    </developer>
+  </developers>
+  <licenses>
+    <license>
+      <name>Eclipse Public License Version 1.0</name>
+      <url>http://www.eclipse.org/legal/epl-v10.html</url>
+    </license>
+  </licenses>
+</project>

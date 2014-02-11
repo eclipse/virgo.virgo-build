@@ -45,6 +45,43 @@
 		</maven:deploy>
 	</target>
 
+	<target name="publish-maven-central-stage" depends="create.pom, snapshot.pom, maven.init" unless="local.build" description="Publishes all artifacts to remote Eclipse Maven repositories">
+		<!-- sign and deploy the main artifact -->
+		<maven:mvn>
+			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file" />
+			<arg value="-Durl=${maven-staging-repository-url}" />
+			<arg value="-DrepositoryId=${maven-staging-repository-id}" />
+			<arg value="-DpomFile=${pom.output.file}" />
+			<arg value="-Dfile=${jar.output.file}" />
+			<arg value="-Pgpg" />
+		</maven:mvn>
+
+		<!-- sign and deploy the sources artifact -->
+		<maven:mvn>
+			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file" />
+			<arg value="-Durl=${maven-staging-repository-url}" />
+			<arg value="-DrepositoryId=${maven-staging-repository-id}" />
+			<arg value="-DpomFile=${pom.output.file}" />
+			<arg value="-Dfile=${source-jar.output.file}" />
+			<arg value="-Dclassifier=sources" />
+			<arg value="-Pgpg" />
+		</maven:mvn>
+
+		<!-- sign and deploy the javadoc artifact -->
+		<maven:mvn>
+			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file" />
+			<arg value="-Durl=${maven-staging-repository-url}" />
+			<arg value="-DrepositoryId=${maven-staging-repository-id}" />
+			<arg value="-DpomFile=${pom.output.file}" />
+			<arg value="-Dfile=${virgo.build.dir}/common/fake-javadoc.jar" />
+			<!--
+			<arg value="-Dfile=${maven-javadoc-jar}" />
+			-->
+			<arg value="-Dclassifier=javadoc" />
+            <arg value="-Pgpg" />
+		</maven:mvn>
+	</target>
+
 	<target name="install-maven" depends="create.pom, snapshot.pom, maven.init">
 		<maven:install file="${jar.output.file}">
 			<pom file="${pom.output.file}"/>
@@ -67,7 +104,7 @@
 		<delete quiet="true" file="${pom.output.file}"/>
 		<mkdir dir="${pom.output.dir}"/>
 
-		<ivy:makepom ivyfile="${ivy.output.file}" pomfile="${pom.output.file}">
+		<ivy:makepom ivyfile="${ivy.output.file}" pomfile="${pom.output.file}" templatefile="${virgo.build.dir}/common/pom.template">
 			<mapping conf="compile" scope="compile"/>
 			<mapping conf="provided" scope="provided"/>
 			<mapping conf="server-provided" scope="provided"/>

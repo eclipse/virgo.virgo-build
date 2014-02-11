@@ -30,6 +30,14 @@
         <all-bundles target="publish-maven"/>
     </target>
 
+    <target name="create.pom" description="Create all maven pom files">
+        <all-bundles target="create.pom"/>
+    </target>
+
+    <target name="publish-maven-central-stage" description="Publishes all maven artifacts to Maven Central staging repository">
+        <all-bundles target="publish-maven-central-stage"/>
+    </target>
+
     <target name="install-maven">
         <all-bundles target="install-maven"/>
     </target>
