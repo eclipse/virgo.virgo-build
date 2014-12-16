@@ -23,8 +23,8 @@
 				organisation="org.springframework.build" module="org.springframework.build.ant"
 				revision="${org.springframework.build.ant.version}" conf="runtime" type="jar" inline="true"
 				log="download-only"/>
-		<ivy:cachepath resolveId="ecj.classpath" pathid="ecj.classpath" organisation="org.eclipse.jdt"
-				module="com.springsource.org.eclipse.jdt.core.compiler.batch" revision="${org.eclipse.jdt.core.compiler.batch.version}"
+		<ivy:cachepath resolveId="ecj.classpath" pathid="ecj.classpath" organisation="org.eclipse.virgo.mirrored"
+				module="org.eclipse.jdt.core.compiler.batch" revision="${org.eclipse.jdt.core.compiler.batch.version}"
 				conf="runtime" type="jar" inline="true" log="download-only"/>
 		<taskdef resource="org/springframework/build/ant/antlib.xml" uri="antlib:org.springframework.build">
 			<classpath>
